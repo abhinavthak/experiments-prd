@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiments PRD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ink:#14213D; --txt:#33394A; --mute:#6B7280; --faint:#9AA1B1;
+  --paper:#FFFFFF; --bg:#F6F7FB; --line:#E4E7EF; --line2:#EDEFF5;
+  --teal:#0E8E88; --indigo:#2E2A83; --accent:#2A4BD7;
+  --info-bg:#EFF5FF; --info-bd:#C7DBFF; --info-tx:#1D4ED8;
+  --ok-bg:#EAF7EE; --ok-bd:#BCE4C7; --ok-tx:#15803D;
+  --warn-bg:#FFF7E6; --warn-bd:#F5DE9E; --warn-tx:#92660C;
+  --new-bg:#F3EEFF; --new-bd:#DACBFB; --new-tx:#5B32C4;
+  --code-bg:#F4F5F9;
+  --r:10px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Sora,Inter,sans-serif;color:var(--ink);letter-spacing:-0.01em;margin:0}
+code,.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--accent)}
+.hero{background:linear-gradient(115deg,#14ACA3 0%,#1C6FA8 45%,#2E2A83 100%);padding:64px 48px 46px;color:#fff}
+.hero .kicker{font-size:13px;font-weight:600;letter-spacing:.03em;color:rgba(255,255,255,.78);margin-bottom:10px}
+.hero h1{color:#fff;font-size:32px;font-weight:700;max-width:820px}
+.hero p{color:rgba(255,255,255,.86);max-width:620px;margin:12px 0 0;font-size:15px;line-height:1.6}
+.hero .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:rgba(255,255,255,.8)}
+.hero .meta b{color:#fff;font-weight:600}
+
+.shell{display:grid;grid-template-columns:252px minmax(0,1fr);max-width:1180px;margin:-28px auto 0;gap:0}
+.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;padding:34px 18px 40px 8px}
+.toc-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);padding:0 12px 10px}
+.toc a{display:flex;align-items:baseline;gap:10px;padding:8px 12px;border-radius:8px;color:var(--txt);text-decoration:none;font-size:13px;line-height:1.4;margin-bottom:1px}
+.toc a:hover{background:var(--line2)}
+.toc a .idx{font-size:11px;color:var(--faint);min-width:14px;flex:none;font-variant-numeric:tabular-nums}
+.toc a .lbl{flex:1;min-width:0}
+.toc a .dot{width:6px;height:6px;border-radius:50%;background:var(--warn-tx);flex:none;align-self:center}
+
+.main{padding:34px 40px 90px;min-width:0}
+section{margin-bottom:52px;scroll-margin-top:18px}
+section h2{font-size:22px;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:16px}
+section h2 .num{color:var(--faint);font-weight:500;margin-right:9px}
+h3{font-size:16.5px;margin:26px 0 10px}
+h3 .num{color:var(--faint);font-weight:500;margin-right:6px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:5px}
+.lead{font-size:16px;color:var(--txt)}
+
+.callout{border-radius:var(--r);padding:14px 16px;margin:16px 0;border:1px solid;font-size:14.5px;line-height:1.6}
+.callout.info{background:var(--info-bg);border-color:var(--info-bd);color:#1E3A6E}
+.callout.ok{background:var(--ok-bg);border-color:var(--ok-bd);color:#0F5A2A}
+.callout .ttl{font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.callout.warn{background:var(--warn-bg);border-color:var(--warn-bd);color:#5C3D06}
+.callout.warn .ttl{color:var(--warn-tx)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 9px;border-radius:20px;line-height:1.7}
+.tag.gap{background:var(--warn-bg);color:var(--warn-tx);border:1px solid var(--warn-bd)}
+.tag.src{background:var(--ok-bg);color:var(--ok-tx);border:1px solid var(--ok-bd)}
+.tag.ex{background:var(--bg2,#f1f1f4);color:#555;border:1px solid #ddd}
+.tag.prop{background:var(--info-bg);color:var(--info-tx);border:1px solid var(--info-bd)}
+.tag.ph{background:none;border:0;color:#6B62B8;margin-left:7px;padding:0;font-size:9.5px;font-weight:700;letter-spacing:.08em;line-height:1;white-space:nowrap;vertical-align:2px}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:top}
+th{background:#FAFBFD;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);font-weight:700}
+.fixed{table-layout:fixed}
+.fixed th{white-space:normal;line-height:1.4}
+.event-table{table-layout:fixed}
+.event-table td{vertical-align:middle}
+.event-table td code{font-size:11.5px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td code{font-size:12.5px;background:var(--code-bg);padding:1px 6px;border-radius:5px}
+.center{text-align:center}
+.mini{font-size:12.5px;color:var(--mute)}
+.wrap{overflow-x:auto}
+.sec-table{min-width:720px;font-size:13.5px}
+.sec-table td{padding:12px 12px}
+.cl{margin:0;padding-left:16px}
+.cl li{margin-bottom:3px}
+.wdg{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);margin:14px 0;overflow:hidden}
+.wdg-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;padding:12px 14px;background:#FAFBFD;border-bottom:1px solid var(--line2)}
+.wdg-h b{font-family:Sora,Inter,sans-serif;color:var(--ink);font-size:14.5px}
+.wid{font-size:11px;font-weight:700;color:#fff;background:var(--indigo);border-radius:6px;padding:1px 7px}
+.whh{font-size:10.5px;font-weight:600;color:var(--mute);border:1px solid var(--line);border-radius:20px;padding:0 7px}
+.wj{flex-basis:100%;font-size:13px;color:var(--mute)}
+.wdg table{border:0;border-radius:0;margin:0}
+.wt{min-width:600px;font-size:13.5px}
+.rq{display:inline-block;font-size:11px;font-weight:700;padding:1px 9px;border-radius:20px;white-space:nowrap}
+.rq.r{background:#FDE7E7;color:#B42318}.rq.o{background:var(--line2);color:var(--mute)}.rq.a{background:var(--info-bg);color:var(--info-tx)}
+.cta{display:inline-block;background:var(--ink);color:#fff;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;margin:0 4px 5px 0;line-height:1.4;max-width:100%}
+
+.flows{display:flex;gap:28px;flex-wrap:wrap}
+.flow{display:flex;flex-direction:column;gap:10px;flex:1;min-width:260px;max-width:400px;margin:12px 0 20px}
+.flow-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);margin-bottom:2px}
+.flow .step{border-radius:9px;padding:12px 16px;color:#fff;position:relative}
+.flow .step b{display:block;font-size:14px;font-weight:600}
+.flow .step span{font-size:12.5px;opacity:.85}
+.flow .step:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-11px;width:1.5px;height:10px;background:var(--faint)}
+.s1{background:#4B5261}.s2{background:#4A3FA0}.s3{background:#4A3FA0}.s4{background:#B0522A}.s5{background:#0E7A63}
+
+.jflow{margin:14px 0 10px}
+.jrow,.jvoid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}
+.jvoid{margin-top:30px}
+.jn,.jv{position:relative;border-radius:9px;padding:10px 11px 12px;font-size:12.5px;line-height:1.45}
+.jn{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--faint)}
+.jn.c1{border-top-color:#4B5261}.jn.c2{border-top-color:#4A3FA0}.jn.c3{border-top-color:#B0522A}.jn.c4{border-top-color:#0E7A63}
+.jn:not(:last-child)::after{content:"";position:absolute;right:-20px;top:50%;width:14px;height:14px;transform:translateY(-50%);background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M1 7h11M8 3l4 4-4 4' fill='none' stroke='%239AA1B1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.jv{background:var(--warn-bg);border:1.5px dashed var(--warn-bd)}
+.jv::before{content:"";position:absolute;left:50%;top:-31px;height:30px;border-left:1.5px dashed var(--warn-tx)}
+.jk{font-size:10.5px;font-weight:700;color:var(--faint);letter-spacing:.04em}
+.jvf{font-size:10.5px;font-weight:700;color:var(--warn-tx);text-transform:uppercase;letter-spacing:.04em}
+.jt{font-family:Sora,Inter,sans-serif;font-weight:600;color:var(--ink);font-size:13px;margin:2px 0 4px}
+.jd{color:var(--mute);margin-bottom:8px}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 9px;border-radius:20px;white-space:nowrap}
+.p-pend{background:var(--line2);color:var(--mute)}
+.p-sched{background:var(--info-bg);color:var(--info-tx)}
+.p-sent{background:var(--ok-bg);color:var(--ok-tx)}
+.p-void{background:#FBE8C8;color:var(--warn-tx)}
+.p-max{background:var(--line2);color:var(--faint)}
+@media(max-width:880px){
+  .jrow,.jvoid{grid-template-columns:1fr;gap:20px}
+  .jvoid{margin-top:20px}
+  .jv{grid-column:auto!important}
+  .jv::before{display:none}
+  .jn:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-18px;transform:translateX(-50%) rotate(90deg)}
+}
+
+.oq-list{border:1px solid var(--warn-bd);background:var(--warn-bg);border-radius:var(--r);padding:6px 18px 6px 36px}
+.oq-list li{margin:10px 0}
+.oq-list b{color:var(--warn-tx)}
+
+/* live simulator */
+.calc{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:20px 22px 24px;margin:18px 0}
+.calc-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.calc-head h4{font-size:15px;margin:0 0 3px}
+.calc-head p{margin:0;font-size:13px;color:var(--mute)}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+.presets button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--txt);font-family:inherit}
+.presets button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.presets button:hover:not(.on){background:var(--line2)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.ctl label{display:block;font-size:12px;font-weight:600;color:var(--mute);margin-bottom:6px}
+.ctl .field{display:flex;align-items:center;height:40px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 12px}
+.ctl input[type=range]{width:100%}
+.ctl select{width:100%;height:38px;border:0;padding:0 28px 0 0;font-size:14px;font-weight:500;font-family:inherit;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 2px center}
+.ctl .field{transition:border-color .15s,box-shadow .15s}
+.ctl .field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,75,215,.12)}
+.ctl .field:has(select):hover{border-color:var(--faint)}
+.ctl input[type=range]{accent-color:var(--indigo)}
+.ctl select:focus{outline:none}
+.ctl .val{font-weight:700;color:var(--ink);margin-left:10px;min-width:22px;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.cell{border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:12.5px}
+.cell .who{color:var(--mute);font-size:11.5px}
+.cell .amt{font-weight:700;color:var(--ink);font-size:14px;margin-top:2px;white-space:nowrap}
+.cell .tier{display:inline-block;margin-top:4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:1px 8px;border-radius:20px;white-space:nowrap}
+.t-Starter{background:#EEF0F4;color:#4B5261}
+.t-Silver{background:#E8EEF8;color:#2F4A7A}
+.t-Gold{background:#FFF3D6;color:#8A5A00}
+.t-void{background:var(--warn-bg);color:var(--warn-tx)}
+.t-cap{background:var(--line2);color:var(--faint)}
+.cell.void{background:#FFFBF2}
+.cell.void .amt{color:var(--faint);text-decoration:line-through}
+.t-c0{background:#EEF0F4;color:#4B5261}.t-c1{background:#E8EEF8;color:#2F4A7A}.t-c2{background:#FFF3D6;color:#8A5A00}.t-c3{background:#EAF7EE;color:#15803D}
+.cset{border:1px solid var(--line);border-radius:10px;background:#FAFBFD;padding:14px 16px}
+.cset-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:10px}
+.cset-h b{font-family:Sora,Inter,sans-serif;color:var(--ink);font-size:14.5px}
+.cset-h button{margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--indigo);cursor:pointer;font-family:inherit}
+.cset-t{width:100%;min-width:460px;border:0;margin:0;background:none;font-size:13px}
+.cset-t th,.cset-t td{padding:5px 6px;border:0;background:none}
+.cset-t th{font-size:11px;text-transform:none;letter-spacing:0;color:var(--mute)}
+.cset-t td:first-child{color:var(--mute);font-size:12px;white-space:nowrap}
+.cset input{width:100%;height:34px;border:1px solid var(--line);border-radius:7px;padding:0 9px;font-size:13.5px;font-family:inherit;color:var(--ink);background:#fff}
+.cset input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,75,215,.12)}
+.cset-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
+.cset-row label{font-size:11.5px;font-weight:600;color:var(--mute);display:flex;flex-direction:column;gap:5px}
+.cset-ro{display:flex;flex-direction:column;justify-content:flex-end;gap:5px;font-size:11.5px;font-weight:600;color:var(--mute)}
+.cset-ro b{height:34px;display:flex;align-items:center;font-size:15px;color:var(--ink)}
+.cset-err{margin-top:10px;padding:8px 12px;border-radius:8px;background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-tx);font-size:12.5px}
+.calc-result{margin-top:16px;padding:13px 16px;border-radius:9px;background:var(--bg);font-size:14px;font-weight:600;color:var(--ink);border:1px solid var(--line)}
+.calc-note{margin-top:10px;font-size:12px;color:var(--mute)}
+
+.tldr{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--indigo);border-radius:var(--r);padding:16px 20px;margin:4px 0 22px}
+.tldr h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--indigo);margin:0 0 10px}
+.tldr dl{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;margin:0;font-size:14.5px}
+.tldr dt{font-weight:600;color:var(--ink)}.tldr dd{margin:0}
+@media(max-width:600px){.tldr dl{grid-template-columns:1fr}.tldr dt{margin-top:6px}}
+details.fields{margin:10px 0 16px}
+details.fields>summary{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 16px;border:1px solid var(--line);background:var(--paper);border-radius:20px;font-size:13px;font-weight:600;color:var(--indigo);cursor:pointer;list-style:none}
+details.fields>summary::-webkit-details-marker{display:none}
+details.fields>summary::after{content:"▾";transition:transform .15s}
+details.fields[open]>summary::after{transform:rotate(180deg)}
+details.fields[open]>summary{margin-bottom:6px}
+.foot-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--mute);border-top:1px solid var(--line);padding-top:20px;margin-top:8px}
+
+@media(max-width:880px){.shell{grid-template-columns:1fr}.toc{position:static;max-height:none}.main{padding:26px 20px 70px}.hero{padding:44px 22px 34px}}
+
+/* hero status card */
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:40px;align-items:end;max-width:1300px}
+.hero-status{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:16px 18px;font-size:13px;color:rgba(255,255,255,.88)}
+.hero-status .hs-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.hero-status .hs-row:last-child{border-bottom:0}
+.hero-status b{color:#fff;font-weight:600;text-align:right}
+.hero-status .hs-row>span:first-child{white-space:nowrap}
+.hs-pill{display:inline-block;background:#FDE7B0;color:#7A5200;border-radius:20px;padding:0 9px;font-size:11.5px;font-weight:700}
+@media(max-width:980px){.hero-in{grid-template-columns:1fr}.hero-status{max-width:420px}}
+/* section links */
+a.xref{color:inherit;text-decoration:underline;text-decoration-color:rgba(74,63,160,.45);text-underline-offset:2px;text-decoration-thickness:1px}
+a.xref:hover{color:#4A3FA0;text-decoration-color:#4A3FA0}
+.hero a.xref{text-decoration-color:rgba(255,255,255,.6)}.hero a.xref:hover{color:#fff}
+section h2,section h3{scroll-margin-top:16px}
+.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%{background:#FFF3C4}100%{background:transparent}}
+/* toc active + subsections */
+.toc a.on{background:#ECEAF8;color:#2E2A83;font-weight:600}
+.toc .sub{display:none;margin:2px 0 8px 24px;border-left:1px solid var(--line)}
+.toc .grp.open .sub{display:block}
+.toc .sub a{font-size:12.5px;padding:5px 10px;color:var(--mute)}
+.toc .sub a.on{background:none;color:#2E2A83;font-weight:600}
+/* what changed */
+.whatsnew{border:1px solid #CFE6DA;background:#F2FAF6;border-radius:14px;padding:16px 20px;margin:18px 0 8px}
+.whatsnew h4{margin:0 0 8px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#17694A}
+.whatsnew ul{margin:0;padding-left:18px}
+.whatsnew li{margin:4px 0;font-size:14px}
+.whatsnew .mini{margin-top:8px}
+/* lifecycle diagram */
+.lifecycle{overflow-x:auto;margin:10px 0 14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.lifecycle svg{display:block;min-width:720px;width:100%;height:auto}
+/* print */
+@media print{
+  @page{margin:14mm}
+  body{background:#fff}
+  .toc,.presets,.cset button,.ctl,.calc-head .presets{display:none!important}
+  .shell{display:block}
+  .main{padding:0;max-width:none}
+  .hero{background:none!important;color:#111;padding:0 0 14px;border-bottom:2px solid #2E2A83}
+  .hero h1,.hero .meta b,.hero-status b{color:#111}
+  .hero p,.hero .kicker,.hero .meta,.hero-status{color:#333}
+  .hero-status{background:none;border:1px solid #ccc;max-width:360px;margin-top:12px}
+  .hero{margin-bottom:22px}
+  .hero-status .hs-row{border-color:#ddd}
+  a.xref{text-decoration:none}
+  table,.wdg,.callout,.cell,.lifecycle,svg,tr{break-inside:avoid}
+  h2,h3,h4{break-after:avoid}
+  section{break-before:auto}
+  .wrap{overflow:visible}
+}
+
+
+/* Experiments PRD additions */
+.setup-flow svg{min-width:560px;max-width:720px;margin:0 auto}
+.calc-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.cell.on{border-color:var(--indigo);box-shadow:0 0 0 2px rgba(46,42,131,.12)}
+.ctl .field input[type=number]{height:38px;background:transparent}
+.hero .hero-status a{color:#fff}
+@media(max-width:600px){.hero h1{font-size:28px}}
+
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="hero-in"><div>
+  <div class="kicker">PRODUCT SPEC · UPGRAD GROWTH · UNIVERSITY CMS</div>
+  <h1>Experiments</h1>
+  <p>Test a change on a CMS page against what visitors see today, and ship the winner with confidence. This spec covers the whole panel: the experiments list, the six-step create flow, the experiment page, split URL tests and the supporting pages, with a live test-duration calculator in 3.5.</p>
+  <div class="meta">
+    <span><b>Owner</b>: Abhinav Thakur (PM)</span>
+    <span><b>Design</b>: TBD</span>
+    <span><b>Product</b>: TBD</span>
+    <span><b>Engineering</b>: TBD</span>
+  </div>
+  </div>
+  <div class="hero-status">
+    <div class="hs-row"><span>Status</span><span class="hs-pill">Draft</span></div>
+    <div class="hs-row"><span>Last updated</span><b>19 Nov 2026</b></div>
+    <div class="hs-row"><span>Sign-off</span><b>Pending: Product, Engineering, Design</b></div>
+    <div class="hs-row"><span>Prototype</span><b><a href="https://abhinavthak.github.io/ab-experiments-prototype/" style="color:#fff">Live, simulated data</a></b></div>
+  </div>
+</div></div>
+
+<div class="shell">
+  <aside class="toc"><div id="toc-card"></div></aside>
+  <main class="main" id="main">
+
+<section id="overview">
+  <h2><span class="num">0.</span>Overview &amp; stakeholders</h2>
+  <div class="tldr">
+    <h4>At a glance</h4>
+    <dl>
+      <dt>What</dt><dd>An experiments panel inside the University CMS. The growth team tests a page change (a section swap or a different URL) on a share of visitors, measures leads and enrolments, and ships the winner as the page default.</dd>
+      <dt>Test types</dt><dd>Two choices per test: <b>what is compared</b> (original vs variant on the same URL, or URL vs URL) and <b>how traffic is split</b> (fixed A/B test, or a multi-armed bandit that shifts traffic to the best variant) (3.1, 7).</dd>
+      <dt>Parts</dt><dd>Experiments list (4), create flow (5), experiment page (6), split URL tests (7) and supporting pages: Insights, Holdouts, Metrics, Audiences, Reports, Settings (8).</dd>
+      <dt>How to read</dt><dd>Section 3 holds the rules every part follows. Sections 4 to 8 cover one part each. Section 9 lists the tests that prove it works.</dd>
+      <dt>Built on</dt><dd>CMS pages and their section variants, the page editor, the lead form and CRM tagging, the analytics data layer, GrowthBook's experiment model and statistics.</dd>
+      <dt>Key risks</dt><dd>Teams calling a test early on too little data (3.4, 3.5). Two tests on one page contaminating each other (3.3). Redirect tests hurting SEO if canonicals are wrong (7).</dd>
+      <dt>Still to settle</dt><dd>Three facts decide most open cases: whether university sites sit behind a CDN, how a CRM lead links to its enrolment and payment, and the typical enquiry-to-payment lag (0.4, 9).</dd>
+    </dl>
+  </div>
+  <div class="whatsnew">
+    <h4>What changed in this version · 19 Nov 2026</h4>
+    <ul>
+      <li><b>Split URL tests added.</b> Step 2 now asks "What are you comparing?": original vs variant, or URL vs URL (7).</li>
+      <li><b>Create flow decluttered.</b> Each step shows its essentials; optional settings fold into sections whose header shows the current value (5).</li>
+      <li><b>Edge cases rewritten.</b> Serving and caching, identity, attribution, split URL, lifecycle and statistics, each with a decision marked Proposed or Open (9). New calls Early and Maturing (3.4).</li>
+      <li><b>Placeholders labelled.</b> Simulated numbers are flagged, and the facts needed to replace them are listed (0.4). Metrics have targets; user stories are specific to program pages.</li>
+      <li><b>Guardrail cutoffs.</b> Each metric has a maximum acceptable worsening; guardrails are Within cutoff, Watch or Failing, and only Failing blocks Ship now (3.4).</li>
+      <li><b>Duration plan corrected.</b> Standard two-proportion sample size; measured traffic and Control rate once a test runs; days left (3.5).</li>
+      <li><b>Any page can be chosen.</b> Conflicts with a running test now block Start through the launch checklist, not page selection (3.2).</li>
+      <li><b>Targeting simplified.</b> Each condition explains itself in a sentence; reach uses the site's real traffic mix (3.3).</li>
+      <li><b>Removed:</b> templates, saved groups, namespaces, the free-text traffic source field and the Ticket custom field (B).</li>
+    </ul>
+    <div class="mini">Full history in the change log (B).</div>
+  </div>
+  <h3><span class="num">0.1</span>Problem</h3>
+  <p>Program pages are changed on opinion today. A new banner, CTA or fee block goes live for everyone, and nobody can say whether it brought more enquiries or fewer. Seasonal swings in traffic hide the effect of any single change.</p>
+  <p>Experiments fix this. A share of visitors sees the change, the rest see today's page, and the panel compares leads and enrolments between the two groups. The winner ships only when the data says so.</p>
+  <h3><span class="num">0.2</span>Key terms</h3>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+    <tr><th>Term</th><th>Meaning</th></tr>
+    <tr><td>Experiment</td><td>One test on one page, with a name, tracking key, hypothesis, variants, targeting, metrics and a stop rule.</td></tr>
+    <tr><td>Variant</td><td>A version of the page. <b>A (Control)</b> is what visitors see today. B to E are the changes. In a split URL test each variant is a URL.</td></tr>
+    <tr><td>Page default</td><td>The variant every visitor sees when no test is running. Shipping a winner makes it the page default.</td></tr>
+    <tr><td>Tracking key</td><td>A unique slug, e.g. <code>online-bba-banner-cta</code>, sent with every exposure and lead. Locked once the test starts.</td></tr>
+    <tr><td>Rollout</td><td>The share of eligible visitors who enter the test. The rest see the page default and are not counted.</td></tr>
+    <tr><td>Primary metric</td><td>The one number that decides the winner, e.g. Lead form submitted. A bandit calls it the decision metric.</td></tr>
+    <tr><td>Guardrail</td><td>A metric that must not get worse by more than its <b>cutoff</b>, e.g. Bounce rate may rise at most 3%, page load time at most 5% (3.4).</td></tr>
+    <tr><td>Lift</td><td>The relative change against Control. A 10% lift on a 7.5% rate means 7.5% to 8.25%.</td></tr>
+    <tr><td>Phase</td><td>A period of a running test with fixed split, rollout and targeting. Changing those starts a new phase and restarts results.</td></tr>
+    <tr><td>Launch checklist</td><td>Automatic checks plus manual QA items that must pass before a test can start (3.2).</td></tr>
+    <tr><td>Call</td><td>The panel's recommendation for a running test: Ship now, Keep running, Review, Roll back, Not enough data or Unhealthy (3.4).</td></tr>
+  </table></div>
+  <h3><span class="num">0.3</span>Stakeholders</h3>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:26%"><col style="width:28%"><col style="width:46%"></colgroup>
+    <tr><th>Role</th><th>Who</th><th>Responsible for</th></tr>
+    <tr><td>Product manager</td><td>Abhinav Thakur</td><td>This spec, scope and sign-off</td></tr>
+    <tr><td>Design</td><td>TBD</td><td>Final screens and the design system mapping</td></tr>
+    <tr><td>Engineering</td><td>TBD</td><td>CMS assignment, redirects, data pipeline, stats service</td></tr>
+    <tr><td>Growth team</td><td>TBD</td><td>Main users; first tests on program pages</td></tr>
+    <tr><td>Analytics</td><td>TBD</td><td>Metric definitions and the source of exposure and conversion data</td></tr>
+  </table></div>
+  <h3><span class="num">0.4</span>Assumptions and facts we need</h3>
+  <div class="callout warn"><div class="ttl">Numbers in this spec are placeholders</div>Traffic figures (e.g. 1,550 visitors a day on BBA), the traffic mix used for reach (India 82%, Chrome 68%, paid search 24%), guardrail cutoffs (Bounce rate 3%, page load 5%), conversion windows and every default threshold come from the prototype's simulated data. Replace them with real analytics before sign-off.</div>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:34%"><col style="width:40%"><col style="width:26%"></colgroup>
+    <tr><th>Fact needed</th><th>What it decides</th><th>Ask</th></tr>
+    <tr><td>Do university sites sit behind a CDN or full-page cache?</td><td>Whether variants can be cached, or tested pages must bypass cache (9.1)</td><td>Engineering</td></tr>
+    <tr><td>How does a CRM lead link to its enrolment and payment?</td><td>Whether Payment and Enrolment can be test metrics at all (9.3)</td><td>Analytics, CRM owner</td></tr>
+    <tr><td>Typical enquiry-to-payment lag</td><td>Conversion windows for payment metrics, and how long those tests must run (9.3)</td><td>Analytics</td></tr>
+    <tr><td>Source of exposure and conversion data</td><td>Results freshness, Analyze a past experiment (10)</td><td>Analytics</td></tr>
+  </table></div>
+  <h3><span class="num">0.5</span>Reference links</h3>
+  <ul>
+    <li><a href="https://abhinavthak.github.io/ab-experiments-prototype/">Working prototype</a> (simulated data, stored in the browser)</li>
+    <li><a href="https://claude.ai/artifact/81sS3XBydYQAsCzEGpqomw">Experiment panel design doc</a></li>
+    <li><a href="https://docs.growthbook.io/experiments">GrowthBook experiments documentation</a> (the model this follows)</li>
+  </ul>
+</section>
+
+<section id="metrics">
+  <h2><span class="num">1.</span>Key metrics to track</h2>
+  <p>There is no experimentation today, so most baselines are zero. Targets are proposals for the first two quarters after v1.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:40%"><col style="width:12%"><col style="width:24%"></colgroup>
+    <tr><th>Metric</th><th>How it is measured</th><th>Today</th><th>Target <span class="tag prop">Proposed</span></th></tr>
+    <tr><td>Tests started</td><td>Experiments started per month across program pages</td><td>0</td><td>4 a month by month 3</td></tr>
+    <tr><td>Setup time</td><td>Median minutes from New experiment to Create draft</td><td>—</td><td>Under 10 minutes</td></tr>
+    <tr><td>Tests run to plan</td><td>% of stopped tests that reached the planned sample before stopping</td><td>—</td><td>80%</td></tr>
+    <tr><td>Conclusions written</td><td>% of stopped tests with a written conclusion</td><td>—</td><td>100%</td></tr>
+    <tr><td>Unhealthy tests</td><td>% of running tests flagged for sample ratio mismatch or multiple exposures</td><td>—</td><td>Under 5%</td></tr>
+    <tr><td>Lead form rate on tested pages</td><td>Leads per visitor on pages that shipped a winner, before vs after, confirmed by the holdout</td><td>Measure in month 1</td><td>Set after the first holdout read</td></tr>
+  </table></div>
+</section>
+
+<section id="stories">
+  <h2><span class="num">2.</span>User stories</h2>
+  <h3><span class="num">2.1</span>Growth marketer</h3>
+  <ul>
+    <li>I want to try a shorter fee block on the Online BBA page on a quarter of visitors, so I don't risk the whole admissions season on a guess.</li>
+    <li>I want to know before starting whether a 10% lift in enquiries is even detectable on a page with 600 visitors a day.</li>
+    <li>I want to test a redesigned landing page built as a separate CMS page, without engineering setting up redirects.</li>
+    <li>I want enquiries submitted later on the apply page to count for the page that persuaded the visitor.</li>
+  </ul>
+  <h3><span class="num">2.2</span>Growth lead</h3>
+  <ul>
+    <li>I want no one to ship a winner on day 3 because it looked good, so early calls are blocked until the planned sample is reached.</li>
+    <li>I want a winner that slows the page by more than 5% held for review, even if enquiries went up.</li>
+    <li>I want every finished test to leave a written learning, so we stop re-testing ideas that already lost.</li>
+  </ul>
+  <h3><span class="num">2.3</span>Admissions and program teams</h3>
+  <ul>
+    <li>I want to know what visitors on my program page are seeing this week, before a counsellor gets a confused call.</li>
+    <li>I want enrolments and payments, not only clicks, to decide winners on fee-related tests.</li>
+  </ul>
+  <h3><span class="num">2.4</span>Engineering and SEO</h3>
+  <ul>
+    <li>I want variants rendered server-side and cached correctly, so pages don't flicker and stay fast.</li>
+    <li>I want crawlers always to see the original and redirected URLs to carry the right canonical, so rankings don't move.</li>
+  </ul>
+</section>
+
+<section id="how">
+  <h2><span class="num">3.</span>How it works</h2>
+  <h3><span class="num">3.1</span>How the parts connect</h3>
+  <div class="flows">
+    <div class="flow">
+      <div class="flow-h">Growth team</div>
+      <div class="step s1"><b>Builds variants</b><span>In the page editor, or picks URLs</span></div>
+      <div class="step s2"><b>Creates the experiment</b><span>Six-step flow, saved as a draft</span></div>
+      <div class="step s3"><b>Clears the launch checklist</b><span>Automatic checks plus QA</span></div>
+      <div class="step s4"><b>Watches the call</b><span>Results, health, days left</span></div>
+      <div class="step s5"><b>Stops and ships</b><span>Winner becomes the page default</span></div>
+    </div>
+    <div class="flow">
+      <div class="flow-h">Visitor</div>
+      <div class="step s1"><b>Opens the page</b><span>Same URL as always</span></div>
+      <div class="step s2"><b>Is checked against targeting</b><span>Audience, device, conditions, rollout</span></div>
+      <div class="step s3"><b>Gets a variant</b><span>By a hash of their visitor ID, sticky</span></div>
+      <div class="step s4"><b>Sees it</b><span>Sections swapped, or redirected</span></div>
+      <div class="step s5"><b>Converts or leaves</b><span>Lead tagged with key and variant</span></div>
+    </div>
+  </div>
+  <h3><span class="num">3.2</span>Lifecycle</h3>
+  <p class="mini">A test moves left to right and never back. It can't be paused or restarted; Duplicate makes a fresh draft. Dashed boxes are side steps.</p>
+  <div class="jflow">
+    <div class="jrow" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+      <div class="jn c1"><div class="jk">1</div><div class="jt">Draft</div><div class="jd">Editable. Created by the create flow or Duplicate.</div><span class="pill p-pend">Draft</span></div>
+      <div class="jn c2"><div class="jk">2</div><div class="jt">Scheduled</div><div class="jd">Starts on its date. Optional; Start now skips it.</div><span class="pill p-sched">Scheduled</span></div>
+      <div class="jn c3"><div class="jk">3</div><div class="jt">Running</div><div class="jd">Visitors assigned. Changes only through Make changes.</div><span class="pill p-sent">Running</span></div>
+      <div class="jn c4"><div class="jk">4</div><div class="jt">Stopped</div><div class="jd">Result, winner and conclusion recorded.</div><span class="pill p-max">Stopped</span></div>
+    </div>
+    <div class="jvoid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+      <div class="jv" style="grid-column:3"><div class="jvf">Side step</div><div class="jt">New phase</div><div class="jd">New split, rollout or targeting. Results restart; earlier phases stay viewable.</div></div>
+      <div class="jv" style="grid-column:4"><div class="jvf">Side step</div><div class="jt">Archived</div><div class="jd">Hidden from the list; readable under Archived.</div></div>
+    </div>
+  </div>
+  <p><b>Launch checklist.</b> Start (now or scheduled) is blocked until every required item passes. Automatic checks: the page is live, a primary metric is set, there is at least one variant besides Control, the split adds up to 100%, rollout is above 0%, no other test is running or scheduled on the page, a bandit uses a conversion metric, and a hypothesis is written if settings require one. Manual items are set by an Admin, e.g. "Checked every variant on mobile and desktop". Optional items only warn.</p>
+
+  <h3><span class="num">3.3</span>Who is in the test</h3>
+  <ol>
+    <li><b>Eligible</b>: the visitor matches the audience (all, new, returning), device (mobile, desktop or both) and every attribute condition.</li>
+    <li><b>In the rollout</b>: a hash of the assignment ID falls inside the rollout %. Others see the page default and are not counted.</li>
+    <li><b>Assigned</b>: the same hash picks the variant by the split. Sticky bucketing keeps the visitor there if the split changes later.</li>
+  </ol>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:76%"></colgroup>
+    <tr><th>Setting</th><th>Rule</th></tr>
+    <tr><td>Attribute conditions</td><td>Rows of attribute → operator → value, joined by AND. Attributes: country, city, browser, UTM source, medium and campaign, logged in, lead stage, page visits. Each row shows a plain sentence, e.g. "Only visitors whose country is IN".</td></tr>
+    <tr><td>Reach estimate</td><td>Page traffic × rollout × device share × the share each condition keeps, from the site's traffic mix (India 82%, Chrome 68%, paid search 24%…).</td></tr>
+    <tr><td>Assignment ID</td><td>Visitor ID (cookie) by default; lead ID or session ID, with a fallback if the first is missing.</td></tr>
+    <tr><td>Exclude existing leads</td><td>Visitors who already submitted a form on this page always see Control.</td></tr>
+    <tr><td>One test per page</td><td>Only one running or scheduled test per page. A second can be drafted; the checklist blocks its Start.</td></tr>
+    <tr><td>Never counted</td><td>CMS admins, preview links, bots and visitors with cookies blocked.</td></tr>
+  </table></div>
+
+  <h3><span class="num">3.4</span>Statistics and the call</h3>
+  <p>Organization settings (8) set the defaults; a test can change them in step 5 before it starts.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:76%"></colgroup>
+    <tr><th>Setting</th><th>Rule</th></tr>
+    <tr><td>Engine</td><td><b>Bayesian</b>: chance to beat Control, risk and a credible interval; a winner is called at 95% chance to win. <b>Frequentist</b>: p-value and confidence interval; significant below the alpha. Optional sequential testing makes it safe to check results any time.</td></tr>
+    <tr><td>CUPED</td><td>Uses visitors' pre-test behaviour to narrow intervals.</td></tr>
+    <tr><td>Many metrics</td><td>Holm-Bonferroni or Benjamini-Hochberg correction across metrics and variants.</td></tr>
+    <tr><td>Minimums</td><td>Minimum run time (default 7 days) and minimum sample per metric before any call. Changes beyond a set size are flagged Suspicious.</td></tr>
+  </table></div>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Guardrail cutoffs</h4>
+  <p>Every metric has a <b>guardrail cutoff</b>: the most it may get worse, relative to Control, when used as a guardrail. Default 2%; set per metric on the Metrics page (8). A small, real worsening below the cutoff does not block a winner.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:22%"><col style="width:48%"><col style="width:30%"></colgroup>
+    <tr><th>State</th><th>When</th><th>Effect</th></tr>
+    <tr><td><span class="pill p-sent">Within cutoff</span></td><td>Even the worst plausible value (the bad end of the interval) is inside the cutoff</td><td>None</td></tr>
+    <tr><td><span class="pill p-sched">Watch</span></td><td>Not clearly past the cutoff, but the interval reaches beyond it</td><td>Shown on Results and Health; does not block</td></tr>
+    <tr><td><span class="pill p-void">Failing</span></td><td>Clearly worse than Control (significant) <b>and</b> the estimate is past the cutoff</td><td>Red banner; the call becomes Review instead of Ship now when the setting is on</td></tr>
+    <tr><td><span class="pill p-pend">Not enough data</span></td><td>Below the metric's minimum sample</td><td>None yet</td></tr>
+  </table></div>
+  <p class="mini">Example: Bounce rate, cutoff 3%. Variant B is 2.4% worse with an interval up to 6.8% worse: Watch. Variant C on page load is 37.6% slower, significantly: Failing.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:76%"></colgroup>
+    <tr><th>Call</th><th>When</th></tr>
+    <tr><td><span class="pill p-void">Unhealthy</span></td><td>Sample ratio mismatch (traffic split differs from the plan, χ² p &lt; 0.001) or too many visitors who saw more than one variant</td></tr>
+    <tr><td><span class="pill p-pend">Not enough data</span></td><td>Before the minimum sample per metric</td></tr>
+    <tr><td><span class="pill p-pend">Early</span></td><td>Looks like a winner, but the minimum run time or the planned sample (3.5) isn't reached yet. Shows "x% of planned sample"</td></tr>
+    <tr><td><span class="pill p-pend">Maturing</span></td><td>The primary metric's conversion window hasn't passed for everyone exposed (payment, enrolment)</td></tr>
+    <tr><td><span class="pill p-sent">Ship now</span></td><td>A variant beats Control on the primary metric and no guardrail fails</td></tr>
+    <tr><td><span class="pill p-sched">Review</span></td><td>A variant wins but one of its guardrails is Failing (past its cutoff). Blocks Ship now if the setting is on</td></tr>
+    <tr><td><span class="pill p-void">Roll back</span></td><td>A variant is clearly worse than Control</td></tr>
+    <tr><td><span class="pill p-max">Keep running</span></td><td>None of the above yet</td></tr>
+  </table></div>
+
+  <h3><span class="num">3.5</span>How long a test needs</h3>
+  <p>The plan answers one question before a test starts: how many days until it can reliably detect the smallest lift worth caring about. It uses 80% power, the organization's confidence level, and splits alpha across variants (alpha ÷ (variants − 1)).</p>
+  <p>Conversion metrics use the standard two-proportion sample size per variant, with p₂ = p₁ × (1 + lift) and p̄ their mean:</p>
+  <p style="text-align:center"><code>n = ( z<sub>1−α/2</sub>·√(2p̄(1−p̄)) + z<sub>1−β</sub>·√(p₁(1−p₁) + p₂(1−p₂)) )² ÷ (p₂ − p₁)²</code></p>
+  <p>Days = n × variants ÷ daily visitors entering the test. Before start, daily visitors and the Control rate are estimated (page traffic, rollout, targeting, minus any holdout share; the metric's usual rate). Once running, both are measured, and the plan shows <b>days left</b> instead.</p>
+  <div id="calc-root"></div>
+  <div class="callout info"><div class="ttl">Check</div>A 3% baseline and a 20% lift with 2 variants at 95% confidence needs 13,914 visitors per variant, the same as standard online calculators.</div>
+
+  <h3><span class="num">3.6</span>Health checks</h3>
+  <ul>
+    <li><b>Sample ratio mismatch</b>: actual split vs the planned split (for bandits, the day's weights), χ² test.</li>
+    <li><b>Multiple exposures</b>: visitors who saw more than one variant, above the settings threshold.</li>
+    <li><b>Enough data</b>: per metric, against the minimum sample.</li>
+    <li><b>Guardrails</b>: each variant is Within cutoff, Watch or Failing per guardrail (3.4).</li>
+    <li><b>Mid-test edits</b>: changes to variant sections while the test runs, listed with time and author.</li>
+    <li><b>Traffic by dimension</b>: split by device, country and source, each with its own χ².</li>
+  </ul>
+</section>
+
+<section id="list">
+  <h2><span class="num">4.</span>Experiments list</h2>
+  <h3><span class="num">4.1</span>Layout</h3>
+  <ul>
+    <li><b>Header</b>: title, one-line description, <span class="cta">New experiment</span> split button with A/B test, Multi-armed bandit and Analyze a past experiment.</li>
+    <li><b>Summary strip</b>, last 30 days: running now, started, ended, winners shipped.</li>
+    <li><b>Tabs</b>: All, Running, Drafts, Stopped, Archived, each with a count.</li>
+    <li><b>Search and filters</b>: search by name, key, tag or page; <code>is:running</code>, <code>is:bandit</code>, <code>is:mine</code>; filters for page, owner, tags, type; sort by recently updated.</li>
+    <li><b>Rows</b>: watch star, name, badges (Bandit, Split URL, Imported), page, tracking key, tags, variant chips, owner; primary metric; status with day count and progress; the call with one line of reason; the next action (Continue setup, Results) and a ⋯ menu.</li>
+  </ul>
+  <h3><span class="num">4.2</span>Requirements</h3>
+  <ul>
+    <li>Watched tests sort to the top. Filters and the open tab are remembered per person.</li>
+    <li>The call in each row uses the same logic as the Results tab (3.4).</li>
+    <li>An empty list explains what is needed: a live page with at least 2 variants, or two URLs.</li>
+  </ul>
+</section>
+
+<section id="create">
+  <h2><span class="num">5.</span>Create flow</h2>
+  <p>Six steps in one dialog titled "New experiment". Each step opens with a question and one line of context. The stepper lets people go back to any step they have seen. Create draft saves; nothing goes live until someone starts the test.</p>
+
+<h4 style="font-size:14.5px;margin:20px 0 6px">Setup at a glance</h4>
+  <p class="mini">From New experiment to a running test. Yellow diamonds are decisions; dashed boxes are where people loop back to fix something.</p>
+  <div class="lifecycle setup-flow"><svg viewBox="0 0 850 1196" role="img" aria-label="Experiment setup flowchart" font-family="Inter,system-ui,sans-serif"><defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9AA1B1"/></marker></defs><rect x="305.0" y="10" width="190" height="40" rx="20" fill="#14213D"/><text x="400" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#fff" font-family="Sora,Inter,sans-serif">New experiment</text><path d="M400 50V78" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><rect x="240.0" y="80" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25" /><rect x="252.0" y="91" width="26" height="18" rx="5" fill="#2E2A83"/><text x="265.0" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S1</text><text x="286.0" y="104" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Overview</text><text x="252.0" y="124" font-size="12.5" fill="#6B7280">Type, name, hypothesis, owner, tags</text><path d="M400 136V160" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><polygon points="280,200 400,160 520,200 400,240" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="400" y="196" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">What are you</text><text x="400" y="212" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">comparing?</text><path d="M280 200H210V278" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="214" y="192" text-anchor="end" font-size="12" font-weight="600" fill="#6B7280">same URL</text><path d="M520 200H590V278" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="586" y="192" text-anchor="start" font-size="12" font-weight="600" fill="#6B7280">different URLs</text><rect x="60.0" y="280" width="300" height="64" rx="10" fill="#F5F4FC" stroke="#B7B2E6" stroke-width="1.25" /><rect x="72.0" y="291" width="26" height="18" rx="5" fill="#2E2A83"/><text x="85.0" y="304" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S2</text><text x="106.0" y="304" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Original vs variant</text><text x="72.0" y="324" font-size="12.5" fill="#6B7280">Page with 2+ variants, then the split</text><rect x="440.0" y="280" width="300" height="64" rx="10" fill="#F5F4FC" stroke="#B7B2E6" stroke-width="1.25" /><rect x="452.0" y="291" width="26" height="18" rx="5" fill="#2E2A83"/><text x="465.0" y="304" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S2</text><text x="486.0" y="304" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">URL vs URL</text><text x="452.0" y="324" font-size="12.5" fill="#6B7280">Original page, variant URLs, then the split</text><path d="M210 344V372H400M590 344V372H400" fill="none" stroke="#B9BFCC" stroke-width="1.5"/><path d="M400 372V398" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><rect x="240.0" y="400" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25" /><rect x="252.0" y="411" width="26" height="18" rx="5" fill="#2E2A83"/><text x="265.0" y="424" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S3</text><text x="286.0" y="424" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Targeting</text><text x="252.0" y="444" font-size="12.5" fill="#6B7280">Audience, device, rollout, conditions, reach</text><path d="M400 456V478" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><rect x="240.0" y="480" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25" /><rect x="252.0" y="491" width="26" height="18" rx="5" fill="#2E2A83"/><text x="265.0" y="504" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S4</text><text x="286.0" y="504" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Metrics</text><text x="252.0" y="524" font-size="12.5" fill="#6B7280">Primary, guardrails with cutoffs, secondary</text><path d="M400 536V558" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><rect x="240.0" y="560" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25" /><rect x="252.0" y="571" width="26" height="18" rx="5" fill="#2E2A83"/><text x="265.0" y="584" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S5</text><text x="286.0" y="584" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Analysis</text><text x="252.0" y="604" font-size="12.5" fill="#6B7280">Stop date, smallest lift, duration plan</text><path d="M400 616V648" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><polygon points="280,690 400,650 520,690 400,730" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="400" y="686" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">Plan fits the</text><text x="400" y="702" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">stop date?</text><path d="M520 690H538" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="526" y="682" text-anchor="middle" font-size="12" font-weight="600" fill="#6B7280">no</text><rect x="540.0" y="662" width="290" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25" stroke-dasharray="5 4"/><text x="685" y="686" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Adjust the plan</text><text x="685" y="706" text-anchor="middle" font-size="12.5" fill="#6B7280">Longer stop, bigger lift or more rollout</text><path d="M685 662V588H562" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><path d="M400 730V758" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="408" y="748" text-anchor="start" font-size="12" font-weight="600" fill="#6B7280">yes</text><rect x="240.0" y="760" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25" /><rect x="252.0" y="771" width="26" height="18" rx="5" fill="#2E2A83"/><text x="265.0" y="784" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">S6</text><text x="286.0" y="784" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Review</text><text x="252.0" y="804" font-size="12.5" fill="#6B7280">Every step on one screen; Edit jumps back</text><path d="M400 816V838" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><rect x="305.0" y="840" width="190" height="40" rx="20" fill="#2E2A83"/><text x="400" y="865" text-anchor="middle" font-size="14" font-weight="600" fill="#fff" font-family="Sora,Inter,sans-serif">Create draft</text><path d="M400 880V908" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><polygon points="280,950 400,910 520,950 400,990" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="400" y="946" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">Launch checklist</text><text x="400" y="962" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">passes?</text><path d="M520 950H538" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="526" y="942" text-anchor="middle" font-size="12" font-weight="600" fill="#6B7280">no</text><rect x="540.0" y="922" width="290" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25" stroke-dasharray="5 4"/><text x="685" y="946" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Fix and tick</text><text x="685" y="966" text-anchor="middle" font-size="12.5" fill="#6B7280">Fix automatic checks, tick QA items</text><path d="M685 922V896H406" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><path d="M400 990V1018" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="408" y="1008" text-anchor="start" font-size="12" font-weight="600" fill="#6B7280">yes</text><polygon points="290,1060 400,1020 510,1060 400,1100" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="400" y="1064" text-anchor="middle" font-size="13" font-weight="600" fill="#5C3D06">Start now?</text><path d="M510 1060H538" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="524" y="1052" text-anchor="middle" font-size="12" font-weight="600" fill="#6B7280">no</text><rect x="540.0" y="1032" width="290" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25" stroke-dasharray="5 4"/><text x="685" y="1056" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Schedule</text><text x="685" y="1076" text-anchor="middle" font-size="12.5" fill="#6B7280">Starts on its date if checks still pass</text><path d="M685 1088V1160H492" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="693" y="1130" text-anchor="start" font-size="12" font-weight="600" fill="#6B7280">on the start date</text><path d="M400 1100V1138" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa)"/><text x="408" y="1124" text-anchor="start" font-size="12" font-weight="600" fill="#6B7280">yes</text><rect x="310.0" y="1140" width="180" height="40" rx="20" fill="#0E7A63"/><text x="400" y="1165" text-anchor="middle" font-size="14" font-weight="600" fill="#fff" font-family="Sora,Inter,sans-serif">Running</text></svg></div>
+  <div class="wdg"><div class="wdg-h"><span class="wid">S1</span><b>Overview</b><span class="whh">What are you testing?</span><span class="wj">Name it and say what you expect to happen.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>Type</td><td>Two cards</td><td><span class="rq r">Required</span></td><td>A/B test (fixed split) or Multi-armed bandit. Default A/B test.</td></tr>
+    <tr><td>Name</td><td>Text</td><td><span class="rq r">Required</span></td><td>e.g. <i>Online BBA — banner &amp; sticky CTA</i>.</td></tr>
+    <tr><td>Tracking key</td><td>Text</td><td><span class="rq a">Auto</span></td><td>Made from the name and shown under it, with an Edit link. Unique, lowercase, hyphens.</td></tr>
+    <tr><td>Hypothesis</td><td>Text area</td><td><span class="rq o">Optional</span></td><td>"If we … then … because …". Required when settings say so.</td></tr>
+    <tr><td>Owner</td><td>Select</td><td><span class="rq r">Required</span></td><td>Defaults to the creator.</td></tr>
+    <tr><td>Tags</td><td>Multi-select</td><td><span class="rq o">Optional</span></td><td>Pick existing tags or type a new one and press Enter.</td></tr>
+    <tr><td>More details</td><td>Folded</td><td><span class="rq o">Optional</span></td><td>Description and custom fields (e.g. Team). Opens by itself if a custom field is required.</td></tr>
+  </table></div></div>
+
+  <div class="wdg"><div class="wdg-h"><span class="wid">S2</span><b>Page &amp; variants</b><span class="whh">What will visitors see?</span><span class="wj">Pick the page and the versions to compare.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>What are you comparing?</td><td>Two cards</td><td><span class="rq r">Required</span></td><td>Original vs variant (same URL, sections swapped) or URL vs URL (7).</td></tr>
+    <tr><td>Page</td><td>Select</td><td><span class="rq r">Required</span></td><td>Every page can be chosen; each shows its state ("running experiment", "draft page", "2 variants"). A conflict shows a warning; it blocks Start, not selection.</td></tr>
+    <tr><td>Variants</td><td>Checkbox rows</td><td><span class="rq r">Required</span></td><td>The page's variants. A (page default) is always Control. At least one more is needed.</td></tr>
+    <tr><td>Split</td><td>% per variant</td><td><span class="rq r">Required</span></td><td>Must add up to 100%, every variant above 0. Split evenly button. Bandits show "auto".</td></tr>
+  </table></div></div>
+
+  <div class="wdg"><div class="wdg-h"><span class="wid">S3</span><b>Targeting</b><span class="whh">Who's in the test?</span><span class="wj">Everyone who visits the page, unless you narrow it down.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>Audience · Device · Rollout</td><td>One row</td><td><span class="rq r">Required</span></td><td>Defaults: all visitors, mobile + desktop, 100%.</td></tr>
+    <tr><td>Reach</td><td>Live line</td><td><span class="rq a">Auto</span></td><td>"About 480 of 600 daily visitors will enter the test." Updates as fields change.</td></tr>
+    <tr><td>Conditions</td><td>Rule rows</td><td><span class="rq o">Optional</span></td><td>Attribute, operator, value, with a plain-language sentence under each row (3.3).</td></tr>
+    <tr><td>Advanced</td><td>Folded</td><td><span class="rq o">Optional</span></td><td>Exclude existing leads; assign by; fallback; sticky bucketing. Header shows the current values.</td></tr>
+  </table></div></div>
+
+  <div class="wdg"><div class="wdg-h"><span class="wid">S4</span><b>Metrics</b><span class="whh">How will you pick a winner?</span><span class="wj">One metric decides. Guardrails catch harm.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>Primary metric</td><td>Select</td><td><span class="rq r">Required</span></td><td>Grouped by kind. Lead-form metrics are disabled on pages without a lead form; bandits allow only conversion metrics.</td></tr>
+    <tr><td>Guardrails</td><td>Multi-select</td><td><span class="rq o">Optional</span></td><td>e.g. Bounce rate, page load time. Each uses its metric's cutoff (3.4).</td></tr>
+    <tr><td>Secondary</td><td>Multi-select</td><td><span class="rq o">Optional</span></td><td>Metrics that help explain the result.</td></tr>
+    <tr><td>Activation metric</td><td>Folded select</td><td><span class="rq o">Optional</span></td><td>Only visitors who did this are analysed, e.g. scrolled to the fee section.</td></tr>
+  </table></div></div>
+
+  <div class="wdg"><div class="wdg-h"><span class="wid">S5</span><b>Analysis</b><span class="whh">How long will it run?</span><span class="wj">Set a stop date and the smallest lift you care about.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>Stop</td><td>Select</td><td><span class="rq r">Required</span></td><td>7, 14, 21, 28 or 42 days after start, or manually. Default 21.</td></tr>
+    <tr><td>Smallest lift worth detecting</td><td>Select</td><td><span class="rq r">Required</span></td><td>5%, 10%, 15% or 20%. Default 10%.</td></tr>
+    <tr><td>Plan</td><td>Facts + verdict</td><td><span class="rq a">Auto</span></td><td>Visitors a day, Control rate, variants; one verdict, e.g. "needs about 68 days but stops after 21". Table for other lifts folded (3.5).</td></tr>
+    <tr><td>Statistics</td><td>Folded</td><td><span class="rq o">Optional</span></td><td>Engine, sequential testing, CUPED. Defaults from settings; header shows them.</td></tr>
+  </table></div></div>
+
+  <div class="wdg"><div class="wdg-h"><span class="wid">S6</span><b>Review</b><span class="whh">Check and create</span><span class="wj">Creating saves a draft. Nothing goes live until you start it.</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:48%"></colgroup>
+    <tr><th>Block</th><th>Type</th><th>Input</th><th>What it is</th></tr>
+    <tr><td>Header</td><td>Text</td><td><span class="rq a">Auto</span></td><td>Name, type badge, tracking key. A red banner only if something blocks Start.</td></tr>
+    <tr><td>Summary cards</td><td>Five cards</td><td><span class="rq a">Auto</span></td><td>Overview, Page &amp; variants (with a split bar) or URLs, Targeting, Metrics, Analysis. Each has Edit, which jumps to its step.</td></tr>
+    <tr><td>Launch checklist</td><td>List</td><td><span class="rq a">Auto</span></td><td>"6 of 9 done"; only open items listed; passed items folded.</td></tr>
+  </table></div></div>
+  <h3><span class="num">5.1</span>Rules</h3>
+  <ul>
+    <li>Validation runs per step on Next; the first error scrolls into view.</li>
+    <li>Cancel with unsaved changes asks "Discard this experiment?" in the dialog footer.</li>
+    <li><b>Analyze a past experiment</b> brings in a test that already ran, by page, variants and dates; it is saved as stopped with an Imported badge.</li>
+  </ul>
+</section>
+
+<section id="page">
+  <h2><span class="num">6.</span>Experiment page</h2>
+  <h3><span class="num">6.1</span>Layout</h3>
+  <ul>
+    <li><b>Header</b>: name, status pill, badges, day count and phase; the one action that matters now (<span class="cta">Start</span> <span class="cta">Make changes</span> <span class="cta">Stop</span> <span class="cta">Record a result</span>) and a ⋯ menu: Edit info, Duplicate, Create report, Archive.</li>
+    <li><b>Tabs</b>: Overview, Results, Health, History.</li>
+  </ul>
+  <h3><span class="num">6.2</span>Tab details</h3>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
+    <tr><th>Tab</th><th>Contents</th></tr>
+    <tr><td>Overview</td><td>Page under test; variants or URLs with the split; targeting and traffic; metrics; analysis settings; Plan (3.5) with days left; phases; launch checklist with tickable manual items; schedule; tracking key; implementation snippet; preview links.</td></tr>
+    <tr><td>Results</td><td>Controls: phase, baseline, difference (relative, absolute, scaled to conversions per day), dimension (device, country, browser, source, new vs returning). Metric table: value per variant, lift with interval, chance to win or p-value, risk; Not enough data and Suspicious flags. Charts: cumulative, daily, change with interval bands. Bandits add an arms table and a weights chart. Conclusion card, CSV export, Create report.</td></tr>
+    <tr><td>Health</td><td>The checks in 3.6, each with a pass, warn or fail state.</td></tr>
+    <tr><td>History</td><td>Every change with author and time, newest first.</td></tr>
+  </table></div>
+  <h3><span class="num">6.3</span>Make changes</h3>
+  <p>A running test can't be edited in place. Make changes offers two paths:</p>
+  <ul>
+    <li><b>Increase rollout</b>: raises the share of visitors in the test and keeps all data (same phase).</li>
+    <li><b>New phase</b>: new split, rollout, audience or device, with a reason. Visitors are re-assigned and results restart; earlier phases stay selectable on Results.</li>
+  </ul>
+  <h3><span class="num">6.4</span>Stop</h3>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+    <tr><th>Field</th><th>Rule</th></tr>
+    <tr><td>Result</td><td>Won, Lost, No clear winner, Did not finish. Pre-filled from the call.</td></tr>
+    <tr><td>Winning variant</td><td>Shown only for Won.</td></tr>
+    <tr><td>What visitors see after</td><td>Original vs variant: the chosen variant becomes the page default. Split URL: the redirect is removed, or becomes a permanent 301 to the winner (7).</td></tr>
+    <tr><td>Conclusion</td><td>What happened, why, what to try next. Shown on Results and in Insights.</td></tr>
+  </table></div>
+  <p>A test that hits its stop date stops by itself, shows everyone Control, and asks the owner to record a result.</p>
+</section>
+
+<section id="split-url">
+  <h2><span class="num">7.</span>Split URL tests</h2>
+  <p>Chosen in step 2 as <b>URL vs URL</b>. Use it to test a whole redesigned page rather than a section swap.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+    <tr><th>Topic</th><th>Rule</th></tr>
+    <tr><td>Variants</td><td>A (Control) is the chosen page's own URL. B to E are other CMS pages (suggested from a list) or any URL. Names fill in from the CMS page.</td></tr>
+    <tr><td>URL checks</td><td>Required; starts with <code>/</code> or <code>https://</code>; not the original's URL; no two variants alike. Query strings and trailing slashes are ignored when comparing.</td></tr>
+    <tr><td>Serving</td><td>Everyone lands on the original. Visitors in B–E get a temporary (302) redirect that keeps UTM parameters.</td></tr>
+    <tr><td>SEO</td><td>Variant pages carry a canonical tag pointing at the original.</td></tr>
+    <tr><td>Tracking</td><td>Every URL must have the lead form, so conversions are counted.</td></tr>
+    <tr><td>After stopping</td><td>Pick A: the redirect is removed. Pick a winner: the original permanently redirects (301) there; links and ads should be updated.</td></tr>
+    <tr><td>Not needed</td><td>A page with only one variant can still run a split URL test.</td></tr>
+  </table></div>
+</section>
+
+<section id="library">
+  <h2><span class="num">8.</span>Supporting pages</h2>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
+    <tr><th>Page</th><th>What it does</th></tr>
+    <tr><td>Insights</td><td>Win rate and tests over a chosen range; learnings from conclusions; a timeline of tests by page; metric effects across tests.</td></tr>
+    <tr><td>Holdouts</td><td>A small share of visitors (e.g. 5%) who never see variants on chosen pages, compared with everyone else to measure the combined effect of shipped winners.</td></tr>
+    <tr><td>Metrics</td><td>Definitions grouped by kind (lead forms, engagement, page performance); a page per metric with its tests; create and edit, including the conversion window, minimum sample, suspicious-change threshold and guardrail cutoff.</td></tr>
+    <tr><td>Audiences</td><td>The visitor attributes used in targeting and assignment, with where each comes from.</td></tr>
+    <tr><td>Reports</td><td>A saved view of a test's results (phase, baseline, difference, dimension) with an editable title and note, shareable by link.</td></tr>
+    <tr><td>Settings</td><td>Admin only: engine, confidence level, chance-to-win threshold, alpha, correction, CUPED and sequential defaults, minimum run time, SRM and multiple-exposure thresholds, "guardrails block Ship now", assignment defaults, required hypothesis, launch checklist items, custom fields.</td></tr>
+  </table></div>
+</section>
+
+<section id="edge">
+  <h2><span class="num">9.</span>Edge cases and acceptance criteria</h2>
+  <p>Each case has a decision. <span class="tag prop">Proposed</span> means this spec's recommendation, not yet agreed. <span class="tag gap">Open</span> means it needs a fact or a call from someone else first; the owner is named. Nothing here is signed off.</p>
+
+  <h3><span class="num">9.1</span>Serving and caching</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>The tested page is cached by a CDN or full-page cache</td><td>If the cache key ignores the variant, every visitor gets whichever variant was cached first and the test is worthless. Either the cache varies on the assignment cookie, or assignment runs at the edge. Until one of these is confirmed, a page with a running test bypasses full-page cache (slower, but correct).</td><td><span class="tag gap">Open</span><div class="mini">Engineering: is there a CDN in front of university sites?</div></td></tr>
+    <tr><td>Search crawlers and bots</td><td>Known crawler user agents (Googlebot, Bingbot and the rest of a maintained list) always get Control, are never assigned and never counted. Visitors with no cookie support are treated the same way.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Flicker</td><td>Variants render server-side, before HTML is sent. No client-side swapping, so no flash of the original.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>A shared block (e.g. Common Header) is edited during a test</td><td>Allowed: it changes every variant equally. Logged in History and listed on Health with the time, so a jump in the charts can be explained.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>A variant in a running test is edited in the page editor</td><td>Blocked. Edits save as a draft of the variant and go live only through Make changes → New phase, so results never mix two versions. (The prototype only warns today.)</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>CMS admins and preview links</td><td>Never assigned, never counted. Preview links show the chosen variant without a cookie.</td><td><span class="tag prop">Proposed</span></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.2</span>Identity and assignment</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>An anonymous visitor submits a form and becomes a lead</td><td>Assignment stays on the visitor ID for the whole test; becoming a lead never re-buckets anyone. The lead stores the test key and variant at submit time, and the lead ID is used only to join later conversions (payment, enrolment).</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Same person on phone and laptop</td><td>Accepted limitation: two visitor IDs, possibly two variants. Once they become one lead, both exposures are visible; leads exposed to more than one variant count toward the multiple-exposure rate, and above the threshold the test is Unhealthy.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Cookie cleared, expired or blocked</td><td>Safari caps cookies set by JavaScript at 7 days, which would silently re-bucket visitors in 21- and 28-day tests. The assignment cookie is set by the server (first-party, HTTP) so the cap doesn't apply. Visitors who decline consent see Control and aren't counted.</td><td><span class="tag gap">Open</span><div class="mini">Legal / Engineering: consent banner behaviour on university sites</div></td></tr>
+    <tr><td>A visitor sees tests on two different pages (e.g. BBA and MBA)</td><td>Allowed: tests on different pages are analysed independently. Insights lists page pairs where tests overlapped in time, so interactions can be checked. With namespaces removed there is no way to make two tests mutually exclusive.</td><td><span class="tag gap">Open</span><div class="mini">Growth lead: is one test per page enough?</div></td></tr>
+    <tr><td>Visitor is in a holdout</td><td>Never assigned to any test on held-out pages. The holdout share is taken out of the daily visitors in the duration plan (3.5), so the estimate isn't optimistic. (Not yet in the prototype.)</td><td><span class="tag prop">Proposed</span></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.3</span>Conversions and attribution</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>Lead submitted on another page (apply page, popup, another program page) after seeing the tested page</td><td>Counted for the test if it happens within the metric's conversion window after first exposure, matched by visitor ID. The lead stores the key and variant of every running test the visitor was exposed to, not only the page it was submitted on.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Lead created by WhatsApp, phone or a counsellor</td><td>No visitor ID, so it can't be attributed and is left out. Results show what share of the page's leads came this way, so the gap is visible instead of hidden.</td><td><span class="tag gap">Open</span><div class="mini">Analytics: can CRM leads carry the visitor ID?</div></td></tr>
+    <tr><td>Same phone number submits twice</td><td>Conversion metrics count unique visitors: the first conversion only. The CRM's own dedupe by phone is not relied on.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Payment or enrolment happens weeks after the visit</td><td>These metrics use a longer window than lead metrics. Their results are marked <b>Maturing</b> until the window has passed for everyone exposed, and a test can't be called on a maturing primary metric. The window length depends on the real lag.</td><td><span class="tag gap">Open</span><div class="mini">Analytics: enquiry-to-payment lag from CRM data</div></td></tr>
+    <tr><td>Enrolment refunded or cancelled</td><td>Counted at payment. A refund inside the window removes the conversion; after it, it stays.</td><td><span class="tag gap">Open</span><div class="mini">Finance: refund data feed</div></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.4</span>Split URL tests</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>The redirect adds load time to B only, biasing against it</td><td>Redirect happens server-side before any HTML (302 from the edge or app server), not in the browser. Page load time is added as a guardrail automatically, and Health shows the median redirect time.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Visitor lands directly on B's URL (ad, email, search)</td><td>Not assigned and not counted; they simply see B. B's canonical tag points at A, so search engines don't send traffic there.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>B's page is unpublished or returns an error</td><td>The launch checklist requires every URL to return 200 and not redirect. While running, a URL check every hour; on failure redirects stop (everyone sees A) and the test is Unhealthy until fixed.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>B's page has its own running test</td><td>Blocked by the launch checklist.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>After stopping with B as the winner (301)</td><td>The original page must stay published as a redirect stub; deleting it is blocked while the redirect exists. The Pages list shows it as "Redirects to /…". The experiment owner owns the redirect.</td><td><span class="tag gap">Open</span><div class="mini">SEO: sign-off on 301s from program pages</div></td></tr>
+    <tr><td>A stopped split URL test is archived</td><td>The redirect stays. Removing it is a separate, explicit action on the page.</td><td><span class="tag prop">Proposed</span></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.5</span>Lifecycle and permissions</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>A scheduled test's checklist fails by the start date (e.g. page unpublished)</td><td>It doesn't start. It stays Scheduled with a "Start blocked" flag and the reason, on the list and the experiment page.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Tested page is unpublished or deleted while running</td><td>Deleting is blocked. Unpublishing is allowed (emergencies) and stops the test with result Did not finish.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Page URL changes while running</td><td>Allowed. Assignment is keyed by page ID, not URL, so nobody is re-bucketed; split URL test A follows the new URL.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>When a stop date fires</td><td>Counted in days from the first start, not from the current phase. Stops at 23:59 IST on the last day. All dates in the panel are IST.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Stop date reached with too little data</td><td>Stops anyway. Result is pre-filled No clear winner; the plan shows how many more days were needed, and Duplicate offers a longer rerun.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Two editors change the same draft</td><td>Last save wins, with a warning to the second editor that someone else saved it since they opened it.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Owner leaves the team</td><td>Tests keep running; an Admin reassigns the owner.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Who can start, stop and ship</td><td>This spec assumes three roles (Admin, Editor, Viewer). They need mapping to the CMS's real roles, and high-traffic pages may need an Admin to ship.</td><td><span class="tag gap">Open</span><div class="mini">Product + Engineering</div></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.6</span>Statistics and data</h3>
+  <div class="wrap"><table class="fixed sec-table"><colgroup><col style="width:28%"><col style="width:58%"><col style="width:14%"></colgroup>
+    <tr><th>Case</th><th>Decision</th><th>Status</th></tr>
+    <tr><td>Calling a Bayesian test early (peeking)</td><td>Ship now appears only after the minimum run time <b>and</b> once the planned sample for the planned lift is reached. Before that the call is Early, with "x% of planned sample". Frequentist with sequential testing may call earlier.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Weekday and novelty effects</td><td>Stop dates are offered in whole weeks only (7, 14, 21, 28, 42 days); minimum run time 7 days.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>CUPED</td><td>Needs each visitor's behaviour before the test. Most visitors to program pages are new, so it helps little. Off by default; applied only to returning visitors with pre-period data. The prototype's fixed adjustment is a placeholder, not real CUPED.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Plan and analysis use different corrections</td><td>The plan splits alpha evenly across variants (Bonferroni); analysis applies Holm or Benjamini-Hochberg across metrics and variants. The plan is therefore slightly conservative; this is stated next to the plan.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>How fresh results are</td><td>Updated once a day at 06:00 IST with the previous day's data; the time is shown on Results. Update is limited to once an hour.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Analytics outage or a missing day</td><td>The day is marked missing on charts and left out of results; Health shows the gap. More than 2 missing days makes the test Unhealthy.</td><td><span class="tag prop">Proposed</span></td></tr>
+    <tr><td>Analyze a past experiment</td><td>Needs exposure data for past dates. Without a data source this feature can't work for real.</td><td><span class="tag gap">Open</span><div class="mini">Analytics: data source (10)</div></td></tr>
+  </table></div>
+
+  <h3><span class="num">9.7</span>Acceptance criteria</h3>
+  <p class="mini">Each line passes or fails. Given = starting point; When = action; Then = expected result.</p>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Serving and assignment</h4>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:32%"><col style="width:24%"><col style="width:44%"></colgroup>
+    <tr><th>Given</th><th>When</th><th>Then</th></tr>
+    <tr><td>A running 50/50 test on a cached page</td><td>1,000 fresh visitors load it</td><td>both variants are served, close to 50/50; no visitor sees a cached copy of the other variant</td></tr>
+    <tr><td>A visitor assigned B</td><td>returns 20 days later in Safari</td><td>still sees B</td></tr>
+    <tr><td>A visitor assigned B</td><td>submits the lead form and returns logged in</td><td>still sees B; the lead carries the test key and B</td></tr>
+    <tr><td>Googlebot</td><td>requests a tested page</td><td>gets Control, gets no assignment cookie, and isn't counted</td></tr>
+    <tr><td>An editor</td><td>edits variant B's sections while the test runs</td><td>the edit is saved as a draft and not shown to visitors until a new phase starts</td></tr>
+  </table></div>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Conversions</h4>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:32%"><col style="width:24%"><col style="width:44%"></colgroup>
+    <tr><th>Given</th><th>When</th><th>Then</th></tr>
+    <tr><td>A visitor exposed to B on /online-bba</td><td>submits the form on /apply 2 hours later</td><td>the lead counts for B in that test</td></tr>
+    <tr><td>The same visitor</td><td>submits the form a second time</td><td>conversions for B don't change</td></tr>
+    <tr><td>A test whose primary metric is Payment completed</td><td>the window hasn't passed for all exposed visitors</td><td>the metric shows Maturing and the call is not Ship now</td></tr>
+  </table></div>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Create flow</h4>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:32%"><col style="width:24%"><col style="width:44%"></colgroup>
+    <tr><th>Given</th><th>When</th><th>Then</th></tr>
+    <tr><td>An editor types a name</td><td>in step 1</td><td>the tracking key fills in under the name, unique across experiments</td></tr>
+    <tr><td>A page with a running test</td><td>is chosen in step 2</td><td>a warning names the running test; the draft can still be created; Start is blocked</td></tr>
+    <tr><td>A split that adds up to 90%</td><td>the editor taps Next</td><td>"The split adds up to 90%, not 100%" and the step does not advance</td></tr>
+    <tr><td>URL vs URL with B equal to the original URL</td><td>Next</td><td>"That's the original page's URL" under B</td></tr>
+    <tr><td>A variant URL that returns 404</td><td>the editor tries to start</td><td>the launch checklist fails "Every URL loads" and Start is blocked</td></tr>
+  </table></div>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Running, calls and stopping</h4>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:32%"><col style="width:24%"><col style="width:44%"></colgroup>
+    <tr><th>Given</th><th>When</th><th>Then</th></tr>
+    <tr><td>A required checklist item unticked</td><td>Start</td><td>a dialog lists what to fix; the test stays a draft</td></tr>
+    <tr><td>A scheduled test whose page was unpublished</td><td>the start date arrives</td><td>it doesn't start and shows "Start blocked: page is not live"</td></tr>
+    <tr><td>A Bayesian test at 95% chance to win on day 3</td><td>Results load</td><td>the call is Early, not Ship now</td></tr>
+    <tr><td>A winning variant whose Bounce rate is significantly 5% worse, cutoff 3%, setting on</td><td>Results load</td><td>the guardrail shows Failing and the call is Review, not Ship now</td></tr>
+    <tr><td>A winning variant whose Bounce rate is 1% worse, significantly, cutoff 3%</td><td>Results load</td><td>the guardrail shows Within cutoff or Watch; the call can still be Ship now</td></tr>
+    <tr><td>A running test</td><td>Make changes → New phase with a new split</td><td>phase 2 opens, results restart, phase 1 stays selectable</td></tr>
+    <tr><td>Stop with Won, winner B</td><td>confirm</td><td>B becomes the page default; the conclusion shows on Results and Insights</td></tr>
+    <tr><td>A split URL test stopped with winner B</td><td>confirm</td><td>the original URL 301-redirects to B's URL, and the original page can't be deleted</td></tr>
+  </table></div>
+</section>
+
+<section id="data">
+  <h2><span class="num">10.</span>Data and integrations</h2>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:76%"></colgroup>
+    <tr><th>System</th><th>Role</th></tr>
+    <tr><td>CMS renderer</td><td>Assigns the visitor server-side by hash and renders the variant's sections; issues redirects for split URL tests.</td></tr>
+    <tr><td>Data layer</td><td>Pushes <code>experiment_viewed</code> with tracking key, variant and hash attribute on every exposure.</td></tr>
+    <tr><td>Lead form and CRM</td><td>Every lead carries <code>exp_key</code> and <code>variant</code>, so enrolments and payments can be tied back.</td></tr>
+    <tr><td>Stats service</td><td>Runs the engine in 3.4 on daily aggregates. GrowthBook's Python stats engine is the reference.</td></tr>
+  </table></div>
+  <div class="oq-list"><ul>
+    <li><b>Open:</b> source of truth for exposures and conversions: GA4, the CRM, or a warehouse.</li>
+    <li><b>Open:</b> who approves shipping a winner on the highest-traffic pages.</li>
+    <li><b>Open:</b> whether dimension breakdowns should respect targeting (a test limited to India still shows UAE and US rows).</li>
+    <li><b>Open:</b> whether split URL variant pages are hidden from site navigation and search while a test runs.</li>
+  </ul></div>
+</section>
+
+<section id="release">
+  <h2><span class="num">11.</span>Release plan <span class="tag prop">Proposed</span></h2>
+  <p>Phases are ordered by what the open facts unblock. Dates are not set.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:12%"><col style="width:58%"><col style="width:30%"></colgroup>
+    <tr><th>Phase</th><th>What ships</th><th>Needs first</th></tr>
+    <tr><td>v1</td><td>Original vs variant A/B tests on lead metrics: list, create flow, experiment page, Results and Health, launch checklist, stop and ship, Metrics, Settings.</td><td>Caching decision (9.1), server-side assignment cookie, lead tagging</td></tr>
+    <tr><td>v1.1</td><td>Split URL tests, Make changes with phases, reports, CSV export.</td><td>SEO sign-off on redirects (9.4)</td></tr>
+    <tr><td>v2</td><td>Payment and enrolment metrics with Maturing; holdouts; Insights.</td><td>CRM link and lag data (9.3)</td></tr>
+    <tr><td>Later</td><td>Bandits, Analyze a past experiment, approvals for high-traffic pages, notifications.</td><td>Historical data source (10)</td></tr>
+  </table></div>
+</section>
+
+<section id="events">
+  <h2><span class="num">A.</span>Appendix: event tracking</h2>
+  <p>Events every page and the panel record. Every event carries <code>experiment_key</code> and <code>page_id</code>.</p>
+  <div class="wrap">
+  <table class="event-table">
+    <colgroup><col style="width:27%"><col style="width:25%"><col style="width:22%"><col style="width:26%"></colgroup>
+    <tr><th>Event name</th><th>Fires when</th><th>Event parameter</th><th>Value</th></tr>
+    <tr><td colspan="4" class="mini"><b>Visitor-facing</b></td></tr>
+    <tr><td rowspan="2"><code>experiment_viewed</code></td><td rowspan="2">A visitor in the test sees a variant</td><td><code>variation_id</code></td><td>A to E</td></tr>
+    <tr><td><code>hash_attribute</code></td><td>visitor_id, lead_id, session_id</td></tr>
+    <tr><td><code>experiment_redirected</code></td><td>Split URL redirect issued</td><td><code>to_url</code></td><td>Variant URL</td></tr>
+    <tr><td><code>lead_submitted</code></td><td>Lead form sent on a tested page</td><td><code>variation_id</code></td><td>A to E</td></tr>
+    <tr><td colspan="4" class="mini"><b>Panel</b></td></tr>
+    <tr><td><code>experiment_create_step</code></td><td>Next tapped in the create flow</td><td><code>step</code></td><td>overview, variants, targeting, metrics, analysis</td></tr>
+    <tr><td><code>experiment_created</code></td><td>Create draft</td><td><code>test_kind</code></td><td>variants, url</td></tr>
+    <tr><td><code>experiment_started</code></td><td>Start or scheduled start</td><td><code>planned_days</code></td><td>Days from the plan</td></tr>
+    <tr><td><code>experiment_stopped</code></td><td>Stop confirmed</td><td><code>result</code></td><td>won, lost, inconclusive, dnf</td></tr>
+  </table></div>
+</section>
+
+<section id="changelog">
+  <h2><span class="num">B.</span>Appendix: change log</h2>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
+    <tr><th>Date</th><th>Change</th></tr>
+    <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
+    <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
+    <tr><td>17 Nov 2026</td><td>GrowthBook flow adopted: launch checklist, phases, Make changes, stop with conclusion, reports, bandits, Insights, Holdouts.</td></tr>
+  </table></div>
+  <div class="foot-links"><span>Prototype: <a href="https://abhinavthak.github.io/ab-experiments-prototype/">abhinavthak.github.io/ab-experiments-prototype</a></span></div>
+</section>
+
+  </main>
+</div>
+
+<script>
+// ---- Live test-duration calculator (3.5) ----
+(function(){
+  // Inverse standard normal CDF (Acklam's approximation).
+  function invNorm(p){
+    const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239];
+    const b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572];
+    const c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783];
+    const d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416];
+    const pl=0.02425, ph=1-pl; let q, r;
+    if (p<pl){ q=Math.sqrt(-2*Math.log(p)); return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    if (p>ph){ q=Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    q=p-0.5; r=q*q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  function perVariant(base, lift, alpha){
+    const za=invNorm(1-alpha/2), zb=invNorm(0.8);
+    const p1=base, p2=Math.min(0.999, base*(1+lift)), pb=(p1+p2)/2;
+    const top=za*Math.sqrt(2*pb*(1-pb))+zb*Math.sqrt(p1*(1-p1)+p2*(1-p2));
+    return Math.ceil(top*top/((p2-p1)*(p2-p1)));
+  }
+  const PRESETS = {
+    bba:  {label:"BBA lead form",        daily:1550, base:7.5, k:3, conf:95, stop:21},
+    ai:   {label:"Fee block, small page", daily:600,  base:7.5, k:2, conf:95, stop:21},
+    bro:  {label:"Brochure, narrow targeting", daily:360, base:3, k:2, conf:95, stop:21}
+  };
+  let st = Object.assign({}, PRESETS.bba), active = "bba", planned = 0.1;
+  const fmt = n => Math.round(n).toLocaleString("en-IN");
+  const dur = d => d > 365 ? "> 1 year" : d + " day" + (d === 1 ? "" : "s");
+  const pct = (x, dp) => (x*100).toFixed(dp) + "%";
+
+  function render(){
+    const root = document.getElementById("calc-root");
+    if (!root) return;
+    const base = Math.max(0.1, Math.min(90, Number(st.base) || 0)) / 100;
+    const daily = Math.max(1, Number(st.daily) || 0);
+    const alpha = (1 - st.conf/100) / (st.k - 1);
+    const lifts = [0.05, 0.1, 0.15, 0.2];
+    const rows = lifts.map(l => { const n = perVariant(base, l, alpha); return {l, n, days: Math.ceil(n*st.k/daily)}; });
+    const sel = rows.find(r => Math.abs(r.l - planned) < 1e-9);
+    const btns = Object.keys(PRESETS).map(k => '<button type="button" data-p="'+k+'" class="'+(k===active?'on':'')+'">'+PRESETS[k].label+'</button>').join('');
+    const opt = (vals, cur, f) => vals.map(v => '<option value="'+v+'"'+(String(v)===String(cur)?' selected':'')+'>'+f(v)+'</option>').join('');
+    const cells = rows.map(r => {
+      const on = Math.abs(r.l - planned) < 1e-9;
+      const fits = r.days <= st.stop;
+      return '<div class="cell'+(on?' on':'')+'"><div class="who">Detect a '+pct(r.l,0)+' lift</div><div class="amt">'+dur(r.days)+'</div><div class="mini" style="margin-top:2px">'+fmt(r.n)+' per variant</div><span class="tier '+(fits?'t-c3':'t-void')+'">'+(fits?'Fits '+st.stop+' days':'Longer than '+st.stop)+'</span></div>';
+    }).join('');
+    const from = pct(base, base < 0.1 ? 2 : 1), to = pct(base*(1+planned), base < 0.1 ? 2 : 1);
+    let result = 'To detect a '+pct(planned,0)+' lift ('+from+' to '+to+'), the test needs '+fmt(sel.n)+' visitors per variant, about '+dur(sel.days)+'.';
+    result += sel.days > st.stop ? ' That is longer than the '+st.stop+'-day stop: run longer, raise the rollout, or accept a bigger lift.' : ' It fits inside the '+st.stop+'-day stop.';
+    root.innerHTML =
+      '<div class="calc"><div class="calc-head"><div><h4>Test duration calculator</h4><p>The same numbers the Plan card and step 5 show. Pick an example or change any value.</p></div><div class="presets">'+btns+'</div></div>'+
+      '<div class="controls">'+
+        '<div class="ctl"><label for="cc-daily">Visitors entering the test a day</label><div class="field"><input id="cc-daily" type="number" min="1" step="10" value="'+st.daily+'" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none"></div></div>'+
+        '<div class="ctl"><label for="cc-base">Control conversion rate (%)</label><div class="field"><input id="cc-base" type="number" min="0.1" max="90" step="0.1" value="'+st.base+'" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none"></div></div>'+
+        '<div class="ctl"><label for="cc-k">Variants, including Control</label><div class="field"><select id="cc-k">'+opt([2,3,4,5], st.k, v => v)+'</select></div></div>'+
+        '<div class="ctl"><label for="cc-conf">Confidence level</label><div class="field"><select id="cc-conf">'+opt([90,95,99], st.conf, v => v+'%')+'</select></div></div>'+
+        '<div class="ctl"><label for="cc-lift">Smallest lift worth detecting</label><div class="field"><select id="cc-lift">'+opt([0.05,0.1,0.15,0.2], planned, v => pct(v,0))+'</select></div></div>'+
+        '<div class="ctl"><label for="cc-stop">Stops after</label><div class="field"><select id="cc-stop">'+opt([7,14,21,28,42], st.stop, v => v+' days')+'</select></div></div>'+
+      '</div>'+
+      '<div class="grid calc-grid">'+cells+'</div>'+
+      '<div class="calc-result">'+result+'</div>'+
+      '<div class="calc-note">80% power. With more than 2 variants, alpha is split across the comparisons, so each extra variant adds visitors and days.</div></div>';
+  }
+  document.addEventListener("click", e => {
+    const b = e.target.closest("#calc-root [data-p]"); if (!b) return;
+    active = b.dataset.p; st = Object.assign({}, PRESETS[active]); render();
+  });
+  document.addEventListener("change", e => {
+    const t = e.target; if (!t.closest || !t.closest("#calc-root")) return;
+    if (t.id === "cc-k") st.k = Number(t.value);
+    if (t.id === "cc-conf") st.conf = Number(t.value);
+    if (t.id === "cc-lift") planned = Number(t.value);
+    if (t.id === "cc-stop") st.stop = Number(t.value);
+    if (t.id === "cc-daily") st.daily = Number(t.value);
+    if (t.id === "cc-base") st.base = Number(t.value);
+    active = ""; render();
+  });
+  render();
+})();
+
+</script>
+<script>
+
+// ---- Heading ids, table of contents, section links ----
+(function(){
+  const slug = n => 'sec-' + n.replace(/\.$/,'').replace(/\./g,'-');
+  const ids = {};
+  document.querySelectorAll('section').forEach(sec => {
+    sec.querySelectorAll('h2 .num, h3 .num').forEach(num => {
+      const n = num.textContent.trim().replace(/\.$/,'');
+      const h = num.parentElement;
+      if (h.tagName === 'H2') { ids[n] = sec.id; }
+      else { h.id = h.id || slug(n); ids[n] = h.id; }
+    });
+  });
+  // TOC
+  const toc = document.getElementById('toc-card');
+  let html = '<div class="toc-h">On this page</div>';
+  document.querySelectorAll('section').forEach(sec => {
+    const h2 = sec.querySelector('h2'); if (!h2) return;
+    const clone = h2.cloneNode(true);
+    clone.querySelectorAll('.tag').forEach(t => t.remove());
+    const num = clone.querySelector('.num');
+    const idx = num ? num.textContent.replace('.', '') : '';
+    const label = clone.textContent.replace(/^[0-9A-Z]+\.\s*/, '').trim();
+    let sub = '';
+    sec.querySelectorAll('h3').forEach(h3 => {
+      const c = h3.cloneNode(true); c.querySelectorAll('.tag').forEach(t => t.remove());
+      const n = c.querySelector('.num'); const nt = n ? n.textContent : '';
+      if (n) n.remove();
+      sub += '<a href="#' + h3.id + '" data-t="' + h3.id + '"><span class="idx">' + nt + '</span><span class="lbl">' + c.textContent.trim() + '</span></a>';
+    });
+    html += '<div class="grp" data-sec="' + sec.id + '"><a href="#' + sec.id + '" data-t="' + sec.id + '"><span class="idx">' + idx + '</span><span class="lbl">' + label + '</span></a>' + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>';
+  });
+  toc.innerHTML = html;
+  // Scroll spy
+  const heads = Array.from(document.querySelectorAll('section > h2, section h3')).filter(h => h.closest('section'));
+  let ticking = false;
+  function spy(){
+    ticking = false;
+    let cur = heads[0];
+    for (const h of heads) { if (h.getBoundingClientRect().top < 140) cur = h; else break; }
+    if (!cur) return;
+    const sec = cur.closest('section');
+    toc.querySelectorAll('.grp').forEach(g => g.classList.toggle('open', g.dataset.sec === sec.id));
+    toc.querySelectorAll('a').forEach(a => a.classList.remove('on'));
+    const top = toc.querySelector('.grp[data-sec="' + sec.id + '"] > a'); if (top) top.classList.add('on');
+    if (cur.tagName === 'H3') { const s2 = toc.querySelector('.sub a[data-t="' + cur.id + '"]'); if (s2) s2.classList.add('on'); }
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, {passive:true});
+  spy();
+  // Clickable section references, e.g. (4.1), 3.4, (6)
+  const skip = el => el.closest('script,style,svg,code,a,button,input,select,textarea,#calc-root,.num,h2,h3,.toc');
+  const roots = [document.querySelector('.hero p'), document.getElementById('main')].filter(Boolean);
+  const re = /(\b\d{1,2}\.\d{1,2}\b)(?![\d%])|\((\d{1,2}|[AB])\)/g;
+  roots.forEach(root => {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => (!n.parentElement || skip(n.parentElement)) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+    const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const t = node.nodeValue; re.lastIndex = 0; if (!re.test(t)) return; re.lastIndex = 0;
+      const frag = document.createDocumentFragment(); let last = 0, m, any = false;
+      while ((m = re.exec(t))) {
+        const key = m[1] || m[2]; const id = ids[key];
+        const before = t.slice(Math.max(0, m.index - 1), m.index);
+        if (!id || /[₹\d,.]/.test(before)) continue;
+        any = true;
+        const start = m[1] ? m.index : m.index + 1;
+        frag.appendChild(document.createTextNode(t.slice(last, start)));
+        const a = document.createElement('a'); a.className = 'xref'; a.href = '#' + id; a.textContent = key;
+        a.title = 'Go to ' + key;
+        frag.appendChild(a); last = start + key.length;
+      }
+      if (!any) return;
+      frag.appendChild(document.createTextNode(t.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a.xref'); if (!a) return;
+    const el = document.getElementById(a.getAttribute('href').slice(1)); if (!el) return;
+    const h = el.tagName === 'SECTION' ? el.querySelector('h2') : el;
+    h.classList.remove('flash'); void h.offsetWidth; h.classList.add('flash');
+  });
+  // Print: open every collapsible
+  window.addEventListener('beforeprint', () => document.querySelectorAll('details').forEach(d => { d.dataset.wasOpen = d.open ? '1' : ''; d.open = true; }));
+  window.addEventListener('afterprint', () => document.querySelectorAll('details').forEach(d => { d.open = d.dataset.wasOpen === '1'; }));
+})();
+
+</script>
+
+</body>
+</html>
