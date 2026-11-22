@@ -308,7 +308,7 @@ section h2,section h3{scroll-margin-top:16px}
       <li><b>Split URL tests added.</b> Step 2 now asks "What are you comparing?": original vs variant, or URL vs URL (7).</li>
       <li><b>Create flow decluttered.</b> Each step shows its essentials; optional settings fold into sections whose header shows the current value (5).</li>
       <li><b>Guardrail cutoffs are the owner's decision.</b> Set per experiment for each guardrail, with a live example; locked at start (3.4, 5).</li>
-      <li><b>Setup is a full-screen page.</b> Step rail with summaries, numbered questions, one-line plan check (5).</li>
+      <li><b>Setup is a full-screen page.</b> Step rail with summaries, numbered questions, one-line plan check, and a live preview of traffic, metrics, duration and readiness (5).</li>
       <li><b>Create flow matches the agreed flowchart.</b> Testing type and category moved to step 2; ⓘ guidance on every section; published pages only; bandit starting split; durations in full weeks; the plan check blocks Next with one-click fixes; statistic type and sequential testing shown openly; scheduling in IST, gated by the checklist; owner notifications (5, 6.5).</li>
       <li><b>Edge cases rewritten.</b> Serving and caching, identity, attribution, split URL, lifecycle and statistics, each with a decision marked Proposed or Open (9). New calls Early and Maturing (3.4).</li>
       <li><b>Placeholders labelled.</b> Simulated numbers are flagged, and the facts needed to replace them are listed (0.4). Metrics have targets; user stories are specific to program pages.</li>
@@ -528,7 +528,7 @@ section h2,section h3{scroll-margin-top:16px}
 
 <section id="create">
   <h2><span class="num">5.</span>Create flow</h2>
-  <p>Six steps on a full-screen setup page titled "New experiment", in the order of the flowchart below. A rail on the left lists the steps and shows what has been chosen in each (e.g. "A/B test · Original vs variant"); each step numbers its questions in flowchart order and shows them as separate cards. Each step opens with a question and one line of context, and every section has an <b>ⓘ</b> button with short guidance (shown in the tables). The stepper lets people go back to any step they have seen. Create draft saves; nothing goes live until someone starts the test.</p>
+  <p>Six steps on a full-screen setup page titled "New experiment", in the order of the flowchart below. A rail on the left lists the steps and shows what has been chosen in each (e.g. "A/B test · Original vs variant"); each step numbers its questions in flowchart order and shows them as separate cards. A <b>live preview</b> on the right builds the experiment as it is set up: name and type, a traffic flow (visit the page → match targeting → enter the test, with visitors per day and per variant), the primary metric and guardrail cutoffs, a duration verdict, and a "Ready to create" meter. It hides on narrow screens. Each step opens with a question and one line of context, and every section has an <b>ⓘ</b> button with short guidance (shown in the tables). The stepper lets people go back to any step they have seen. Create draft saves; nothing goes live until someone starts the test.</p>
 
 <h4 style="font-size:14.5px;margin:20px 0 6px">Setup at a glance</h4>
   <p class="mini">From New experiment to a running test. Yellow diamonds are decisions; dashed boxes are where people loop back to fix something.</p>
