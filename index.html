@@ -254,6 +254,31 @@ section h2,section h3{scroll-margin-top:16px}
 
 
 /* Experiments PRD additions */
+/* Simplified duration calculator */
+.calc2 .controls { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.calc2 .answer { border-radius: 12px; padding: 18px 20px; margin-top: 4px; border: 1px solid; }
+.calc2 .answer.ok { background: var(--ok-bg); border-color: var(--ok-bd); }
+.calc2 .answer.short { background: var(--warn-bg); border-color: var(--warn-bd); }
+.calc2 .big { font-family: Sora, Inter, sans-serif; font-size: 26px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+.calc2 .sub { font-size: 14px; color: var(--txt); margin-top: 4px; }
+.calc2 .bars { margin: 14px 0 10px; display: grid; gap: 8px; }
+.calc2 .br { display: grid; grid-template-columns: 70px minmax(0,1fr) 120px; gap: 10px; align-items: center; font-size: 13px; color: var(--mute); }
+.calc2 .br b { color: var(--ink); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.calc2 .tr { height: 10px; border-radius: 5px; background: rgba(20,33,61,.08); overflow: hidden; }
+.calc2 .tr i { display: block; height: 100%; border-radius: 5px; transition: width .3s ease; }
+.calc2 .tr i.need { background: var(--indigo); }
+.calc2 .tr i.plan { background: #9AA1B1; }
+.calc2 .answer.short .tr i.need { background: #C2410C; }
+.calc2 .answer.ok .tr i.need { background: #0E7A63; }
+.calc2 .verdict { font-size: 14px; font-weight: 600; color: var(--ink); }
+.calc2 .others { margin-top: 12px; font-size: 13px; color: var(--mute); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.calc2 .others span { font-variant-numeric: tabular-nums; }
+.calc2 .others span.cur { color: var(--ink); font-weight: 600; }
+.calc2 details.more { margin-top: 12px; }
+.calc2 details.more summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--indigo); }
+@media (max-width: 600px) { .calc2 .br { grid-template-columns: 60px minmax(0,1fr) 90px; } .calc2 .big { font-size: 22px; } }
+@media (prefers-reduced-motion: reduce) { .calc2 .tr i { transition: none; } }
+
 .setup-flow svg{min-width:560px;max-width:720px;margin:0 auto}
 .calc-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 .cell.on{border-color:var(--indigo);box-shadow:0 0 0 2px rgba(46,42,131,.12)}
@@ -307,6 +332,7 @@ section h2,section h3{scroll-margin-top:16px}
     <ul>
       <li><b>Split URL tests added.</b> Step 2 now asks "What are you comparing?": original vs variant, or URL vs URL (7).</li>
       <li><b>Create flow decluttered.</b> Each step shows its essentials; optional settings fold into sections whose header shows the current value (5).</li>
+      <li><b>How long a test needs, simplified.</b> Plain-language drivers, a three-input calculator with one answer and a needed-vs-planned bar; the formula moved to an analysts' note (3.5).</li>
       <li><b>Guardrail cutoffs are the owner's decision.</b> Set per experiment for each guardrail, with a live example; locked at start (3.4, 5).</li>
       <li><b>Setup is a full-screen page.</b> Step rail with summaries, numbered questions, one-line plan check, and a live preview of traffic, metrics, duration and readiness (5).</li>
       <li><b>Create flow matches the agreed flowchart.</b> Testing type and category moved to step 2; ⓘ guidance on every section; published pages only; bandit starting split; durations in full weeks; the plan check blocks Next with one-click fixes; statistic type and sequential testing shown openly; scheduling in IST, gated by the checklist; owner notifications (5, 6.5).</li>
@@ -490,12 +516,25 @@ section h2,section h3{scroll-margin-top:16px}
   </table></div>
 
   <h3><span class="num">3.5</span>How long a test needs</h3>
-  <p>The plan answers one question before a test starts: how many days until it can reliably detect the smallest lift worth caring about. It uses 80% power, the organization's confidence level, and splits alpha across variants (alpha ÷ (variants − 1)).</p>
-  <p>Conversion metrics use the standard two-proportion sample size per variant, with p₂ = p₁ × (1 + lift) and p̄ their mean:</p>
-  <p style="text-align:center"><code>n = ( z<sub>1−α/2</sub>·√(2p̄(1−p̄)) + z<sub>1−β</sub>·√(p₁(1−p₁) + p₂(1−p₂)) )² ÷ (p₂ − p₁)²</code></p>
-  <p>Days = n × variants ÷ daily visitors entering the test. Before start, daily visitors and the Control rate are estimated (page traffic, rollout, targeting, minus any holdout share; the metric's usual rate). Once running, both are measured, and the plan shows <b>days left</b> instead.</p>
+  <p class="lead">Before a test starts, the panel tells you <b>how many days it needs</b> to reliably spot the change you care about. If that is longer than the planned duration, step 5 stops you and offers fixes.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+    <tr><th>What decides it</th><th>Effect on days needed</th></tr>
+    <tr><td>Visitors entering the test a day</td><td>More visitors, fewer days. Rollout and targeting both cut this number.</td></tr>
+    <tr><td>How often Control converts today</td><td>A rare action (3% brochure downloads) needs far more visitors than a common one (12% Enroll clicks).</td></tr>
+    <tr><td>Smallest lift worth detecting</td><td>Halving it needs about 4× the days. Detecting 5% takes roughly four times as long as 10%.</td></tr>
+    <tr><td>Number of variants</td><td>Each extra variant adds visitors and days.</td></tr>
+  </table></div>
+  <p>Before start these are estimates (page traffic, the metric's usual rate). Once the test runs, the panel uses real visitors and the real Control rate and shows <b>days left</b>.</p>
   <div id="calc-root"></div>
-  <div class="callout info"><div class="ttl">Check</div>A 3% baseline and a 20% lift with 2 variants at 95% confidence needs 13,914 visitors per variant, the same as standard online calculators.</div>
+  <details class="fields"><summary>How it's calculated (for analysts)</summary>
+    <ul>
+      <li>Two-sided test, 80% power, at the organization's confidence level (default 95%).</li>
+      <li>With more than 2 variants, alpha is split across the comparisons: alpha ÷ (variants − 1).</li>
+      <li>Visitors per variant, for conversion metrics, with p₂ = p₁ × (1 + lift) and p̄ their mean:</li>
+    </ul>
+    <p style="text-align:center"><code>n = ( z<sub>1−α/2</sub>·√(2p̄(1−p̄)) + z<sub>1−β</sub>·√(p₁(1−p₁) + p₂(1−p₂)) )² ÷ (p₂ − p₁)²</code></p>
+    <p>Days = n × variants ÷ visitors entering the test a day. Check: a 3% rate and a 20% lift need 13,914 visitors per variant, the same as standard online calculators.</p>
+  </details>
 
   <h3><span class="num">3.6</span>Health checks</h3>
   <ul>
@@ -579,7 +618,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is · ⓘ guidance</th></tr>
     <tr><td>Experiment duration</td><td>Select</td><td><span class="rq r">Required</span></td><td>Full weeks only: 1, 2, 3, 4, 5, 6 or 8 weeks. Default 3 weeks. There is no "stop manually" option.</td></tr>
     <tr><td>Minimum detectable lift</td><td>Select</td><td><span class="rq r">Required</span></td><td>5%, 10%, 15% or 20%; default 10%. The smallest change worth detecting; a smaller lift needs more traffic and time.</td></tr>
-    <tr><td>Plan check</td><td>Facts + verdict</td><td><span class="rq a">Auto</span></td><td>Sample needed is estimated from traffic, rollout % and lift (3.5). <b>If the duration is too short, Next is blocked</b> and one-click fixes appear: run the shortest duration that fits, detect the smallest lift that fits, or go back and raise rollout. "Run it anyway" lets the test continue, knowing it may end with No clear winner.</td></tr>
+    <tr><td>Plan check</td><td>Verdict</td><td><span class="rq a">Auto</span></td><td>Days needed, estimated from traffic, rollout % and lift (3.5). <b>If the duration is too short, Next is blocked</b> and one-click fixes appear: run the shortest duration that fits, detect the smallest lift that fits, or go back and raise rollout. "Run it anyway" lets the test continue, knowing it may end with No clear winner.</td></tr>
     <tr><td>Statistic type</td><td>Two cards</td><td><span class="rq r">Required</span></td><td><b>Bayesian</b>: probability to beat the original; locked for bandits. <b>Frequentist</b>: p-value and 95% confidence interval. Default from settings.</td></tr>
     <tr><td>Sequential testing</td><td>Toggle</td><td><span class="rq o">Optional</span></td><td>Frequentist only. On: results can be checked and the test stopped early safely. Off: read results only at the planned end date.</td></tr>
   </table></div></div>
@@ -851,9 +890,8 @@ section h2,section h3{scroll-margin-top:16px}
 </div>
 
 <script>
-// ---- Live test-duration calculator (3.5) ----
+// ---- Test duration calculator (3.5) ----
 (function(){
-  // Inverse standard normal CDF (Acklam's approximation).
   function invNorm(p){
     const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239];
     const b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572];
@@ -872,61 +910,76 @@ section h2,section h3{scroll-margin-top:16px}
     return Math.ceil(top*top/((p2-p1)*(p2-p1)));
   }
   const PRESETS = {
-    bba:  {label:"BBA lead form",        daily:1550, base:7.5, k:3, conf:95, stop:21},
-    ai:   {label:"Fee block, small page", daily:600,  base:7.5, k:2, conf:95, stop:21},
-    bro:  {label:"Brochure, narrow targeting", daily:360, base:3, k:2, conf:95, stop:21}
+    bba: {label:"BBA lead form", daily:1550, base:7.5, k:3, conf:95, stop:21, lift:0.1},
+    ai:  {label:"Small page", daily:600, base:7.5, k:2, conf:95, stop:21, lift:0.1},
+    bro: {label:"Brochure, narrow targeting", daily:360, base:3, k:2, conf:95, stop:28, lift:0.2}
   };
-  let st = Object.assign({}, PRESETS.bba), active = "bba", planned = 0.1;
+  let st = Object.assign({}, PRESETS.ai), active = "ai";
   const fmt = n => Math.round(n).toLocaleString("en-IN");
-  const dur = d => d > 365 ? "> 1 year" : d + " day" + (d === 1 ? "" : "s");
   const pct = (x, dp) => (x*100).toFixed(dp) + "%";
+  const days = d => d > 365 ? "more than a year" : d + " day" + (d === 1 ? "" : "s");
+  const weeks = d => (d/7) + " week" + (d === 7 ? "" : "s");
+  const opt = (vals, cur, f) => vals.map(v => '<option value="'+v+'"'+(String(v)===String(cur)?' selected':'')+'>'+f(v)+'</option>').join('');
+  function field(id, label, html){ return '<div class="ctl"><label for="'+id+'">'+label+'</label><div class="field">'+html+'</div></div>'; }
+  const num = (id, v, step, min, max) => '<input id="'+id+'" type="number" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none;background:transparent">';
 
   function render(){
-    const root = document.getElementById("calc-root");
-    if (!root) return;
+    const root = document.getElementById("calc-root"); if (!root) return;
     const base = Math.max(0.1, Math.min(90, Number(st.base) || 0)) / 100;
     const daily = Math.max(1, Number(st.daily) || 0);
     const alpha = (1 - st.conf/100) / (st.k - 1);
-    const lifts = [0.05, 0.1, 0.15, 0.2];
-    const rows = lifts.map(l => { const n = perVariant(base, l, alpha); return {l, n, days: Math.ceil(n*st.k/daily)}; });
-    const sel = rows.find(r => Math.abs(r.l - planned) < 1e-9);
-    const btns = Object.keys(PRESETS).map(k => '<button type="button" data-p="'+k+'" class="'+(k===active?'on':'')+'">'+PRESETS[k].label+'</button>').join('');
-    const opt = (vals, cur, f) => vals.map(v => '<option value="'+v+'"'+(String(v)===String(cur)?' selected':'')+'>'+f(v)+'</option>').join('');
-    const cells = rows.map(r => {
-      const on = Math.abs(r.l - planned) < 1e-9;
-      const fits = r.days <= st.stop;
-      return '<div class="cell'+(on?' on':'')+'"><div class="who">Detect a '+pct(r.l,0)+' lift</div><div class="amt">'+dur(r.days)+'</div><div class="mini" style="margin-top:2px">'+fmt(r.n)+' per variant</div><span class="tier '+(fits?'t-c3':'t-void')+'">'+(fits?'Fits '+st.stop+' days':'Longer than '+st.stop)+'</span></div>';
-    }).join('');
-    const from = pct(base, base < 0.1 ? 2 : 1), to = pct(base*(1+planned), base < 0.1 ? 2 : 1);
-    let result = 'To detect a '+pct(planned,0)+' lift ('+from+' to '+to+'), the test needs '+fmt(sel.n)+' visitors per variant, about '+dur(sel.days)+'.';
-    result += sel.days > st.stop ? ' That is longer than the '+st.stop+'-day stop: run longer, raise the rollout, or accept a bigger lift.' : ' It fits inside the '+st.stop+'-day stop.';
+    const n = perVariant(base, st.lift, alpha);
+    const need = Math.ceil(n * st.k / daily);
+    const fits = need <= st.stop;
+    const scale = Math.max(need, st.stop) * 1.08;
+    const lifts = [0.05, 0.1, 0.15, 0.2].map(l => { const nn = perVariant(base, l, alpha); return {l, d: Math.ceil(nn*st.k/daily)}; });
+    const fixLift = lifts.find(x => x.l > st.lift && x.d <= st.stop);
+    const fixWeeks = [7,14,21,28,35,42,56].find(w => w >= need);
+    const advice = fits ? "It fits. Start it and read the result after " + weeks(st.stop) + "."
+      : (() => {
+          const opts = [fixWeeks ? "run " + weeks(fixWeeks) : "", fixLift ? "detect a " + pct(fixLift.l,0) + " lift instead" : "", "get more visitors into the test"].filter(Boolean);
+          const t = opts.length > 1 ? opts.slice(0, -1).join(", ") + ", or " + opts[opts.length - 1] : opts[0];
+          return "Too short. " + t.charAt(0).toUpperCase() + t.slice(1) + ".";
+        })();
     root.innerHTML =
-      '<div class="calc"><div class="calc-head"><div><h4>Test duration calculator</h4><p>The same numbers the Plan card and step 5 show. Pick an example or change any value.</p></div><div class="presets">'+btns+'</div></div>'+
-      '<div class="controls">'+
-        '<div class="ctl"><label for="cc-daily">Visitors entering the test a day</label><div class="field"><input id="cc-daily" type="number" min="1" step="10" value="'+st.daily+'" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none"></div></div>'+
-        '<div class="ctl"><label for="cc-base">Control conversion rate (%)</label><div class="field"><input id="cc-base" type="number" min="0.1" max="90" step="0.1" value="'+st.base+'" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none"></div></div>'+
-        '<div class="ctl"><label for="cc-k">Variants, including Control</label><div class="field"><select id="cc-k">'+opt([2,3,4,5], st.k, v => v)+'</select></div></div>'+
-        '<div class="ctl"><label for="cc-conf">Confidence level</label><div class="field"><select id="cc-conf">'+opt([90,95,99], st.conf, v => v+'%')+'</select></div></div>'+
-        '<div class="ctl"><label for="cc-lift">Smallest lift worth detecting</label><div class="field"><select id="cc-lift">'+opt([0.05,0.1,0.15,0.2], planned, v => pct(v,0))+'</select></div></div>'+
-        '<div class="ctl"><label for="cc-stop">Stops after</label><div class="field"><select id="cc-stop">'+opt([7,14,21,28,42], st.stop, v => v+' days')+'</select></div></div>'+
-      '</div>'+
-      '<div class="grid calc-grid">'+cells+'</div>'+
-      '<div class="calc-result">'+result+'</div>'+
-      '<div class="calc-note">80% power. With more than 2 variants, alpha is split across the comparisons, so each extra variant adds visitors and days.</div></div>';
+      '<div class="calc calc2">'+
+        '<div class="calc-head"><div><h4>Try it</h4><p>Pick an example or change the numbers.</p></div><div class="presets">'+
+          Object.keys(PRESETS).map(k => '<button type="button" data-p="'+k+'" class="'+(k===active?'on':'')+'">'+PRESETS[k].label+'</button>').join('')+'</div></div>'+
+        '<div class="controls">'+
+          field("cc-daily", "Visitors entering the test a day", num("cc-daily", st.daily, 10, 1, 1000000))+
+          field("cc-base", "Control converts today (%)", num("cc-base", st.base, 0.1, 0.1, 90))+
+          field("cc-lift", "Smallest lift worth detecting", '<select id="cc-lift">'+opt([0.05,0.1,0.15,0.2], st.lift, v => pct(v,0))+'</select>')+
+          field("cc-stop", "Planned duration", '<select id="cc-stop">'+opt([7,14,21,28,35,42,56], st.stop, weeks)+'</select>')+
+        '</div>'+
+        '<div class="answer '+(fits?'ok':'short')+'">'+
+          '<div class="big">About '+days(need)+'</div>'+
+          '<div class="sub">to tell whether conversion moves from '+pct(base, base<0.1?2:1)+' to '+pct(base*(1+st.lift), base<0.1?2:1)+' (a '+pct(st.lift,0)+' lift). '+fmt(n)+' visitors per variant.</div>'+
+          '<div class="bars">'+
+            '<div class="br"><span>Needed</span><div class="tr"><i class="need" style="width:'+Math.min(100, need/scale*100)+'%"></i></div><b>'+days(need)+'</b></div>'+
+            '<div class="br"><span>Planned</span><div class="tr"><i class="plan" style="width:'+(st.stop/scale*100)+'%"></i></div><b>'+st.stop+' days</b></div>'+
+          '</div>'+
+          '<div class="verdict">'+advice+'</div>'+
+        '</div>'+
+        '<div class="others">Other lifts: '+lifts.map(x => '<span class="'+(x.l===st.lift?'cur':'')+'">'+pct(x.l,0)+' → '+(x.d>365?'1 yr+':x.d+'d')+'</span>').join('')+'</div>'+
+        '<details class="more"><summary>More settings</summary><div class="controls" style="margin-top:12px">'+
+          field("cc-k", "Variants, including Control", '<select id="cc-k">'+opt([2,3,4,5], st.k, v => v)+'</select>')+
+          field("cc-conf", "Confidence level", '<select id="cc-conf">'+opt([90,95,99], st.conf, v => v+'%')+'</select>')+
+        '</div></details>'+
+      '</div>';
   }
+  let moreOpen = false;
   document.addEventListener("click", e => {
     const b = e.target.closest("#calc-root [data-p]"); if (!b) return;
     active = b.dataset.p; st = Object.assign({}, PRESETS[active]); render();
   });
+  document.addEventListener("toggle", e => { if (e.target.matches && e.target.matches("#calc-root details.more")) moreOpen = e.target.open; }, true);
   document.addEventListener("change", e => {
     const t = e.target; if (!t.closest || !t.closest("#calc-root")) return;
-    if (t.id === "cc-k") st.k = Number(t.value);
-    if (t.id === "cc-conf") st.conf = Number(t.value);
-    if (t.id === "cc-lift") planned = Number(t.value);
-    if (t.id === "cc-stop") st.stop = Number(t.value);
-    if (t.id === "cc-daily") st.daily = Number(t.value);
-    if (t.id === "cc-base") st.base = Number(t.value);
-    active = ""; render();
+    const map = {"cc-daily":"daily","cc-base":"base","cc-lift":"lift","cc-stop":"stop","cc-k":"k","cc-conf":"conf"};
+    if (!map[t.id]) return;
+    st[map[t.id]] = Number(t.value); active = "";
+    render();
+    if (moreOpen) { const dd = document.querySelector("#calc-root details.more"); if (dd) dd.open = true; }
   });
   render();
 })();
