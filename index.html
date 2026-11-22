@@ -369,6 +369,7 @@ section h2,section h3{scroll-margin-top:16px}
       <li><b>Split URL tests added.</b> Step 2 now asks "What are you comparing?": original vs variant, or URL vs URL (9).</li>
       <li><b>Create flow decluttered.</b> Each step shows its essentials; optional settings fold into sections whose header shows the current value (5).</li>
       <li><b>New: Results view (7)</b>: a result flowchart, layout, alerts and triggers, the call and its button, controls, table columns, how to read it, charts, states, acceptance criteria.</li>
+      <li><b>Bayesian vs Frequentist explained (3.4)</b>: a worked example, a side-by-side comparison, and why Bayesian is the default.</li>
       <li><b>Metric creation simulator (8.2)</b>: try the form with presets, a live 28-day preview, a definition sentence, the effect on test length, and the save rules.</li>
       <li><b>New: Metrics, definition and creation (8)</b>: source, event and filters, type, value, window, direction; a four-part form with a 28-day preview; governance; built-in metrics with proposed sources.</li>
       <li>Sections 7 to 11 renumbered to 9 to 13; all references updated.</li>
@@ -534,6 +535,28 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Many metrics</td><td>Holm-Bonferroni or Benjamini-Hochberg correction across metrics and variants.</td></tr>
     <tr><td>Minimums</td><td>Minimum run time (default 7 days) and minimum sample per metric before any call. Changes beyond a set size are flagged Suspicious.</td></tr>
   </table></div>
+  <h4 style="font-size:14.5px;margin:18px 0 6px">Bayesian vs Frequentist, and why Bayesian is the default</h4>
+  <p>Both engines read the same visitor data and usually reach the same decision. They answer different questions. Example: after 10,000 visitors each, <b>A converts at 7.5% and B at 8.4%</b>.</p>
+  <div class="wrap"><table class="fixed"><colgroup><col style="width:24%"><col style="width:38%"><col style="width:38%"></colgroup>
+    <tr><th></th><th>Bayesian <span class="tag src">Default</span></th><th>Frequentist</th></tr>
+    <tr><td>Question it answers</td><td>How likely is B better, and by how much?</td><td>If B were really no different, how surprising is this data?</td></tr>
+    <tr><td>Example result</td><td><b>98% chance to beat A</b>; lift +4% to +21%; risk 0.02%</td><td><b>p = 0.02</b> (significant below 0.05); lift +3% to +22%</td></tr>
+    <tr><td>Calls a winner at</td><td>95% chance to beat (setting)</td><td>p below alpha, 0.05 (setting)</td></tr>
+    <tr><td>Easy for non-analysts</td><td>Yes: reads as plain odds</td><td>Often misread: p = 0.02 does not mean "98% sure"</td></tr>
+    <tr><td>Cost of being wrong</td><td>Shown as risk (expected loss if you ship and it is worse)</td><td>Not shown</td></tr>
+    <tr><td>Checking early</td><td>Guarded by the Early call: no Ship now before the minimum run time and planned sample</td><td>Only safe with sequential testing on (intervals get wider)</td></tr>
+    <tr><td>Bandits</td><td>Required</td><td>Not available</td></tr>
+    <tr><td>False-winner control</td><td>Good</td><td>Strongest; the traditional standard for reports and audits</td></tr>
+  </table></div>
+  <p><b>Default: Bayesian</b>, because:</p>
+  <ol>
+    <li><b>It speaks the team's language.</b> "98% chance B is better" needs no statistics training; growth marketers and admissions teams read it correctly.</li>
+    <li><b>It shows what is at stake.</b> Risk tells a page owner what shipping costs if the call is wrong.</li>
+    <li><b>One engine for every test type.</b> Bandits need Bayesian.</li>
+    <li><b>It matches GrowthBook's default</b>, the model this panel follows (<a href="https://docs.growthbook.io/statistics/overview">GrowthBook statistics overview</a>).</li>
+    <li><b>Its weak spot is covered.</b> Bayesian results tempt early calls; the Early call (above) blocks Ship now until the planned sample is in.</li>
+  </ol>
+  <p><b>Choose Frequentist</b> when a stakeholder or analyst needs p-values, when the strictest false-winner control matters, or when results will be checked daily and the test may stop early (turn on sequential testing). Admins can change the organization default in Settings (10); each experiment can override it in step 5 before it starts.</p>
   <h4 style="font-size:14.5px;margin:18px 0 6px">Guardrail cutoffs</h4>
   <p>Each guardrail has a <b>cutoff</b>: the most it may get worse, relative to Control. <b>The experiment owner decides it per experiment</b> in step 4, for every guardrail they add; the field is pre-filled with the metric's default (set on the Metrics page, 10) and shows what it means in real numbers, e.g. "48.0% today → at most 49.4%". Cutoffs are <b>locked once the test starts</b>, so the bar can't move after results come in. A small, real worsening below the cutoff does not block a winner.</p>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:22%"><col style="width:48%"><col style="width:30%"></colgroup>
@@ -668,7 +691,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Experiment duration</td><td>Select</td><td><span class="rq r">Required</span></td><td>Full weeks only: 1, 2, 3, 4, 5, 6 or 8 weeks. Default 3 weeks. There is no "stop manually" option.</td></tr>
     <tr><td>Minimum detectable lift</td><td>Select</td><td><span class="rq r">Required</span></td><td>5%, 10%, 15% or 20%; default 10%. The smallest change worth detecting; a smaller lift needs more traffic and time.</td></tr>
     <tr><td>Suggested duration</td><td>Suggestion</td><td><span class="rq o">Optional</span></td><td>Days needed, estimated from traffic, rollout % and lift (3.5). If the planned duration is shorter, a suggestion appears with optional one-click fixes (run the shortest duration that fits, detect a bigger lift, or raise rollout). <b>It never blocks Next.</b></td></tr>
-    <tr><td>Statistic type</td><td>Two cards</td><td><span class="rq r">Required</span></td><td><b>Bayesian</b>: probability to beat the original; locked for bandits. <b>Frequentist</b>: p-value and 95% confidence interval. Default from settings.</td></tr>
+    <tr><td>Statistic type</td><td>Two cards</td><td><span class="rq r">Required</span></td><td><b>Bayesian</b>: probability to beat the original; locked for bandits. <b>Frequentist</b>: p-value and 95% confidence interval. <b>Default: Bayesian</b>, from settings; why in 3.4.</td></tr>
     <tr><td>Sequential testing</td><td>Toggle</td><td><span class="rq o">Optional</span></td><td>Frequentist only. On: results can be checked and the test stopped early safely. Off: read results only at the planned end date.</td></tr>
   </table></div></div>
 
@@ -1129,7 +1152,7 @@ section h2,section h3{scroll-margin-top:16px}
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>22 Nov 2026</td><td>Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
+    <tr><td>22 Nov 2026</td><td>Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
     <tr><td>17 Nov 2026</td><td>GrowthBook flow adopted: launch checklist, phases, Make changes, stop with conclusion, reports, bandits, Insights, Holdouts.</td></tr>
