@@ -307,6 +307,8 @@ section h2,section h3{scroll-margin-top:16px}
     <ul>
       <li><b>Split URL tests added.</b> Step 2 now asks "What are you comparing?": original vs variant, or URL vs URL (7).</li>
       <li><b>Create flow decluttered.</b> Each step shows its essentials; optional settings fold into sections whose header shows the current value (5).</li>
+      <li><b>Guardrail cutoffs are the owner's decision.</b> Set per experiment for each guardrail, with a live example; locked at start (3.4, 5).</li>
+      <li><b>Setup is a full-screen page.</b> Step rail with summaries, numbered questions, one-line plan check (5).</li>
       <li><b>Create flow matches the agreed flowchart.</b> Testing type and category moved to step 2; ⓘ guidance on every section; published pages only; bandit starting split; durations in full weeks; the plan check blocks Next with one-click fixes; statistic type and sequential testing shown openly; scheduling in IST, gated by the checklist; owner notifications (5, 6.5).</li>
       <li><b>Edge cases rewritten.</b> Serving and caching, identity, attribution, split URL, lifecycle and statistics, each with a decision marked Proposed or Open (9). New calls Early and Maturing (3.4).</li>
       <li><b>Placeholders labelled.</b> Simulated numbers are flagged, and the facts needed to replace them are listed (0.4). Metrics have targets; user stories are specific to program pages.</li>
@@ -330,7 +332,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Tracking key</td><td>A unique slug, e.g. <code>online-bba-banner-cta</code>, sent with every exposure and lead. Locked once the test starts.</td></tr>
     <tr><td>Rollout</td><td>The share of eligible visitors who enter the test. The rest see the page default and are not counted.</td></tr>
     <tr><td>Primary metric</td><td>The one number that decides the winner, e.g. Lead form submitted. A bandit calls it the decision metric.</td></tr>
-    <tr><td>Guardrail</td><td>A metric that must not get worse by more than its <b>cutoff</b>, e.g. Bounce rate may rise at most 3%, page load time at most 5% (3.4).</td></tr>
+    <tr><td>Guardrail</td><td>A metric that must not get worse by more than its <b>cutoff</b>. The experiment owner sets the cutoff for each guardrail when adding it, e.g. Bounce rate may rise at most 3% (3.4).</td></tr>
     <tr><td>Lift</td><td>The relative change against Control. A 10% lift on a 7.5% rate means 7.5% to 8.25%.</td></tr>
     <tr><td>Phase</td><td>A period of a running test with fixed split, rollout and targeting. Changing those starts a new phase and restarts results.</td></tr>
     <tr><td>Launch checklist</td><td>Automatic checks plus manual QA items that must pass before a test can start (3.2).</td></tr>
@@ -466,7 +468,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Minimums</td><td>Minimum run time (default 7 days) and minimum sample per metric before any call. Changes beyond a set size are flagged Suspicious.</td></tr>
   </table></div>
   <h4 style="font-size:14.5px;margin:18px 0 6px">Guardrail cutoffs</h4>
-  <p>Every metric has a <b>guardrail cutoff</b>: the most it may get worse, relative to Control, when used as a guardrail. Default 2%; set per metric on the Metrics page (8). A small, real worsening below the cutoff does not block a winner.</p>
+  <p>Each guardrail has a <b>cutoff</b>: the most it may get worse, relative to Control. <b>The experiment owner decides it per experiment</b> in step 4, for every guardrail they add; the field is pre-filled with the metric's default (set on the Metrics page, 8) and shows what it means in real numbers, e.g. "48.0% today → at most 49.4%". Cutoffs are <b>locked once the test starts</b>, so the bar can't move after results come in. A small, real worsening below the cutoff does not block a winner.</p>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:22%"><col style="width:48%"><col style="width:30%"></colgroup>
     <tr><th>State</th><th>When</th><th>Effect</th></tr>
     <tr><td><span class="pill p-sent">Within cutoff</span></td><td>Even the worst plausible value (the bad end of the interval) is inside the cutoff</td><td>None</td></tr>
@@ -526,7 +528,7 @@ section h2,section h3{scroll-margin-top:16px}
 
 <section id="create">
   <h2><span class="num">5.</span>Create flow</h2>
-  <p>Six steps in one dialog titled "New experiment", in the order of the flowchart below. Each step opens with a question and one line of context, and every section has an <b>ⓘ</b> button with short guidance (shown in the tables). The stepper lets people go back to any step they have seen. Create draft saves; nothing goes live until someone starts the test.</p>
+  <p>Six steps on a full-screen setup page titled "New experiment", in the order of the flowchart below. A rail on the left lists the steps and shows what has been chosen in each (e.g. "A/B test · Original vs variant"); each step numbers its questions in flowchart order and shows them as separate cards. Each step opens with a question and one line of context, and every section has an <b>ⓘ</b> button with short guidance (shown in the tables). The stepper lets people go back to any step they have seen. Create draft saves; nothing goes live until someone starts the test.</p>
 
 <h4 style="font-size:14.5px;margin:20px 0 6px">Setup at a glance</h4>
   <p class="mini">From New experiment to a running test. Yellow diamonds are decisions; dashed boxes are where people loop back to fix something.</p>
@@ -567,7 +569,7 @@ section h2,section h3{scroll-margin-top:16px}
   <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:15%"><col style="width:12%"><col style="width:51%"></colgroup>
     <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is · ⓘ guidance</th></tr>
     <tr><td>Primary metric</td><td>Select</td><td><span class="rq r">Required</span></td><td>Decides the winner. Bandits support conversion metrics only. Lead-form metrics are disabled on pages without a lead form.</td></tr>
-    <tr><td>Guardrails</td><td>Multi-select</td><td><span class="rq o">Optional</span></td><td>Must not get worse than their cutoff (3.4).</td></tr>
+    <tr><td>Guardrails + cutoffs</td><td>Multi-select, then % per guardrail</td><td><span class="rq o">Optional</span></td><td>Each guardrail added gets a row: "may get higher by at most [x]%", pre-filled with the metric default and showing today's value and the limit. Required for each guardrail; 0.5% to 50% (3.4).</td></tr>
     <tr><td>Secondary</td><td>Multi-select</td><td><span class="rq o">Optional</span></td><td>Context only; not used to pick the winner.</td></tr>
     <tr><td>Activation metric</td><td>Folded select</td><td><span class="rq o">Optional</span></td><td>Only visitors who did this are analysed.</td></tr>
   </table></div></div>
@@ -658,7 +660,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><th>Page</th><th>What it does</th></tr>
     <tr><td>Insights</td><td>Win rate and tests over a chosen range; learnings from conclusions; a timeline of tests by page; metric effects across tests.</td></tr>
     <tr><td>Holdouts</td><td>A small share of visitors (e.g. 5%) who never see variants on chosen pages, compared with everyone else to measure the combined effect of shipped winners.</td></tr>
-    <tr><td>Metrics</td><td>Definitions grouped by kind (lead forms, engagement, page performance); a page per metric with its tests; create and edit, including the conversion window, minimum sample, suspicious-change threshold and guardrail cutoff.</td></tr>
+    <tr><td>Metrics</td><td>Definitions grouped by kind (lead forms, engagement, page performance); a page per metric with its tests; create and edit, including the conversion window, minimum sample, suspicious-change threshold and the <b>default</b> guardrail cutoff suggested to experiments.</td></tr>
     <tr><td>Audiences</td><td>The visitor attributes used in targeting and assignment, with where each comes from.</td></tr>
     <tr><td>Reports</td><td>A saved view of a test's results (phase, baseline, difference, dimension) with an editable title and note, shareable by link.</td></tr>
     <tr><td>Settings</td><td>Admin only: engine, confidence level, chance-to-win threshold, alpha, correction, CUPED and sequential defaults, minimum run time, SRM and multiple-exposure thresholds, "guardrails block Ship now", assignment defaults, required hypothesis, launch checklist items, custom fields.</td></tr>
@@ -763,6 +765,8 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>URL vs URL with B equal to the original URL</td><td>Next</td><td>"That's the original page's URL" under B</td></tr>
     <tr><td>A variant URL that returns 404</td><td>the editor tries to start</td><td>the launch checklist fails "Every variant URL is live" and Start is blocked</td></tr>
     <tr><td>A draft (unpublished) page</td><td>step 2 opens</td><td>the page is listed with "publish first" and can't be selected</td></tr>
+    <tr><td>Bounce rate added as a guardrail</td><td>the owner sets its cutoff to 2%</td><td>the row reads "48.0% today → at most 49.0%", Review shows "≤ 2% worse", and Results judge Bounce rate against 2%</td></tr>
+    <tr><td>A running test with guardrail cutoffs</td><td>someone opens its Overview</td><td>the cutoffs are shown but can't be edited</td></tr>
     <tr><td>Multi-armed bandit chosen in step 2</td><td>step 5 opens</td><td>Frequentist is disabled, Bayesian is selected, and the split from step 2 is labelled "starting split"</td></tr>
     <tr><td>600 visitors a day, 10% lift, 3-week duration</td><td>Next in step 5</td><td>Next is blocked with the days needed and fixes; "Detect a 20% lift instead" clears the error</td></tr>
     <tr><td>A draft with a required QA item unticked</td><td>Schedule</td><td>the checklist dialog opens instead of the date picker</td></tr>
@@ -835,7 +839,7 @@ section h2,section h3{scroll-margin-top:16px}
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>22 Nov 2026</td><td>Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
+    <tr><td>22 Nov 2026</td><td>Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
     <tr><td>17 Nov 2026</td><td>GrowthBook flow adopted: launch checklist, phases, Make changes, stop with conclusion, reports, bandits, Insights, Holdouts.</td></tr>
