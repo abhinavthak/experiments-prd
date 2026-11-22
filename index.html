@@ -255,6 +255,32 @@ section h2,section h3{scroll-margin-top:16px}
 
 /* Experiments PRD additions */
 /* Metric creation simulator */
+/* Simplified metric simulator */
+.msim2 .msim-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+.msim2 .msim-form { display: grid; gap: 12px; }
+.msim2 .ctl .field input { border: 0; width: 100%; font: inherit; font-weight: 500; color: var(--ink); outline: none; background: transparent; }
+.msim-seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.msim-seg2 button { border: 0; border-radius: 7px; padding: 8px 10px; background: none; font: 500 13px Inter, sans-serif; color: var(--mute); cursor: pointer; }
+.msim-seg2 button.on { background: var(--ink); color: #fff; }
+.msim-link { border: 0; background: none; padding: 0; color: var(--indigo); font: 600 13px Inter, sans-serif; cursor: pointer; justify-self: start; }
+.msim-filter { display: grid; grid-template-columns: auto minmax(0,1fr) auto minmax(0,1fr) auto; gap: 8px; align-items: center; font-size: 13px; color: var(--mute); }
+.msim-filter .field { height: 36px; }
+.msim-x { border: 0; background: none; font-size: 18px; color: var(--mute); cursor: pointer; padding: 0 4px; }
+.msim2 .msim-div { margin: -4px 0; }
+.msim-more { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: #fff; }
+.msim-more summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink); }
+.msim-more summary span { font-weight: 400; color: var(--mute); margin-left: 6px; }
+.msim-more-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+@media (max-width: 700px) { .msim-more-grid { grid-template-columns: 1fr; } .msim2 .msim-grid { grid-template-columns: 1fr; } }
+.msim-card { border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 16px 18px; position: sticky; top: 12px; }
+.msim-card-h { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); }
+.msim-big { font-family: Sora, Inter, sans-serif; font-size: 34px; font-weight: 600; color: var(--ink); letter-spacing: -.02em; margin: 4px 0 8px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.msim-big span { font: 400 13px Inter, sans-serif; color: var(--mute); letter-spacing: 0; }
+.msim-small { font-size: 12.5px; color: var(--mute); margin-top: 6px; }
+.msim2 .msim-def { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line2); }
+.msim-foot2 { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.msim-why { font-size: 12.5px; color: var(--warn-tx); }
+
 .msim-tpl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: -4px 0 12px; }
 .msim-tpl > span { font-size: 12px; font-weight: 600; color: var(--mute); margin-right: 2px; }
 .msim-tpl button { border: 1px solid var(--line); background: #fff; border-radius: 20px; padding: 6px 13px; font: 500 12.5px Inter, sans-serif; cursor: pointer; color: var(--txt); }
@@ -385,6 +411,7 @@ section h2,section h3{scroll-margin-top:16px}
       <li><b>New: Results view (7)</b>: a result flowchart, layout, alerts and triggers, the call and its button, controls, table columns, how to read it, charts, states, acceptance criteria.</li>
       <li><b>Bayesian vs Frequentist explained (3.4)</b>: a worked example, a side-by-side comparison, and why Bayesian is the default.</li>
       <li><b>Metric creation simulator (8.2)</b>: start from business metrics (V2L, L2P, V2P, CTA click-through), a new Ratio type with numerator and denominator, a live 28-day preview, a definition sentence, the effect on test length, and the save rules.</li>
+      <li><b>Simpler metric form (8.2).</b> Name, single event or ratio, the event(s); one grouped event list; filters on request; smart defaults under More options; a compact preview.</li>
       <li><b>Two metric types: Single event or Ratio (8.1).</b> "Average" is now a way to count a single event that carries a number.</li>
       <li><b>Insights removed.</b> Conclusions stay on each test's Results and in its reports (7.9, 10).</li>
       <li><b>Ratio metrics (8.1)</b>: e.g. V2L = leads ÷ visits, L2P = payments ÷ leads; added to the built-in metrics (8.4).</li>
@@ -898,43 +925,36 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Baseline</td><td>The usual rate or value, <b>computed from the last 28 days</b> once a source is connected, used by the suggested duration (3.5). Entered by hand until then.</td></tr>
   </table></div>
   <h3><span class="num">8.2</span>Creating a metric</h3>
-  <p>Metrics → <span class="cta">New metric</span> opens a form in four parts, with a live preview of the last 28 days on the right. A <b>Start from</b> row offers the team's business metrics (V2L, L2P, V2P, CTA click-through, payment amount) as ready definitions to adjust.</p>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M1</span><b>Basics</b></div>
+  <p>Metrics → <span class="cta">New metric</span> opens one short form on the left and a live preview on the right. Most metrics need only three answers: a name, single event or ratio, and the event(s). Everything else has a smart default and sits under <b>More options</b>. <b>Start from</b> offers ready definitions: V2L, L2P, WhatsApp chat, Payment amount, or Blank.</p>
+  <div class="wdg"><div class="wdg-h"><span class="wid">M1</span><b>The form</b></div>
   <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:15%"><col style="width:12%"><col style="width:51%"></colgroup>
     <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
-    <tr><td>Name</td><td>Text</td><td><span class="rq r">Required</span></td><td>Unique, e.g. <i>WhatsApp chat started</i>.</td></tr>
-    <tr><td>Description</td><td>Text</td><td><span class="rq o">Optional</span></td><td>How to read it, e.g. "Any WhatsApp button on a program page".</td></tr>
-    <tr><td>Group</td><td>Select</td><td><span class="rq r">Required</span></td><td>Lead forms, Payments, Clicks, Engagement, Performance. Groups the metric pickers.</td></tr>
-    <tr><td>Owner</td><td>Select</td><td><span class="rq r">Required</span></td><td>Who answers questions about it.</td></tr>
+    <tr><td>Name</td><td>Text</td><td><span class="rq r">Required</span></td><td>Unique, e.g. <i>V2L (visit to lead)</i>.</td></tr>
+    <tr><td>What to measure</td><td>Two-way switch</td><td><span class="rq r">Required</span></td><td><b>Single event</b> or <b>Ratio</b> (8.1). Locked after the first save.</td></tr>
+    <tr><td>Event</td><td>One list, grouped by source</td><td><span class="rq r">Required</span></td><td>Lead form, Payment, Site event, Page performance, in plain names (e.g. "Lead form submitted"), so nobody types an event name. Events with no data are marked "no data yet".</td></tr>
+    <tr><td>Count · Divided by</td><td>Two event lists</td><td><span class="rq r">Ratio only</span></td><td>Replace Event for a ratio, e.g. Lead form submitted ÷ Visit started.</td></tr>
+    <tr><td>+ Add filter</td><td>Link, then property and value</td><td><span class="rq o">Optional</span></td><td>One condition per event, e.g. channel is whatsapp. Hidden until asked for.</td></tr>
+    <tr><td>Count as</td><td>Two-way switch</td><td><span class="rq a">Only if numeric</span></td><td>Shown when the event carries a number: <i>% of visitors who did it</i> (default) or <i>average value per visitor</i>. Page performance is always an average.</td></tr>
   </table></div></div>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M2</span><b>What to count</b></div>
-  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:15%"><col style="width:12%"><col style="width:51%"></colgroup>
-    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
-    <tr><td>Source</td><td>Cards</td><td><span class="rq r">Required</span></td><td>Site event, Lead form, Payment or Page performance (8.1).</td></tr>
-    <tr><td>Event</td><td>Searchable select</td><td><span class="rq r">Required</span></td><td>Events seen in the last 28 days, with counts, so nobody types an event name wrong.</td></tr>
-    <tr><td>Filters</td><td>Rule rows</td><td><span class="rq o">Optional</span></td><td>Property, operator, value; combined with AND, each read as a sentence (like targeting, 3.3).</td></tr>
-    <tr><td>Type</td><td>Two cards, chosen first</td><td><span class="rq r">Required</span></td><td><b>Single event</b> or <b>Ratio</b>. A single event with a numeric property also asks <b>Count as</b>: did it at least once, or average of a value. Ratio swaps the event fields for a <b>Numerator</b> and a <b>Denominator</b>, each with its own source, event and filter. Locked after the first save; to change, create a new metric.</td></tr>
-    <tr><td>Count as · Value</td><td>Select</td><td><span class="rq r">If numeric</span></td><td>The property to average and its unit (s, ₹). Capped at the 99th percentile.</td></tr>
+  <div class="wdg"><div class="wdg-h"><span class="wid">M2</span><b>More options</b><span class="wj">Folded; the summary shows the current values, e.g. "Lead forms · 72 h window".</span></div>
+  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:26%"><col style="width:52%"></colgroup>
+    <tr><th>Setting</th><th>Smart default</th><th>Why</th></tr>
+    <tr><td>Group</td><td>From the event's source</td><td>Groups the metric pickers.</td></tr>
+    <tr><td>Window</td><td>72 h; 168 h for payments</td><td>Payments arrive later than leads (11.3).</td></tr>
+    <tr><td>Direction</td><td>Lower is better for page performance; otherwise higher</td><td>Decides what "better" means in results.</td></tr>
+    <tr><td>Minimum data, flag changes above, default guardrail cutoff</td><td>100, 50%, 2%</td><td>Quality settings (8.1), rarely changed.</td></tr>
+    <tr><td>New event, not live yet</td><td>Off</td><td>Shown only when the event has no data; lets it save anyway.</td></tr>
   </table></div></div>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M3</span><b>How to judge it</b></div>
-  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:15%"><col style="width:12%"><col style="width:51%"></colgroup>
-    <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
-    <tr><td>Direction</td><td>Toggle</td><td><span class="rq r">Required</span></td><td>Higher is better (default) or lower is better.</td></tr>
-    <tr><td>Conversion window</td><td>Hours</td><td><span class="rq r">Required</span></td><td>Default 72 hours; payments 168 (11.3).</td></tr>
-    <tr><td>Minimum data</td><td>Number</td><td><span class="rq o">Optional</span></td><td>Conversions (or visitors, for averages) needed before results show. Default 100.</td></tr>
-    <tr><td>Flag changes above</td><td>%</td><td><span class="rq o">Optional</span></td><td>Default 50%. Bigger moves show the Suspicious alert (7.2).</td></tr>
-    <tr><td>Default guardrail cutoff</td><td>%</td><td><span class="rq o">Optional</span></td><td>Default 2%. Pre-fills the cutoff when an experiment adds this metric as a guardrail (3.4).</td></tr>
-  </table></div></div>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M4</span><b>Preview: last 28 days</b><span class="wj">Updates as the definition changes, before saving.</span></div>
+  <div class="wdg"><div class="wdg-h"><span class="wid">M3</span><b>Preview: last 28 days</b><span class="wj">Updates as the form changes.</span></div>
   <div class="wrap"><table class="fixed wt"><colgroup><col style="width:30%"><col style="width:70%"></colgroup>
     <tr><th>Shows</th><th>Why</th></tr>
-    <tr><td>Daily count chart</td><td>Proves the event is firing; a flat line means a wrong event or filter.</td></tr>
-    <tr><td>Baseline rate or average</td><td>Becomes the metric's baseline for the suggested duration.</td></tr>
-    <tr><td>Top pages</td><td>Shows where it happens, so "needs a lead form" pages are obvious.</td></tr>
-    <tr><td>Warning</td><td>"No events in 28 days" blocks saving, unless marked "New event, not live yet".</td></tr>
+    <tr><td>Baseline, as one big number</td><td>e.g. "5.70%" or "₹252 per visitor"; becomes the metric's baseline for the suggested duration (3.5).</td></tr>
+    <tr><td>Small daily chart and event count</td><td>Proves the event is firing; for a ratio, "11,424 ÷ 1,99,066 in 28 days".</td></tr>
+    <tr><td>One-sentence definition</td><td>What the metric means, e.g. "Lead form submitted ÷ Visit started per visitor, within 72 h of first seeing the test."</td></tr>
+    <tr><td>Create metric</td><td>Disabled with the reason until the form is valid: no name, name taken, no data, or the same event on both sides of a ratio.</td></tr>
   </table></div></div>
   <h4 style="font-size:14.5px;margin:20px 0 6px">Simulator</h4>
-  <p class="mini">Try the form. Start from a business metric such as V2L or L2P, or build your own; the preview and the save rules behave as specified above. Event volumes are simulated.</p>
+  <p class="mini">The form as specified above. Event volumes are simulated.</p>
   <div id="metric-sim-root"></div>
   <h3><span class="num">8.3</span>Editing, deleting and governance</h3>
   <ul>
@@ -1173,7 +1193,7 @@ section h2,section h3{scroll-margin-top:16px}
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>22 Nov 2026</td><td>Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
+    <tr><td>22 Nov 2026</td><td>Simpler metric form (name, single event or ratio, events; smart defaults under More options), matched in the prototype. Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
     <tr><td>17 Nov 2026</td><td>GrowthBook flow adopted: launch checklist, phases, Make changes, stop with conclusion, reports, bandits, Holdouts.</td></tr>
@@ -1281,257 +1301,189 @@ section h2,section h3{scroll-margin-top:16px}
 
 </script>
 <script>
-// ---- Metric creation simulator (8.2) ----
+// ---- Metric creation simulator (8.2), simplified ----
 (function(){
-  // Simulated catalog. any = share of visitors who trigger it at least once (28 days);
-  // cpv = events per visitor (for ratio numerators/denominators).
+  // Simulated catalog. any = share of visitors who do it at least once; cpv = events per visitor.
   const SOURCES = {
-    site: { label: "Site event", hint: "Data layer on CMS pages", events: {
-      cta_click:     { props: { cta_id: { enroll_now: 0.12, apply_now: 0.05, download_brochure: 0.04 } }, any: 0.19, cpv: 0.26 },
-      contact_click: { props: { channel: { whatsapp: 0.028, call: 0.012 } }, any: 0.04, cpv: 0.047 },
-      section_view:  { props: { section: { fees: 0.45, curriculum: 0.52, faculty: 0.21 } }, any: 0.71, cpv: 1.9 },
-      chatbot_open:  { props: {}, any: 0, cpv: 0 },
-      session_start: { label: "session_start (visits)", props: {}, any: 1, cpv: 1.42 }
-    }},
-    lead: { label: "Lead form", hint: "Form submissions, CRM-tagged", events: {
-      form_submit: { label: "form_submit (leads)", props: { form_type: { enquiry: 0.06, brochure: 0.03, callback: 0.015 } }, any: 0.075, cpv: 0.081 }
-    }},
-    pay: { label: "Payment", hint: "Lead Payments", events: {
-      payment_success: { label: "payment_success (payments)", props: { program: { bba: 0.008, mba: 0.006, python: 0.004 } }, any: 0.006, cpv: 0.0062, value: { amount: { avg: 42000, unit: "₹" } } }
-    }},
-    perf: { label: "Page performance", hint: "Core Web Vitals", averageOnly: true, events: {
-      lcp: { props: {}, any: 1, cpv: 1.42, value: { seconds: { avg: 2.1, unit: "s" } } },
-      cls: { props: {}, any: 1, cpv: 1.42, value: { score: { avg: 0.08, unit: "" } } }
-    }}
+    lead: { label: "Lead form", group: "Lead forms", events: {
+      form_submit: { label: "Lead form submitted", props: { form_type: { enquiry: 0.06, brochure: 0.03, callback: 0.015 } }, any: 0.075, cpv: 0.081 } } },
+    pay: { label: "Payment", group: "Payments", window: 168, events: {
+      payment_success: { label: "Payment completed", props: { program: { bba: 0.008, mba: 0.006, python: 0.004 } }, any: 0.006, cpv: 0.0062, value: { amount: { avg: 42000, unit: "₹" } } } } },
+    site: { label: "Site event", group: "Clicks", events: {
+      cta_click:     { label: "CTA click", props: { cta_id: { enroll_now: 0.12, apply_now: 0.05, download_brochure: 0.04 } }, any: 0.19, cpv: 0.26 },
+      contact_click: { label: "Contact click (call, WhatsApp)", props: { channel: { whatsapp: 0.028, call: 0.012 } }, any: 0.04, cpv: 0.047 },
+      section_view:  { label: "Section viewed", group: "Engagement", props: { section: { fees: 0.45, curriculum: 0.52, faculty: 0.21 } }, any: 0.71, cpv: 1.9 },
+      chatbot_open:  { label: "Chatbot opened (new)", group: "Engagement", props: {}, any: 0, cpv: 0 },
+      session_start: { label: "Visit started", group: "Engagement", props: {}, any: 1, cpv: 1.42 } } },
+    perf: { label: "Page performance", group: "Performance", lower: true, averageOnly: true, events: {
+      lcp: { label: "Page load (LCP)", props: {}, any: 1, cpv: 1.42, value: { seconds: { avg: 2.1, unit: "s" } } } } }
   };
   const TAKEN = ["lead form submitted", "brochure download", "payment completed", "enroll now click", "talk to counsellor click", "cta click", "scroll to fee section", "bounce rate", "page load (lcp, p75)"];
-  const PAGES = [["/online-bba", 0.38], ["/online-mba", 0.27], ["/ai-native-software-engineering…", 0.15], ["/ytcourses/python-programming-course", 0.12], ["Other pages", 0.08]];
   const VISITORS = 5200;
-  const sel = (source, event, prop, val) => ({ source, event, prop: prop || "", val: val || "" });
-  const base = { group: "Clicks", type: "binomial", ...sel("site", "contact_click"), valueProp: "", num: sel("lead", "form_submit"), den: sel("site", "session_start"), window: 72, lower: false, isNew: false };
+  const ref = (key, prop, val) => ({ key, prop: prop || "", val: val || "" }); // key = "source:event"
   const TEMPLATES = {
-    v2l: { label: "V2L · visit to lead", tip: "Leads ÷ visits. A visitor who comes back three times counts three visits.", name: "V2L (visit to lead)", group: "Lead forms", type: "ratio", num: sel("lead", "form_submit"), den: sel("site", "session_start") },
-    l2p: { label: "L2P · lead to payment", tip: "Payments ÷ leads. Only exposed visitors who became leads count in the denominator. Payments arrive late, so use a long window.", name: "L2P (lead to payment)", group: "Payments", type: "ratio", num: sel("pay", "payment_success"), den: sel("lead", "form_submit"), window: 168 },
-    v2p: { label: "V2P · visit to payment", tip: "Payments ÷ visits.", name: "V2P (visit to payment)", group: "Payments", type: "ratio", num: sel("pay", "payment_success"), den: sel("site", "session_start"), window: 168 },
-    ctr: { label: "Enroll CTA click-through", tip: "Enroll Now clicks ÷ visits.", name: "Enroll CTA click-through", group: "Clicks", type: "ratio", num: sel("site", "cta_click", "cta_id", "enroll_now"), den: sel("site", "session_start") },
-    wa:  { label: "WhatsApp chat started", tip: "Did the visitor start a WhatsApp chat at least once.", name: "WhatsApp chat started", group: "Clicks", type: "binomial", ...sel("site", "contact_click", "channel", "whatsapp") },
-    pay: { label: "Payment amount per visitor", tip: "Average ₹ per exposed visitor; visitors who never paid count as ₹0.", name: "Payment amount per visitor", group: "Payments", type: "mean", ...sel("pay", "payment_success"), valueProp: "amount", window: 168 },
-    bot: { label: "New event, no data yet", tip: "An event that isn't live yet. Saving needs “New event, not live yet”.", name: "Chatbot opened", group: "Engagement", type: "binomial", ...sel("site", "chatbot_open") }
+    v2l: { label: "V2L", name: "V2L (visit to lead)", type: "ratio", num: ref("lead:form_submit"), den: ref("site:session_start") },
+    l2p: { label: "L2P", name: "L2P (lead to payment)", type: "ratio", num: ref("pay:payment_success"), den: ref("lead:form_submit") },
+    wa:  { label: "WhatsApp chat", name: "WhatsApp chat started", type: "single", ev: ref("site:contact_click", "channel", "whatsapp") },
+    pay: { label: "Payment amount", name: "Payment amount per visitor", type: "single", ev: ref("pay:payment_success"), measure: "mean" },
+    blank: { label: "Blank", name: "", type: "single", ev: ref("lead:form_submit") }
   };
-  const fromTemplate = (k) => JSON.parse(JSON.stringify({ ...base, ...TEMPLATES[k] }));
-  let st = fromTemplate("v2l"), active = "v2l", saved = null;
+  const defaults = { type: "single", ev: ref("lead:form_submit"), num: ref("lead:form_submit"), den: ref("site:session_start"), measure: "count", more: {}, isNew: false };
+  const fromTemplate = (k) => JSON.parse(JSON.stringify({ ...defaults, ...TEMPLATES[k] }));
+  let st = fromTemplate("v2l"), active = "v2l", saved = null, moreOpen = false;
 
   const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const pct = (x, d) => (x * 100).toFixed(d) + "%";
   const fmt = n => Math.round(n).toLocaleString("en-IN");
+  const split = (r) => r.key.split(":");
+  const srcOf = (r) => SOURCES[split(r)[0]];
+  const evOf = (r) => srcOf(r).events[split(r)[1]];
+  const rateOf = (r) => { const e = evOf(r); return r.prop && r.val ? e.props[r.prop]?.[r.val] ?? 0 : e.any; };
+  const cpvOf = (r) => { const e = evOf(r); return r.prop && r.val ? rateOf(r) * 1.1 : e.cpv; };
+  const nameOf = (r) => evOf(r).label + (r.prop && r.val ? " (" + r.val.replace(/_/g, " ") + ")" : "");
   function rng(seed){ let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
   const hash = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
-  const evOf = (s) => SOURCES[s.source].events[s.event];
-  const rateOf = (s) => { const ev = evOf(s); if (!ev) return 0; return s.prop && s.val && ev.props[s.prop] ? ev.props[s.prop][s.val] ?? 0 : ev.any; };
-  const cpvOf = (s) => { const ev = evOf(s); if (!ev) return 0; return s.prop && s.val ? rateOf(s) * 1.1 : ev.cpv; };
-  const descOf = (s) => '<code>' + esc(s.event) + '</code>' + (s.prop && s.val ? ' where <code>' + esc(s.prop) + ' = ' + esc(s.val) + '</code>' : "");
-  function fixSel(s){
-    const src = SOURCES[s.source];
-    if (!src.events[s.event]) { s.event = Object.keys(src.events)[0]; s.prop = ""; s.val = ""; }
-    const ev = evOf(s);
-    if (s.prop && !ev.props[s.prop]) { s.prop = ""; s.val = ""; }
-    const vals = s.prop ? Object.keys(ev.props[s.prop]) : [];
-    if (s.prop && !vals.includes(s.val)) s.val = vals[0] || "";
+  const daily = (fn, key) => { const r = rng(hash(key)); return Array.from({ length: 28 }, (_, i) => fn(((i % 7 === 5 || i % 7 === 6) ? 0.78 : 1.06) * (1 + (r() - 0.5) * 0.16))); };
+
+  // Smart defaults from the chosen event; "More options" can override.
+  function auto(){
+    const r = st.type === "ratio" ? st.num : st.ev;
+    const src = srcOf(r), e = evOf(r);
+    return { group: e.group || src.group, window: src.window || (st.type === "ratio" && srcOf(st.den).window) || 72, lower: !!src.lower };
   }
-  function daily(fn, key){
-    const r = rng(hash(key)); const out = [];
-    for (let i = 0; i < 28; i++) { const wk = (i % 7 === 5 || i % 7 === 6) ? 0.78 : 1.06; out.push(fn(wk * (1 + (r() - 0.5) * 0.16), r)); }
-    return out;
-  }
+  const setting = (k) => (st.more[k] !== undefined ? st.more[k] : auto()[k]);
+  const measure = () => { const e = evOf(st.ev); if (srcOf(st.ev).averageOnly) return "mean"; return e.value ? st.measure : "count"; };
+
   function model(){
     if (st.type === "ratio") {
-      const nc = cpvOf(st.num), dc = cpvOf(st.den);
-      const ratio = dc ? nc / dc : 0;
-      const nSer = daily(f => VISITORS * nc * f, "n" + JSON.stringify(st.num));
-      const dSer = daily(f => VISITORS * dc * f, "d" + JSON.stringify(st.den));
-      const ser = nSer.map((n, i) => dSer[i] ? n / dSer[i] : 0);
-      return { ratio, nTot: nSer.reduce((a, b) => a + b, 0), dTot: dSer.reduce((a, b) => a + b, 0), ser, hasData: nc > 0 && dc > 0 };
+      const nc = cpvOf(st.num), dc = cpvOf(st.den), ratio = dc ? nc / dc : 0;
+      const n = daily(f => VISITORS * nc * f, "n" + JSON.stringify(st.num)), d = daily(f => VISITORS * dc * f, "d" + JSON.stringify(st.den));
+      return { ser: n.map((x, i) => d[i] ? x / d[i] : 0), has: nc > 0 && dc > 0, big: dc ? pct(ratio, ratio < 0.1 ? 2 : 1) : "—", small: fmt(n.reduce((a, b) => a + b, 0)) + " ÷ " + fmt(d.reduce((a, b) => a + b, 0)) + " in 28 days", fmtAxis: x => pct(x, 1) };
     }
-    const r = rateOf(st);
-    const ser = daily(f => Math.round(VISITORS * r * f), JSON.stringify([st.source, st.event, st.prop, st.val]));
-    return { rate: r, ser, total: ser.reduce((a, b) => a + b, 0), hasData: r > 0 };
+    const r = rateOf(st.ev), m = measure(), e = evOf(st.ev);
+    const ser = daily(f => VISITORS * r * f, JSON.stringify(st.ev)), total = ser.reduce((a, b) => a + b, 0);
+    if (m === "mean") {
+      const v = Object.values(e.value)[0], per = r >= 1 ? v.avg : v.avg * r;
+      const show = (x) => v.unit === "₹" ? "₹" + fmt(x) : (Math.round(x * 100) / 100) + v.unit;
+      return { ser, has: r > 0, big: show(per), bigNote: "per visitor" + (r < 1 ? " · " + show(v.avg) + " per payment" : ""), small: fmt(total) + " events in 28 days", fmtAxis: x => fmt(x) };
+    }
+    return { ser, has: r > 0, big: r ? pct(r, r < 0.1 ? 2 : 1) : "—", bigNote: "of visitors", small: fmt(total) + " events in 28 days", fmtAxis: x => fmt(x) };
   }
   function problems(m){
-    const p = [];
-    const nm = st.name.trim().toLowerCase();
-    if (!nm) p.push("Enter a name");
-    else if (TAKEN.includes(nm)) p.push("A metric with this name already exists");
+    const p = [], nm = (st.name || "").trim().toLowerCase();
+    if (!nm) p.push("add a name");
+    else if (TAKEN.includes(nm)) p.push("that name is taken");
     if (st.type === "ratio") {
-      if (cpvOf(st.den) === 0) p.push("The denominator has no events");
-      if (JSON.stringify(st.num) === JSON.stringify(st.den)) p.push("Numerator and denominator are the same");
-      if (cpvOf(st.num) === 0 && !st.isNew) p.push("The numerator has no events in 28 days, or tick “New event, not live yet”");
-    } else {
-      if (!m.hasData && !st.isNew) p.push("No events in the last 28 days. Check the event and filter, or tick “New event, not live yet”");
-      if (st.type === "mean" && !st.valueProp) p.push("Average metrics need a value to average");
-    }
-    if (!(st.window >= 0 && st.window <= 720)) p.push("Window must be 0 to 720 hours");
+      if (JSON.stringify(st.num) === JSON.stringify(st.den)) p.push("pick two different events");
+      else if (!cpvOf(st.den)) p.push("the “divided by” event has no data");
+      else if (!cpvOf(st.num) && !st.isNew) p.push("the event has no data in 28 days");
+    } else if (!m.has && !st.isNew) p.push("this event has no data in 28 days");
     return p;
   }
-  function invNorm(p){ const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416]; const pl=0.02425; let q,r; if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);} if(p>1-pl){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);} q=p-0.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
-  function daysFor(p, unitsPerDay){
-    if (!(p > 0 && p < 0.9) || !unitsPerDay) return null;
-    const za = invNorm(0.975), zb = invNorm(0.8), p1 = p, p2 = Math.min(0.999, p * 1.1), pb = (p1 + p2) / 2;
-    const top = za * Math.sqrt(2 * pb * (1 - pb)) + zb * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2));
-    return Math.ceil(Math.ceil(top * top / ((p2 - p1) ** 2)) * 2 / unitsPerDay);
+  function sentence(){
+    const win = setting("window") ? "within " + setting("window") + " h of first seeing the test" : "any time during the test";
+    const dir = setting("lower") ? " Lower is better." : "";
+    if (st.type === "ratio") return "<b>" + esc(nameOf(st.num)) + "</b> ÷ <b>" + esc(nameOf(st.den)) + "</b> per visitor, " + win + "." + dir;
+    if (measure() === "mean") return "Average <b>" + esc(Object.keys(evOf(st.ev).value)[0]) + "</b> from <b>" + esc(nameOf(st.ev)) + "</b> per visitor, " + win + "." + dir;
+    return "Share of visitors with at least one <b>" + esc(nameOf(st.ev)) + "</b>, " + win + "." + dir;
   }
-  function chart(vals, fmtV){
-    const W = 560, H = 120, L = 40, B = 18, max = Math.max(1e-9, ...vals), bw = (W - L - 6) / vals.length;
-    let g = "";
-    [0, 0.5, 1].forEach(f => { const y = H - B - f * (H - B - 8); g += '<line x1="' + L + '" x2="' + W + '" y1="' + y + '" y2="' + y + '" stroke="#E4E7EF"/><text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" fill="#6B7280">' + fmtV(max * f) + '</text>'; });
-    const bars = vals.map((v, i) => { const h = (v / max) * (H - B - 8); return '<rect x="' + (L + i * bw + 1) + '" y="' + (H - B - h) + '" width="' + Math.max(1, bw - 2) + '" height="' + h + '" rx="2" fill="' + (v ? "#4A3FA0" : "#E4E7EF") + '"/>'; }).join("");
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Daily values, last 28 days" style="width:100%;height:auto;display:block">' + g + bars + '<text x="' + L + '" y="' + (H - 4) + '" font-size="10" fill="#6B7280">28 days ago</text><text x="' + W + '" y="' + (H - 4) + '" text-anchor="end" font-size="10" fill="#6B7280">yesterday</text></svg>';
+  function spark(vals){
+    const W = 320, H = 56, max = Math.max(1e-9, ...vals), bw = W / vals.length;
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Last 28 days" style="width:100%;height:auto;display:block">' +
+      vals.map((v, i) => { const h = Math.max(1, (v / max) * (H - 4)); return '<rect x="' + (i * bw + 1) + '" y="' + (H - h) + '" width="' + Math.max(1, bw - 2) + '" height="' + h + '" rx="1.5" fill="#4A3FA0"/>'; }).join("") + '</svg>';
   }
-  const opt = (vals, cur) => vals.map(([v, l]) => '<option value="' + esc(v) + '"' + (String(v) === String(cur) ? " selected" : "") + '>' + esc(l) + '</option>').join("");
-  const fld = (id, label, html, wide) => '<div class="ctl' + (wide ? " wide" : "") + '"><label for="' + id + '">' + label + '</label><div class="field">' + html + '</div></div>';
-  const inp = (id, v, ph) => '<input id="' + id + '" value="' + esc(v) + '" placeholder="' + esc(ph || "") + '" style="border:0;width:100%;font:inherit;font-weight:500;color:var(--ink);outline:none;background:transparent">';
-  const evLabel = (src, e) => (src.events[e].label || e) + "  ·  " + (src.events[e].cpv ? fmt(VISITORS * src.events[e].cpv * 28) + " in 28 days" : "no data");
-  function selBlock(pfx, s, title){
-    fixSel(s);
-    const src = SOURCES[s.source], ev = evOf(s), props = Object.keys(ev.props);
-    return '<div class="msim-part"><div class="msim-ph">' + title + '</div><div class="controls">' +
-      fld(pfx + "-source", "Source", '<select id="' + pfx + '-source">' + opt(Object.keys(SOURCES).filter(k => !SOURCES[k].averageOnly).map(k => [k, SOURCES[k].label]), s.source) + '</select>') +
-      fld(pfx + "-event", "Event", '<select id="' + pfx + '-event">' + opt(Object.keys(src.events).map(e => [e, evLabel(src, e)]), s.event) + '</select>', true) +
-      fld(pfx + "-prop", "Filter (optional)", '<select id="' + pfx + '-prop">' + opt([["", props.length ? "No filter" : "No properties"]].concat(props.map(p => [p, p])), s.prop) + '</select>') +
-      (s.prop ? fld(pfx + "-val", "is", '<select id="' + pfx + '-val">' + opt(Object.keys(ev.props[s.prop]).map(x => [x, x]), s.val) + '</select>') : "") +
-      '</div></div>';
+  // One event list for every source, grouped.
+  function eventSelect(id, cur){
+    return '<select id="' + id + '">' + Object.entries(SOURCES).filter(([k, s]) => !(s.averageOnly && st.type === "ratio")).map(([k, s]) =>
+      '<optgroup label="' + esc(s.label) + '">' + Object.entries(s.events).map(([e, ev]) => {
+        const key = k + ":" + e;
+        return '<option value="' + key + '"' + (key === cur ? " selected" : "") + '>' + esc(ev.label) + (ev.cpv ? "" : " · no data yet") + '</option>';
+      }).join("") + '</optgroup>').join("") + '</select>';
   }
+  function filterRow(pfx, r){
+    const e = evOf(r), props = Object.keys(e.props);
+    if (!props.length) return "";
+    if (!r.prop) return '<button type="button" class="msim-link" data-addf="' + pfx + '">+ Add filter</button>';
+    const vals = Object.keys(e.props[r.prop]);
+    return '<div class="msim-filter"><span>where</span><div class="field"><select id="' + pfx + '-prop">' + props.map(p => '<option' + (p === r.prop ? " selected" : "") + '>' + p + '</option>').join("") + '</select></div><span>is</span><div class="field"><select id="' + pfx + '-val">' + vals.map(v => '<option' + (v === r.val ? " selected" : "") + '>' + v + '</option>').join("") + '</select></div><button type="button" class="msim-x" data-rmf="' + pfx + '" aria-label="Remove filter">×</button></div>';
+  }
+  const field = (label, html, id) => '<div class="ctl"><label' + (id ? ' for="' + id + '"' : "") + '>' + label + '</label><div class="field">' + html + '</div></div>';
+
   function render(){
     const root = document.getElementById("metric-sim-root"); if (!root) return;
-    const ratio = st.type === "ratio";
-    if (!ratio) {
-      const src = SOURCES[st.source];
-      fixSel(st);
-      if (src.averageOnly) st.type = "mean";
-    }
-    const m = model(), probs = problems(m);
-    const ev = !ratio ? evOf(st) : null;
-    const valueProps = ev && ev.value ? Object.keys(ev.value) : [];
-    if (st.type === "mean" && !valueProps.includes(st.valueProp)) st.valueProp = valueProps[0] || "";
-    const v = st.type === "mean" && st.valueProp ? ev.value[st.valueProp] : null;
-    const money = x => "₹" + fmt(x);
-
-    let preview = "", kpis = "", def = "", tests = "";
-    const win = st.window ? "within " + st.window + " hours of first seeing the test" : "any time during the test";
-    const dir = st.lower ? "Lower is better." : "Higher is better.";
-    if (ratio) {
-      preview = m.hasData ? chart(m.ser, x => pct(x, x < 0.1 ? 1 : 0)) : '<div class="msim-empty">No events yet for the numerator or denominator.</div>';
-      kpis = '<div class="msim-kpis three"><div><span>Numerator, 28 days</span><b>' + fmt(m.nTot) + '</b></div><div><span>Denominator, 28 days</span><b>' + fmt(m.dTot) + '</b></div><div><span>Baseline ratio</span><b>' + (m.hasData ? pct(m.ratio, m.ratio < 0.1 ? 2 : 1) : "—") + '</b></div></div>';
-      def = "Sum of " + descOf(st.num) + " ÷ sum of " + descOf(st.den) + ", per exposed visitor, " + win + ". " + dir + ' <span class="mini">Analysed as a ratio with the delta method.</span>';
-      const d = m.hasData ? daysFor(m.ratio, 600 * cpvOf(st.den) / 1) : null;
-      tests = d ? "On a page with 600 visitors a day, detecting a 10% lift in this ratio would take " + (d > 365 ? "<b>more than a year</b>" : "roughly <b>" + d + " days</b>") + " (approximate for ratios, 3.5)." : "";
-    } else {
-      const r = m.rate;
-      preview = m.hasData ? chart(m.ser, x => fmt(x)) : '<div class="msim-empty">No events in the last 28 days.<br>Check the event name and filter.</div>';
-      const meanBase = !v ? "—" : r >= 1 ? (v.unit === "₹" ? money(v.avg) : v.avg + (v.unit || "")) : (v.unit === "₹" ? money(v.avg * r) : +(v.avg * r).toFixed(2) + (v.unit || ""));
-      const baseline = st.type === "mean" ? meanBase + " per visitor" : pct(r, r < 0.1 ? 2 : 1) + " of visitors";
-      kpis = '<div class="msim-kpis"><div><span>Events, 28 days</span><b>' + fmt(m.total) + '</b></div><div><span>Baseline</span><b>' + baseline + '</b></div></div>' +
-        (st.type === "mean" && v && r > 0 && r < 1 ? '<div class="mini" style="margin-top:4px">Visitors who never paid count as ₹0. Average per payment: ' + money(v.avg) + '.</div>' : "");
-      def = st.type === "mean"
-        ? "Average <b>" + esc(st.valueProp || "value") + "</b> per exposed visitor from " + descOf(st) + ", " + win + ", capped at the 99th percentile" + (v?.unit ? " (" + esc(v.unit) + ")" : "") + ". " + dir
-        : "Share of exposed visitors who triggered " + descOf(st) + " at least once, " + win + ". " + dir;
-      const d = st.type === "binomial" && m.hasData ? daysFor(r, 600) : null;
-      tests = d ? "On a page with 600 visitors a day, detecting a 10% lift on this metric would take about <b>" + (d > 365 ? "more than a year" : d + " days") + "</b> (3.5)." : "";
-    }
-    const pages = m.hasData ? PAGES.map(([pg, sh]) => '<li><span class="pg">' + esc(pg) + '</span><span class="bar"><i style="width:' + (sh * 100 / PAGES[0][1]) + '%"></i></span><b>' + Math.round(sh * 100) + '%</b></li>').join("") : "";
-    const tip = active && TEMPLATES[active] ? '<div class="msim-tip"><b>' + esc(TEMPLATES[active].label) + '</b>: ' + esc(TEMPLATES[active].tip) +
-      (active === "v2l" ? " Want V2L per visitor instead (did a visitor become a lead at all)? That's the built-in <i>Lead form submitted</i>, a conversion metric." : "") + '</div>' : "";
-    const typeCards = [["single", "Single event", "One event, e.g. lead form submitted or payment amount"], ["ratio", "Ratio", "One event ÷ another, e.g. leads ÷ visits"]];
-    const kind = ratio ? "ratio" : "single";
-    const noPerf = ratio;
+    const m = model(), probs = problems(m), ratio = st.type === "ratio";
+    const e = !ratio ? evOf(st.ev) : null;
+    const what = ratio
+      ? field("Count", eventSelect("ms-num", st.num.key), "ms-num") + filterRow("num", st.num) +
+        '<div class="msim-div">÷</div>' + field("Divided by", eventSelect("ms-den", st.den.key), "ms-den") + filterRow("den", st.den)
+      : field("Event", eventSelect("ms-ev", st.ev.key), "ms-ev") + filterRow("ev", st.ev) +
+        (e.value && !srcOf(st.ev).averageOnly ? '<div class="msim-seg2" role="radiogroup" aria-label="Count as"><button type="button" data-measure="count" class="' + (measure() === "count" ? "on" : "") + '">% of visitors who did it</button><button type="button" data-measure="mean" class="' + (measure() === "mean" ? "on" : "") + '">Average ' + esc(Object.keys(e.value)[0]) + ' per visitor</button></div>' : "");
+    const a = auto();
     root.innerHTML =
-      '<div class="calc msim">' +
-        '<div class="calc-head"><div><h4>Try creating a metric</h4><p>Start from a business metric or build your own. Event data is simulated.</p></div></div>' +
-        '<div class="msim-tpl"><span>Start from:</span>' + Object.keys(TEMPLATES).map(k => '<button type="button" data-mp="' + k + '" class="' + (k === active ? "on" : "") + '">' + esc(TEMPLATES[k].label) + '</button>').join("") + '</div>' +
-        tip +
-        '<div class="msim-grid"><div class="msim-form">' +
-          '<div class="msim-sec"><span class="msim-n">M1</span>Basics</div>' +
-          '<div class="controls">' + fld("ms-name", "Name", inp("ms-name", st.name, "e.g. V2L (visit to lead)"), true) +
-            fld("ms-group", "Group", '<select id="ms-group">' + opt(["Lead forms", "Payments", "Clicks", "Engagement", "Performance"].map(g => [g, g]), st.group) + '</select>') + '</div>' +
-          '<div class="msim-sec"><span class="msim-n">M2</span>What to count</div>' +
-          '<div class="msim-src">' + typeCards.map(([k, t, d]) => '<button type="button" data-type="' + k + '" class="' + (kind === k ? "on" : "") + '"><b>' + t + '</b><span>' + d + '</span></button>').join("") + '</div>' +
-          (ratio
-            ? selBlock("num", st.num, "Numerator: what you count") + '<div class="msim-div">÷</div>' + selBlock("den", st.den, "Denominator: what you divide by")
-            : '<div class="msim-src">' + Object.keys(SOURCES).map(k => '<button type="button" data-src="' + k + '" class="' + (k === st.source ? "on" : "") + '"><b>' + SOURCES[k].label + '</b><span>' + SOURCES[k].hint + '</span></button>').join("") + '</div>' +
-              (() => { const src = SOURCES[st.source], props = Object.keys(ev.props); return '<div class="controls">' +
-                fld("ms-event", "Event", '<select id="ms-event">' + opt(Object.keys(src.events).map(e => [e, evLabel(src, e)]), st.event) + '</select>', true) +
-                fld("ms-prop", "Filter (optional)", '<select id="ms-prop">' + opt([["", props.length ? "No filter" : "No properties"]].concat(props.map(p => [p, p])), st.prop) + '</select>') +
-                (st.prop ? fld("ms-val", "is", '<select id="ms-val">' + opt(Object.keys(ev.props[st.prop]).map(x => [x, x]), st.val) + '</select>') : "") +
-                (valueProps.length && !SOURCES[st.source].averageOnly ? fld("ms-measure", "Count as", '<select id="ms-measure">' + opt([["binomial", "Did it at least once (% of visitors)"], ["mean", "Average of a value per visitor"]], st.type) + '</select>', true) : "") +
-                (st.type === "mean" ? fld("ms-value", "Value to average", '<select id="ms-value">' + opt(valueProps.length ? valueProps.map(x => [x, x]) : [["", "No numeric property"]], st.valueProp) + '</select>') : "") +
-                '</div>'; })()) +
-          '<div class="msim-sec"><span class="msim-n">M3</span>How to judge it</div>' +
-          '<div class="controls">' +
-            fld("ms-window", "Conversion window (hours)", inp("ms-window", st.window, "72")) +
-            fld("ms-dir", "Direction", '<select id="ms-dir">' + opt([["0", "Higher is better"], ["1", "Lower is better"]], st.lower ? "1" : "0") + '</select>') +
+      '<div class="calc msim msim2">' +
+        '<div class="msim-tpl"><span>Start from</span>' + Object.keys(TEMPLATES).map(k => '<button type="button" data-mp="' + k + '" class="' + (k === active ? "on" : "") + '">' + esc(TEMPLATES[k].label) + '</button>').join("") + '</div>' +
+        '<div class="msim-grid">' +
+          '<div class="msim-form">' +
+            field("Name", '<input id="ms-name" value="' + esc(st.name || "") + '" placeholder="e.g. V2L (visit to lead)">', "ms-name") +
+            '<div class="ctl"><label>What to measure</label><div class="msim-seg2" role="radiogroup" aria-label="Metric type"><button type="button" data-type="single" class="' + (!ratio ? "on" : "") + '">Single event</button><button type="button" data-type="ratio" class="' + (ratio ? "on" : "") + '">Ratio</button></div></div>' +
+            what +
+            '<details class="msim-more"' + (moreOpen ? " open" : "") + '><summary>More options <span>' + esc(setting("group")) + ' · ' + setting("window") + ' h window' + (setting("lower") ? " · lower is better" : "") + '</span></summary>' +
+              '<div class="msim-more-grid">' +
+                field("Group", '<select id="ms-group">' + ["Lead forms", "Payments", "Clicks", "Engagement", "Performance"].map(g => '<option' + (g === setting("group") ? " selected" : "") + '>' + g + '</option>').join("") + '</select>', "ms-group") +
+                field("Window (hours)", '<input id="ms-window" type="number" min="0" max="720" value="' + setting("window") + '">', "ms-window") +
+                field("Direction", '<select id="ms-dir"><option value="0"' + (!setting("lower") ? " selected" : "") + '>Higher is better</option><option value="1"' + (setting("lower") ? " selected" : "") + '>Lower is better</option></select>', "ms-dir") +
+              '</div>' +
+              (!m.has || (ratio && !cpvOf(st.num)) ? '<label class="msim-new"><input type="checkbox" id="ms-new"' + (st.isNew ? " checked" : "") + '> New event, not live yet</label>' : "") +
+            '</details>' +
           '</div>' +
-          (!m.hasData || (ratio && cpvOf(st.num) === 0) ? '<label class="msim-new"><input type="checkbox" id="ms-new"' + (st.isNew ? " checked" : "") + '> New event, not live yet: save without data</label>' : "") +
+          '<div class="msim-card">' +
+            '<div class="msim-card-h">Last 28 days</div>' +
+            (m.has ? '<div class="msim-big">' + m.big + (m.bigNote ? '<span>' + esc(m.bigNote) + '</span>' : "") + '</div>' + spark(m.ser) + '<div class="msim-small">' + m.small + '</div>'
+                   : '<div class="msim-empty">No data in the last 28 days.</div>') +
+            '<p class="msim-def">' + sentence() + '</p>' +
+            '<div class="msim-foot2">' + (probs.length ? '<span class="msim-why">To save: ' + probs.map(esc).join(", ") + '</span>' : '<span class="msim-ok">Ready</span>') +
+              '<button type="button" class="msim-save" data-msave' + (probs.length ? " disabled" : "") + '>Create metric</button></div>' +
+            (saved ? '<div class="msim-saved">Created <b>' + esc(saved) + '</b>. It now appears in the metric pickers.</div>' : "") +
+          '</div>' +
         '</div>' +
-        '<div class="msim-prev"><div class="msim-sec"><span class="msim-n">M4</span>Preview: last 28 days' + (ratio ? " (daily ratio)" : "") + '</div>' + preview + kpis +
-          (pages ? '<div class="msim-sub">Top pages</div><ul class="msim-pages">' + pages + '</ul>' : "") +
-          '<div class="msim-sub">Definition</div><p class="msim-def">' + def + '</p>' +
-          (tests ? '<div class="msim-sub">What this means for tests</div><p class="msim-def">' + tests + '</p>' : "") +
-        '</div></div>' +
-        '<div class="msim-foot">' + footHtml(probs) + '</div>' +
-        (saved ? '<div class="msim-saved"><b>Created “' + esc(saved.name) + '”</b> in ' + esc(saved.group) + ' · ' + saved.type + ' · baseline ' + saved.baseline + '. It now appears in the metric pickers (step 4, 5).</div>' : "") +
       '</div>';
-    root._model = m;
+    root._m = m;
   }
-  function footHtml(probs){
-    return (probs.length ? '<div class="cset-err">Can\'t save yet: ' + probs.map(esc).join("; ") + '.</div>' : '<div class="msim-ok">Ready to save.</div>') + '<button type="button" class="msim-save" data-msave' + (probs.length ? " disabled" : "") + '>Create metric</button>';
-  }
-  function setSel(s, part, value){
-    if (part === "source") { s.source = value; s.event = Object.keys(SOURCES[value].events)[0]; s.prop = ""; s.val = ""; }
-    else if (part === "event") { s.event = value; s.prop = ""; s.val = ""; }
-    else if (part === "prop") { s.prop = value; s.val = ""; }
-    else if (part === "val") s.val = value;
-  }
-  document.addEventListener("click", e => {
-    const root = e.target.closest && e.target.closest("#metric-sim-root"); if (!root) return;
-    const p = e.target.closest("[data-mp]");
-    if (p) { active = p.dataset.mp; st = fromTemplate(active); saved = null; return render(); }
-    const t = e.target.closest("[data-type]");
-    if (t) { st.type = t.dataset.type === "ratio" ? "ratio" : (SOURCES[st.source].averageOnly ? "mean" : "binomial"); active = ""; saved = null; return render(); }
-    const s = e.target.closest("[data-src]");
-    if (s) { setSel(st, "source", s.dataset.src); if (SOURCES[st.source].averageOnly) { st.type = "mean"; st.lower = true; } else if (st.type === "mean" && !evOf(st).value) { st.type = "binomial"; st.lower = false; } active = ""; saved = null; return render(); }
-    const sv = e.target.closest("[data-msave]");
-    if (sv && !sv.disabled) {
-      const m = root._model;
-      let b;
-      if (st.type === "ratio") b = m.hasData ? pct(m.ratio, m.ratio < 0.1 ? 2 : 1) : "set after data arrives";
-      else if (st.type === "mean") { const ev = evOf(st), v = ev.value?.[st.valueProp]; const per = v ? (m.rate >= 1 ? v.avg : v.avg * m.rate) : null; b = v ? (v.unit === "₹" ? "₹" + fmt(per) : +per.toFixed(2) + (v.unit || "")) + " per visitor" : "—"; }
-      else b = m.hasData ? pct(m.rate, m.rate < 0.1 ? 2 : 1) : "set after data arrives";
-      saved = { name: st.name.trim(), group: st.group, type: { binomial: "Single event, % of visitors", mean: "Single event, average", ratio: "Ratio" }[st.type], baseline: b };
-      TAKEN.push(saved.name.toLowerCase());
-      render();
-    }
+  const refFor = (pfx) => pfx === "ev" ? st.ev : pfx === "num" ? st.num : st.den;
+  const touch = () => { active = ""; saved = null; };
+  document.addEventListener("click", ev => {
+    const root = ev.target.closest && ev.target.closest("#metric-sim-root"); if (!root) return;
+    const t = (sel) => ev.target.closest(sel);
+    let b;
+    if ((b = t("[data-mp]"))) { active = b.dataset.mp; st = fromTemplate(active); saved = null; moreOpen = false; return render(); }
+    if ((b = t("[data-type]"))) { st.type = b.dataset.type; if (st.type === "ratio" && srcOf(st.num).averageOnly) st.num = ref("lead:form_submit"); touch(); return render(); }
+    if ((b = t("[data-measure]"))) { st.measure = b.dataset.measure; touch(); return render(); }
+    if ((b = t("[data-addf]"))) { const r = refFor(b.dataset.addf), e = evOf(r), p = Object.keys(e.props)[0]; r.prop = p; r.val = Object.keys(e.props[p])[0]; touch(); return render(); }
+    if ((b = t("[data-rmf]"))) { const r = refFor(b.dataset.rmf); r.prop = ""; r.val = ""; touch(); return render(); }
+    if ((b = t("[data-msave]")) && !b.disabled) { saved = st.name.trim(); TAKEN.push(saved.toLowerCase()); return render(); }
   });
-  document.addEventListener("change", e => {
-    const t = e.target; if (!t.closest || !t.closest("#metric-sim-root")) return;
-    const id = t.id; let hit = true;
-    if (id === "ms-group") st.group = t.value;
-    else if (id === "ms-window") st.window = Number(t.value);
-    else if (id === "ms-dir") st.lower = t.value === "1";
-    else if (id === "ms-new") st.isNew = t.checked;
-    else if (id === "ms-value") st.valueProp = t.value;
-    else if (id === "ms-measure") st.type = t.value;
-    else if (id === "ms-event") { setSel(st, "event", t.value); if (st.type === "mean" && !evOf(st).value) st.type = "binomial"; }
-    else if (id === "ms-prop") setSel(st, "prop", t.value);
-    else if (id === "ms-val") setSel(st, "val", t.value);
-    else if (/^(num|den)-(source|event|prop|val)$/.test(id)) { const [w, part] = id.split("-"); setSel(st[w], part, t.value); }
-    else hit = false;
-    if (hit) { active = ""; saved = null; render(); }
+  document.addEventListener("toggle", ev => { if (ev.target.matches && ev.target.matches("#metric-sim-root .msim-more")) moreOpen = ev.target.open; }, true);
+  document.addEventListener("change", ev => {
+    const el = ev.target; if (!el.closest || !el.closest("#metric-sim-root")) return;
+    const id = el.id;
+    if (id === "ms-ev") st.ev = ref(el.value);
+    else if (id === "ms-num") st.num = ref(el.value);
+    else if (id === "ms-den") st.den = ref(el.value);
+    else if (/^(ev|num|den)-prop$/.test(id)) { const r = refFor(id.split("-")[0]); r.prop = el.value; r.val = Object.keys(evOf(r).props[el.value])[0]; }
+    else if (/^(ev|num|den)-val$/.test(id)) refFor(id.split("-")[0]).val = el.value;
+    else if (id === "ms-group") st.more.group = el.value;
+    else if (id === "ms-window") st.more.window = Math.max(0, Math.min(720, Number(el.value) || 0));
+    else if (id === "ms-dir") st.more.lower = el.value === "1";
+    else if (id === "ms-new") st.isNew = el.checked;
+    else return;
+    touch(); render();
   });
-  document.addEventListener("input", e => {
-    const t = e.target; if (!t.closest || !t.closest("#metric-sim-root") || t.id !== "ms-name") return;
-    st.name = t.value; saved = null;
-    const root = document.getElementById("metric-sim-root");
-    const foot = root.querySelector(".msim-foot");
-    if (foot) foot.innerHTML = footHtml(problems(root._model));
+  document.addEventListener("input", ev => {
+    const el = ev.target; if (el.id !== "ms-name" || !el.closest("#metric-sim-root")) return;
+    st.name = el.value; saved = null;
+    const root = document.getElementById("metric-sim-root"), probs = problems(root._m);
+    const foot = root.querySelector(".msim-foot2");
+    if (foot) foot.innerHTML = (probs.length ? '<span class="msim-why">To save: ' + probs.map(esc).join(", ") + '</span>' : '<span class="msim-ok">Ready</span>') + '<button type="button" class="msim-save" data-msave' + (probs.length ? " disabled" : "") + '>Create metric</button>';
   });
   render();
 })();
