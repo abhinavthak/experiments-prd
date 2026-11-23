@@ -256,7 +256,83 @@ section h2,section h3{scroll-margin-top:16px}
 /* Experiments PRD additions */
 .data-flow svg { max-width: none; min-width: 720px; }
 figure.shot { margin: 14px 0 22px; }
-figure.shot img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #0a0a0a; }
+.rv-mount { min-height: 120px; }
+.rv { font-size: 13px; color: var(--txt); background: #F6F7FB; border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 12px; }
+.rv b { color: var(--ink); font-weight: 600; }
+.rv small { display: block; color: var(--mute); font-size: 12px; font-weight: 400; }
+.rv code { font-size: 11.5px; background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+.rv-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rv-crumb { color: var(--mute); font-size: 12px; }
+.rv-title { font-size: 19px; font-weight: 600; color: var(--ink); margin: 2px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rv-sub { color: var(--mute); font-size: 12.5px; }
+.rv-pill { font-size: 11.5px; font-weight: 600; border-radius: 99px; padding: 2px 9px; }
+.rv-run { background: var(--ok-bg); color: var(--ok-tx); border: 1px solid var(--ok-bd); }
+.rv-actions, .rv-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.rv-btn { font: inherit; font-size: 12.5px; font-weight: 500; color: var(--ink); background: #fff; border: 1px solid #D5D9E2; border-radius: 8px; padding: 7px 12px; display: inline-flex; gap: 6px; align-items: center; cursor: default; white-space: nowrap; }
+.rv-btn.sm { padding: 5px 10px; font-size: 12px; }
+.rv-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.rv-tabs { display: flex; gap: 18px; border-bottom: 1px solid var(--line); color: var(--mute); font-size: 13px; overflow-x: auto; }
+.rv-tabs span { padding: 6px 0 9px; white-space: nowrap; }
+.rv-tabs .on { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--accent); }
+.rv-alert { display: flex; gap: 9px; align-items: flex-start; border-radius: 9px; padding: 10px 12px; border: 1px solid; }
+.rv-alert svg { flex: none; margin-top: 2px; }
+.rv-warn { background: var(--warn-bg); border-color: var(--warn-bd); color: var(--warn-tx); }
+.rv-bad { background: #FEF2F2; border-color: #FBCACA; color: #B42318; }
+.rv-alert b { color: inherit; }
+.rv-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--mute); font-size: 12px; }
+.rv-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.rv-stats > div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.rv-stats b { display: block; font-size: 22px; font-weight: 600; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.rv-stats span { color: var(--mute); font-size: 12px; }
+.rv .good { color: var(--ok-tx); }
+.rv .bad { color: #C2410C; }
+.rv-decision { display: flex; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--ok-bd); border-left: 4px solid var(--ok-tx); border-radius: 10px; padding: 14px 16px; }
+.rv-check { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ok-bg); color: var(--ok-tx); display: grid; place-items: center; }
+.rv-dtext { flex: 1; min-width: 0; }
+.rv-dtext b { font-size: 14.5px; }
+.rv-dtext p { margin: 3px 0 0; }
+.rv-dwarn { margin-top: 7px; display: flex; gap: 6px; align-items: flex-start; color: var(--warn-tx); font-size: 12px; }
+.rv-dwarn svg { flex: none; margin-top: 1px; }
+.rv-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.rv-cardhead { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--line2); }
+.rv-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+.rv-controls label { display: grid; gap: 3px; font-size: 11px; color: var(--mute); }
+.rv-sel { border: 1px solid #D5D9E2; border-radius: 7px; padding: 4px 26px 4px 9px; font-size: 12.5px; color: var(--ink); background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236B7280' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 9px center; }
+.rv-seg { display: inline-flex; background: #F1F2F6; border-radius: 8px; padding: 2px; }
+.rv-seg button { font: inherit; font-size: 12px; border: 0; background: none; color: var(--mute); padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+.rv-seg button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(20,33,61,.12); }
+.rv-scroll { overflow-x: auto; }
+.rv-table { width: 100%; min-width: 660px; border-collapse: collapse; margin: 0; border: 0; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.rv-table th { white-space: nowrap; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); font-weight: 500; text-align: left; padding: 8px 12px; background: #FAFBFD; border: 0; border-bottom: 1px solid var(--line2); }
+.rv-table td { padding: 10px 12px; border: 0; border-bottom: 1px solid var(--line2); vertical-align: middle; background: #fff; }
+.rv-table tr:last-child td { border-bottom: 0; }
+.rv-table .r { text-align: right; }
+.rv-var { display: flex; align-items: center; gap: 9px; min-width: 170px; }
+.rv-dot { flex: none; width: 22px; height: 22px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+.rv-tag { font-size: 11px; border-radius: 99px; padding: 1px 8px; border: 1px solid; white-space: nowrap; }
+.rv-tag.good { color: var(--ok-tx); border-color: var(--ok-bd); background: var(--ok-bg); }
+.rv-tag.bad { color: #B42318; border-color: #FBCACA; background: #FEF2F2; }
+.rv-change { display: grid; gap: 2px; }
+.rv-change small { font-size: 11px; }
+.rv-bar { display: block; }
+.rv-faint { color: var(--faint); }
+.rv-chartwrap { padding: 8px 12px 12px; }
+.rv-chart { width: 100%; height: auto; display: block; }
+.rv-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--txt); padding: 4px 32px 0; }
+.rv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.rv-guard + .rv-guard { border-top: 1px solid var(--line); }
+.rv-eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); padding: 12px 16px 6px; }
+.rv-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 16px 10px; }
+.rv-chip { font-size: 11.5px; border-radius: 99px; padding: 2px 9px; border: 1px solid; }
+.rv-chip.ok { color: var(--ok-tx); border-color: var(--ok-bd); background: var(--ok-bg); }
+.rv-chip.warn { color: var(--warn-tx); border-color: var(--warn-bd); background: var(--warn-bg); }
+.rv-chip.bad { color: #B42318; border-color: #FBCACA; background: #FEF2F2; }
+.rv-chip b { color: inherit; }
+@media (max-width: 720px) {
+  .rv { padding: 12px; }
+  .rv-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rv-decision { flex-wrap: wrap; }
+}
 figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; line-height: 1.55; }
 /* Metric creation simulator */
 /* Simplified metric simulator */
@@ -415,7 +491,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
       <li><b>New: Results view (7)</b>: a result flowchart, layout, alerts and triggers, the call and its button, controls, table columns, how to read it, charts, states, acceptance criteria.</li>
       <li><b>Bayesian vs Frequentist explained (3.4)</b>: a worked example, a side-by-side comparison, and why Bayesian is the default.</li>
       <li><b>Metric creation simulator (8.2)</b>: start from business metrics (V2L, L2P, V2P, CTA click-through), a new Ratio type with numerator and denominator, a live 28-day preview, a definition sentence, the effect on test length, and the save rules.</li>
-      <li><b>What Results looks like (7).</b> Three annotated screens from the prototype.</li>
+      <li><b>What Results looks like (7).</b> Three interactive mock-ups in the PRD's light theme, with the prototype's numbers.</li>
       <li><b>Data runs on RudderStack (12).</b> Event list, identity, warehouse analysis, and data sources with GA4 and CleverTap planned for later.</li>
       <li><b>Ship now needs only the minimum run time (3.4).</b> The planned sample is a warning, never a gate, matching the advisory suggested duration.</li>
       <li><b>Metric definitions lock while a running test uses them (8.3).</b> Renaming is still allowed.</li>
@@ -810,12 +886,12 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   <p class="mini">How a reader gets from opening Results to a decision, in the order the panel applies its rules (3.4). Grey diamonds are checks; amber means wait or review, red means something is wrong or the original stays, green means ship.</p>
   <div class="lifecycle setup-flow result-flow"><svg viewBox="0 0 850 1210" role="img" aria-label="Experiment result flowchart" font-family="Inter,system-ui,sans-serif"><defs><marker id="fa3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9AA1B1"/></marker></defs><rect x="310.0" y="10" width="220" height="40" rx="20" fill="#2987D7"/><text x="420" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#fff" font-family="Sora,Inter,sans-serif">Open experiment results</text><path d="M420 50V72" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><polygon points="328,110 420,74 512,110 420,146" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="114" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Test state?</text><rect x="30.0" y="82" width="220" height="56" rx="10" fill="#F5F4FC" stroke="#B7B2E6" stroke-width="1.25"/><text x="140" y="106" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Draft or Scheduled</text><text x="140" y="125" text-anchor="middle" font-size="12.5" fill="#6B7280">Waiting for data</text><path d="M328 110H252.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="289.0" y="102" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">not started</text><rect x="570.0" y="82" width="260" height="56" rx="10" fill="#F5F4FC" stroke="#B7B2E6" stroke-width="1.25"/><text x="700" y="106" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Stopped</text><text x="700" y="125" text-anchor="middle" font-size="12.5" fill="#6B7280">Frozen: result, winner, conclusion</text><path d="M512 110H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="102" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">stopped</text><path d="M420 146V192" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="174" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">running</text><polygon points="328,230 420,194 512,230 420,266" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="226" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Health checks</text><text x="420" y="242" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">pass?</text><rect x="570.0" y="202" width="260" height="56" rx="10" fill="#FDECEC" stroke="#F0A8A8" stroke-width="1.25"/><text x="700" y="226" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Unhealthy</text><text x="700" y="245" text-anchor="middle" font-size="12.5" fill="#6B7280">Open Health; new phase or stop</text><path d="M512 230H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="222" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">no</text><path d="M420 266V298" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="286" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">yes</text><rect x="260.0" y="300" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25"/><text x="420" y="324" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Set the view</text><text x="420" y="343" text-anchor="middle" font-size="12.5" fill="#6B7280">Phase, baseline, difference, dimension</text><path d="M420 356V378" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><rect x="260.0" y="380" width="320" height="56" rx="10" fill="#FFFFFF" stroke="#C9CEDB" stroke-width="1.25"/><text x="420" y="404" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Read primary metric</text><text x="420" y="423" text-anchor="middle" font-size="12.5" fill="#6B7280">Change, interval, chance to beat, risk</text><path d="M420 436V462" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><polygon points="328,500 420,462 512,500 420,538" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="496" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Minimum data</text><text x="420" y="512" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">reached?</text><rect x="570.0" y="472" width="260" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="700" y="496" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Not enough data</text><text x="700" y="515" text-anchor="middle" font-size="12.5" fill="#6B7280">Keep running</text><path d="M512 500H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="492" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">no</text><path d="M420 538V580" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="564" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">yes</text><polygon points="328,620 420,582 512,620 420,658" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="616" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Conversion</text><text x="420" y="632" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">window closed?</text><rect x="570.0" y="592" width="260" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="700" y="616" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Maturing</text><text x="700" y="635" text-anchor="middle" font-size="12.5" fill="#6B7280">Payments still arriving</text><path d="M512 620H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="612" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">no</text><path d="M420 658V700" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="684" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">yes</text><polygon points="328,740 420,702 512,740 420,778" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="736" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Minimum run</text><text x="420" y="752" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">time reached?</text><rect x="570.0" y="712" width="260" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="700" y="736" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Early</text><text x="700" y="755" text-anchor="middle" font-size="12.5" fill="#6B7280">Shows days until a call</text><path d="M512 740H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="732" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">no</text><path d="M420 778V826" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="806" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">yes</text><polygon points="328,868 420,828 512,868 420,908" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="864" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Primary vs</text><text x="420" y="880" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">baseline?</text><rect x="30.0" y="840" width="220" height="56" rx="10" fill="#FDECEC" stroke="#F0A8A8" stroke-width="1.25"/><text x="140" y="864" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Roll back</text><text x="140" y="883" text-anchor="middle" font-size="12.5" fill="#6B7280">Clearly worse · Control stays</text><path d="M328 868H252.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="289.0" y="860" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">worse</text><rect x="570.0" y="840" width="260" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="700" y="864" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">No clear difference</text><text x="700" y="883" text-anchor="middle" font-size="12.5" fill="#6B7280">Keep running; at end, no winner</text><path d="M512 868H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="860" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">unclear</text><path d="M420 908V956" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="936" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">clearly better</text><polygon points="328,996 420,958 512,996 420,1034" fill="#F1F3F7" stroke="#9FADBA" stroke-width="1.25"/><text x="420" y="992" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">Guardrail</text><text x="420" y="1008" text-anchor="middle" font-size="13" font-weight="600" fill="#293744">state?</text><rect x="30.0" y="968" width="220" height="56" rx="10" fill="#FFF7E6" stroke="#E9C46A" stroke-width="1.25"/><text x="140" y="992" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Review</text><text x="140" y="1011" text-anchor="middle" font-size="12.5" fill="#6B7280">Failing: past its cutoff</text><path d="M328 996H252.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="289.0" y="988" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">failing</text><rect x="570.0" y="968" width="260" height="56" rx="10" fill="#EAF7EE" stroke="#8FD3A6" stroke-width="1.25"/><text x="700" y="992" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Ship, keep watching</text><text x="700" y="1011" text-anchor="middle" font-size="12.5" fill="#6B7280">Watch: could pass the cutoff</text><path d="M512 996H568.0" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="541.0" y="988" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B7280">watch</text><path d="M420 1034V1070" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><text x="428" y="1056" text-anchor="start" font-size="11.5" font-weight="600" fill="#6B7280">within cutoff</text><rect x="260.0" y="1072" width="320" height="56" rx="10" fill="#EAF7EE" stroke="#8FD3A6" stroke-width="1.25"/><text x="420" y="1096" text-anchor="middle" font-size="14" font-weight="600" fill="#14213D" font-family="Sora,Inter,sans-serif">Ship now</text><text x="420" y="1115" text-anchor="middle" font-size="12.5" fill="#6B7280">Stop · Won: winner becomes the default</text><path d="M420 1128V1150" fill="none" stroke="#B9BFCC" stroke-width="1.5" marker-end="url(#fa3)"/><rect x="270.0" y="1152" width="300" height="40" rx="20" fill="#2F9E6E"/><text x="420" y="1177" text-anchor="middle" font-size="14" font-weight="600" fill="#fff" font-family="Sora,Inter,sans-serif">Conclusion → report</text></svg></div>
   <h4 style="font-size:14.5px;margin:22px 0 6px">What it looks like</h4>
-  <p class="mini">Screens from the working prototype (simulated data), using the product's visual design. The test is "Online BBA — banner &amp; sticky CTA" on day 9 of 21.</p>
-  <figure class="shot"><img src="img/results-1-decision.jpg" alt="Results tab: header, alerts, summary numbers and the Ship now call with a planned-sample warning" loading="lazy">
+  <p class="mini">Live React mock-ups with the same numbers as the prototype (simulated data). The test is "Online BBA — banner &amp; sticky CTA" on day 9 of 21. The Difference and chart toggles work.</p>
+  <figure class="shot"><div id="rv-top" class="rv-mount"></div>
     <figcaption><b>1. Decision first.</b> Alerts for a mid-test edit and a failing guardrail (7.2), four summary numbers (7.3), then the call: <i>Ship now</i> with its button, and the amber planned-sample warning because only 17% of the planned visitors are in (3.4, 7.4).</figcaption></figure>
-  <figure class="shot"><img src="img/results-2-table.jpg" alt="Primary metric table with change intervals, chance to beat and risk, and the cumulative chart" loading="lazy">
+  <figure class="shot"><div id="rv-evidence" class="rv-mount"></div>
     <figcaption><b>2. The evidence.</b> View controls (7.5), the result table: B is +23.7% (interval +6.5% to +40.9%, 100% chance to beat A), C is +13.0% but its interval crosses zero, so it stays grey (7.6). Below, the cumulative chart (7.7).</figcaption></figure>
-  <figure class="shot"><img src="img/results-3-guardrails.jpg" alt="Guardrails with cutoff state chips per variant" loading="lazy">
+  <figure class="shot"><div id="rv-guards" class="rv-mount"></div>
     <figcaption><b>3. Guardrails.</b> Each guardrail shows its cutoff and a state per variant (3.4, 7.8). C makes page load 38.1% worse, past its 5% cutoff: <i>Failing</i>. On bounce rate C is slightly better, but its interval reaches +3.9%, past the 3% cutoff, so it is <i>Watch</i>.</figcaption></figure>
   <h3><span class="num">7.1</span>Layout, top to bottom</h3>
   <ol>
@@ -1241,7 +1317,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>23 Nov 2026</td><td>Annotated Results screenshots added (7). Data and integrations rewritten around RudderStack, with GA4 and CleverTap as future data sources. Ship now gated only by the minimum run time, with a planned-sample warning; metric definitions locked while a running test uses them. A metric in use (any experiment, in any state, or a holdout) can never be deleted. Metric form: More options removed; settings are automatic.</td></tr>
+    <tr><td>23 Nov 2026</td><td>Interactive React mock-ups of the Results view added (7). Data and integrations rewritten around RudderStack, with GA4 and CleverTap as future data sources. Ship now gated only by the minimum run time, with a planned-sample warning; metric definitions locked while a running test uses them. A metric in use (any experiment, in any state, or a holdout) can never be deleted. Metric form: More options removed; settings are automatic.</td></tr>
     <tr><td>22 Nov 2026</td><td>Simpler metric form (name, single event or ratio, events; group, window and direction set automatically), matched in the prototype. Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
@@ -1618,6 +1694,197 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   window.addEventListener('afterprint', () => document.querySelectorAll('details').forEach(d => { d.open = d.dataset.wasOpen === '1'; }));
 })();
 
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function () {
+  if (!window.React || !window.ReactDOM || !window.htm) return;
+  const { useState } = React;
+  const html = htm.bind(React.createElement);
+
+  // Sample test: Online BBA, day 9 of 21 (same numbers as the prototype).
+  const V = [
+    { k: "A", name: "Original", color: "#8B93A5" },
+    { k: "B", name: "Short banner + sticky CTA", color: "#2F6FEB" },
+    { k: "C", name: "Video banner", color: "#E8710A" },
+  ];
+  const PRIMARY = {
+    name: "Lead form submitted", kind: "rate",
+    rows: [
+      { n: 4328, x: 331, v: 7.65 },
+      { n: 4239, x: 401, v: 9.46, d: 23.7, lo: 6.5, hi: 40.9, ctb: 100, risk: 0.01, tag: "Winning" },
+      { n: 4097, x: 354, v: 8.64, d: 13.0, lo: -3.2, hi: 29.2, ctb: 94, risk: 0.21 },
+    ],
+  };
+  const GUARDS = [
+    { name: "Page load (LCP, p75)", cut: 5, kind: "mean", unit: "s", lower: true,
+      chips: [["B", "ok", "Within cutoff · 0.4% worse"], ["C", "bad", "Failing · 38.1% worse"]],
+      rows: [
+        { n: 4328, x: 2.09, v: 2.09 },
+        { n: 4239, x: 2.1, v: 2.1, d: 0.4, lo: -1.2, hi: 2.0, ctb: 32, risk: 0.56 },
+        { n: 4097, x: 2.88, v: 2.88, d: 38.1, lo: 36.1, hi: 40.1, ctb: 0, risk: 38.09, tag: "Worse" },
+      ] },
+    { name: "Bounce rate", cut: 3, kind: "rate", lower: true,
+      chips: [["B", "ok", "Within cutoff · 5.7% better"], ["C", "warn", "Watch · 0.6% better"]],
+      rows: [
+        { n: 4328, x: 2070, v: 47.83 },
+        { n: 4239, x: 1911, v: 45.08, d: -5.7, lo: -10.0, hi: -1.5, ctb: 100, risk: 0.0, tag: "Better" },
+        { n: 4097, x: 1948, v: 47.55, d: -0.6, lo: -5.0, hi: 3.9, ctb: 60, risk: 0.64 },
+      ] },
+  ];
+  const DAYS = ["Nov 15", "16", "17", "18", "19", "20", "21", "22", "23"];
+  const CUM = {
+    A: [6.6, 7.3, 7.6, 7.6, 7.8, 8.0, 8.0, 7.85, 7.65],
+    B: [10.1, 9.0, 8.8, 9.0, 9.3, 9.2, 9.1, 9.4, 9.46],
+    C: [6.7, 7.8, 9.2, 8.8, 8.9, 8.6, 8.5, 8.6, 8.64],
+  };
+
+  const fmt = (n) => n.toLocaleString("en-IN");
+  const sgn = (n, dp = 1) => (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n).toFixed(dp);
+
+  const Dot = ({ v }) => html`<span class="rv-dot" style=${{ background: v.color }}>${v.k}</span>`;
+  const Icon = {
+    warn: html`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>`,
+    check: html`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
+    clock: html`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+  };
+
+  function Header() {
+    return html`<div class="rv-head">
+      <div>
+        <div class="rv-crumb">Experiments / BBA</div>
+        <div class="rv-title">Online BBA — banner & sticky CTA <span class="rv-pill rv-run">● Running</span></div>
+        <div class="rv-sub">Started Nov 15, 2026 · day 9 of 21 · tracking key <code>online-bba-banner-cta</code> · Abhinav Thakur</div>
+      </div>
+      <div class="rv-actions"><button class="rv-btn">Make changes</button><button class="rv-btn rv-primary">Stop experiment</button></div>
+    </div>
+    <div class="rv-tabs"><span>Overview</span><span class="on">Results</span><span>Health</span><span>History & comments</span></div>`;
+  }
+
+  function Top() {
+    return html`<div class="rv">
+      <${Header} />
+      <div class="rv-alert rv-warn">${Icon.warn}<span><b>B was edited on Nov 19, 2026, 4:00 PM</b> (Banner section). Visitors before and after saw different versions of B.</span></div>
+      <div class="rv-alert rv-bad">${Icon.warn}<span><b>Guardrail failing:</b> C makes <b>Page load (LCP, p75)</b> 38.1% worse, past its 5% cutoff.</span></div>
+      <div class="rv-meta"><span>Bayesian · updated today 06:00 IST</span><span class="rv-tools"><button class="rv-btn sm">${Icon.clock} Update</button><button class="rv-btn sm">Export CSV</button><button class="rv-btn sm">Create report</button></span></div>
+      <div class="rv-stats">
+        <div><small>Visitors in test</small><b>12,664</b><span>Across 3 variants</span></div>
+        <div><small>Conversions (primary)</small><b>1,086</b><span>Lead form submitted</span></div>
+        <div><small>Best variant</small><b class="good">B · +23.7%</b><span>100% chance to beat A</span></div>
+        <div><small>Top secondary</small><b>B · +26%</b><span>Enroll Now click vs A</span></div>
+      </div>
+      <div class="rv-decision">
+        <span class="rv-check">${Icon.check}</span>
+        <div class="rv-dtext"><b>Ship now</b>
+          <p>B is ahead on the primary metric. Declaring B makes it the page's default, so every visitor sees it. A stays as a variant you can switch back to.</p>
+          <div class="rv-dwarn">${Icon.warn} Below the planned sample: 17% of 24,517 visitors per variant. The real lift may be smaller than it looks; running longer makes it more reliable.</div>
+        </div>
+        <button class="rv-btn rv-primary">Stop & make B the default</button>
+      </div>
+    </div>`;
+  }
+
+  // Interval bar: grey line, zero tick, CI band, point marker.
+  function Bar({ r, dom, lower, abs }) {
+    const [a, b] = dom, W = 120, x = (t) => ((t - a) / (b - a)) * W;
+    const good = lower ? r.hi < 0 : r.lo > 0, bad = lower ? r.lo > 0 : r.hi < 0;
+    const fill = good ? "#16A34A" : bad ? "#DC2626" : "#AEB4C2";
+    return html`<svg class="rv-bar" viewBox=${`0 0 ${W} 14`} width=${W} height="14">
+      <line x1="0" x2=${W} y1="7" y2="7" stroke="#D5D9E2" />
+      <line x1=${x(0)} x2=${x(0)} y1="1" y2="13" stroke="#8B93A5" />
+      <rect x=${x(r.lo)} y="3.5" width=${Math.max(2, x(r.hi) - x(r.lo))} height="7" rx="3.5" fill=${fill} opacity="0.85" />
+      <rect x=${x(r.d) - 1.5} y="1" width="3" height="12" rx="1" fill="#14213D" />
+    </svg>`;
+  }
+
+  function MetricTable({ m, abs, lower }) {
+    const base = m.rows[0].v;
+    const conv = (t) => (abs && m.kind === "rate" ? (t * base) / 100 : t);
+    const rows = m.rows.map((r) => (r.d === undefined ? r : { ...r, d: conv(r.d), lo: conv(r.lo), hi: conv(r.hi) }));
+    const ext = Math.max(...rows.filter((r) => r.d !== undefined).flatMap((r) => [Math.abs(r.lo), Math.abs(r.hi)])) * 1.15;
+    const unitS = abs && m.kind === "rate" ? " pp" : "%";
+    const val = (r) => (m.kind === "rate" ? r.v.toFixed(2) + "%" : r.v.toFixed(2) + m.unit);
+    const tagCls = { Winning: "good", Better: "good", Worse: "bad" };
+    return html`<div class="rv-scroll"><table class="rv-table">
+      <thead><tr><th>Variant</th><th class="r">Visitors</th><th class="r">${m.kind === "rate" ? "Conversions" : "Average"}</th><th class="r">${m.kind === "rate" ? "Conv. rate" : "Value"}</th><th>Change vs A</th><th class="r">Chance to beat</th><th class="r">Risk</th></tr></thead>
+      <tbody>${rows.map((r, i) => {
+        const good = r.d !== undefined && (lower ? r.hi < 0 : r.lo > 0), bad = r.d !== undefined && (lower ? r.lo > 0 : r.hi < 0);
+        return html`<tr key=${i}>
+          <td><div class="rv-var"><${Dot} v=${V[i]} /><div><b>${V[i].name}</b>${i === 0 ? html`<small>Baseline</small>` : ""}</div>${r.tag ? html`<span class=${"rv-tag " + tagCls[r.tag]}>${r.tag}</span>` : ""}</div></td>
+          <td class="r">${fmt(r.n)}</td>
+          <td class="r">${m.kind === "rate" ? fmt(r.x) : r.x.toFixed(2) + m.unit}</td>
+          <td class="r"><b>${val(r)}</b></td>
+          <td>${r.d === undefined ? html`<span class="rv-faint">—</span>` : html`<div class="rv-change">
+            <b class=${good ? "good" : bad ? "bad" : ""}>${sgn(r.d)}${unitS}</b>
+            <${Bar} r=${r} dom=${[-ext, ext]} lower=${lower} />
+            <small>${sgn(r.lo)}${unitS} to ${sgn(r.hi)}${unitS}</small></div>`}</td>
+          <td class="r">${r.ctb === undefined ? "—" : r.ctb + "%"}</td>
+          <td class=${"r" + (r.risk > 0.5 ? " bad" : "")}>${r.risk === undefined ? "—" : r.risk.toFixed(2) + "%"}</td>
+        </tr>`;
+      })}</tbody></table></div>`;
+  }
+
+  function Seg({ opts, val, set }) {
+    return html`<span class="rv-seg">${opts.map((o) => html`<button key=${o} class=${o === val ? "on" : ""} onClick=${() => set(o)}>${o}</button>`)}</span>`;
+  }
+
+  function Chart({ mode }) {
+    const W = 760, H = 230, L = 44, R = 16, T = 12, B = 28;
+    const series = mode === "Cumulative"
+      ? V.map((v) => ({ v, d: CUM[v.k] }))
+      : V.slice(1).map((v) => ({ v, d: CUM[v.k].map((y, i) => (y / CUM.A[i] - 1) * 100) }));
+    const all = series.flatMap((s) => s.d).concat(mode === "Change" ? [0] : []);
+    const rawLo = Math.min(...all), rawHi = Math.max(...all);
+    const step = [0.5, 1, 2, 5, 10, 20, 25, 50].find((st) => (rawHi - rawLo) / st <= 4) || 100;
+    const lo = Math.floor(rawLo / step) * step, hi = Math.ceil(rawHi / step) * step;
+    const x = (i) => L + (i / (DAYS.length - 1)) * (W - L - R), y = (t) => T + (1 - (t - lo) / (hi - lo)) * (H - T - B);
+    const ticks = []; for (let t = lo; t <= hi + 1e-9; t += step) ticks.push(t);
+    return html`<svg class="rv-chart" viewBox=${`0 0 ${W} ${H}`} role="img" aria-label=${mode + " chart"}>
+      ${ticks.map((t, i) => html`<g key=${"t" + i}><line x1=${L} x2=${W - R} y1=${y(t)} y2=${y(t)} stroke="#EDEFF5" /><text x=${L - 8} y=${y(t) + 4} text-anchor="end" font-size="11" fill="#9AA1B1">${(mode === "Change" ? sgn(t, 0) : t.toFixed(step < 1 ? 1 : 0)) + "%"}</text></g>`)}
+      ${mode === "Change" ? html`<line x1=${L} x2=${W - R} y1=${y(0)} y2=${y(0)} stroke="#8B93A5" stroke-dasharray="4 4" />` : ""}
+      ${DAYS.map((d, i) => (i % 2 === 0 ? html`<text key=${"d" + i} x=${x(i)} y=${H - 8} text-anchor="middle" font-size="11" fill="#9AA1B1">${d}</text>` : ""))}
+      <line x1=${x(4)} x2=${x(4)} y1=${T} y2=${H - B} stroke="#E0A800" stroke-dasharray="3 3" />
+      <text x=${x(4) + 5} y=${T + 10} font-size="10.5" fill="#92660C">B edited</text>
+      ${series.map((s) => html`<g key=${s.v.k}><path d=${s.d.map((t, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(t).toFixed(1)).join("")} fill="none" stroke=${s.v.color} stroke-width="2.2" stroke-linejoin="round" />
+        <circle cx=${x(s.d.length - 1)} cy=${y(s.d[s.d.length - 1])} r="4" fill=${s.v.color} /></g>`)}
+    </svg>
+    <div class="rv-legend">${series.map((s) => html`<span key=${s.v.k}><i style=${{ background: s.v.color }}></i>${s.v.k} · ${s.v.name}${mode === "Change" ? " vs A" : ""}</span>`)}</div>`;
+  }
+
+  function Evidence() {
+    const [diff, setDiff] = useState("Relative");
+    const [mode, setMode] = useState("Cumulative");
+    return html`<div class="rv">
+      <div class="rv-card">
+        <div class="rv-cardhead"><div><b>Primary metric · Lead form submitted</b><small>Bayesian · 95% credible interval</small></div>
+          <div class="rv-controls"><label>Baseline<span class="rv-sel">A · Original</span></label><label>Difference<${Seg} opts=${["Relative", "Absolute"]} val=${diff} set=${setDiff} /></label><label>Dimension<span class="rv-sel">None</span></label></div></div>
+        <${MetricTable} m=${PRIMARY} abs=${diff === "Absolute"} />
+      </div>
+      <div class="rv-card">
+        <div class="rv-cardhead"><div><b>Lead form submitted over time</b><small>${mode === "Cumulative" ? "Cumulative rate per variant." : "Each variant's change vs A, cumulative."}</small></div><${Seg} opts=${["Cumulative", "Change"]} val=${mode} set=${setMode} /></div>
+        <div class="rv-chartwrap"><${Chart} mode=${mode} /></div>
+      </div>
+    </div>`;
+  }
+
+  function Guardrails() {
+    return html`<div class="rv"><div class="rv-card">
+      <div class="rv-cardhead"><div><b>Guardrails</b><small>Fails when a variant is clearly worse by more than its cutoff</small></div></div>
+      ${GUARDS.map((g) => html`<div key=${g.name} class="rv-guard">
+        <div class="rv-eyebrow">${g.name} · lower is better · may get up to ${g.cut}% worse</div>
+        <div class="rv-chips">${g.chips.map(([k, s, t]) => html`<span key=${k} class=${"rv-chip " + s}><b>${k}</b> ${t}</span>`)}</div>
+        <${MetricTable} m=${g} lower=${g.lower} />
+      </div>`)}
+    </div></div>`;
+  }
+
+  const mount = (id, C) => { const el = document.getElementById(id); if (el) ReactDOM.createRoot(el).render(html`<${C} />`); };
+  mount("rv-top", Top);
+  mount("rv-evidence", Evidence);
+  mount("rv-guards", Guardrails);
+})();
 </script>
 
 </body>
