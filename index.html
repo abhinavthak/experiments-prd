@@ -303,17 +303,22 @@ figure.shot { margin: 14px 0 22px; }
 .rv-seg button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(20,33,61,.12); }
 .rv-scroll { overflow-x: auto; }
 .rv-table { width: 100%; min-width: 660px; border-collapse: collapse; margin: 0; border: 0; font-size: 12.5px; font-variant-numeric: tabular-nums; }
-.rv-table th { white-space: nowrap; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); font-weight: 500; text-align: left; padding: 8px 12px; background: #FAFBFD; border: 0; border-bottom: 1px solid var(--line2); }
-.rv-table td { padding: 10px 12px; border: 0; border-bottom: 1px solid var(--line2); vertical-align: middle; background: #fff; }
+.rv-table th { white-space: nowrap; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); font-weight: 500; text-align: left; padding: 8px 8px; background: #FAFBFD; border: 0; border-bottom: 1px solid var(--line2); }
+.rv-table td { padding: 10px 8px; border: 0; border-bottom: 1px solid var(--line2); vertical-align: middle; background: #fff; }
 .rv-table tr:last-child td { border-bottom: 0; }
+.rv-table th:first-child, .rv-table td:first-child { padding-left: 14px; }
+.rv-table th:last-child, .rv-table td:last-child { padding-right: 14px; }
 .rv-table .r { text-align: right; }
-.rv-var { display: flex; align-items: center; gap: 9px; min-width: 170px; }
+.rv-var { display: flex; align-items: center; gap: 9px; min-width: 136px; }
 .rv-dot { flex: none; width: 22px; height: 22px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
 .rv-tag { font-size: 11px; border-radius: 99px; padding: 1px 8px; border: 1px solid; white-space: nowrap; }
 .rv-tag.good { color: var(--ok-tx); border-color: var(--ok-bd); background: var(--ok-bg); }
 .rv-tag.bad { color: #B42318; border-color: #FBCACA; background: #FEF2F2; }
 .rv-change { display: grid; gap: 2px; }
-.rv-change small { font-size: 11px; }
+.rv-change small { font-size: 11.5px; color: var(--mute); white-space: nowrap; }
+.rv-change small.good { color: var(--ok-tx); }
+.rv-change small.bad { color: #C2410C; }
+.rv-note { font-size: 12.5px; color: var(--mute); padding: 10px 16px 12px; border-top: 1px solid var(--line2); line-height: 1.5; }
 .rv-bar { display: block; }
 .rv-faint { color: var(--faint); }
 .rv-chartwrap { padding: 8px 12px 12px; }
@@ -491,6 +496,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
       <li><b>New: Results view (7)</b>: a result flowchart, layout, alerts and triggers, the call and its button, controls, table columns, how to read it, charts, states, acceptance criteria.</li>
       <li><b>Bayesian vs Frequentist explained (3.4)</b>: a worked example, a side-by-side comparison, and why Bayesian is the default.</li>
       <li><b>Metric creation simulator (8.2)</b>: start from business metrics (V2L, L2P, V2P, CTA click-through), a new Ratio type with numerator and denominator, a live 28-day preview, a definition sentence, the effect on test length, and the save rules.</li>
+      <li><b>Change column reads in words (7.6).</b> "Likely 6.5% to 40.9% higher" or "Unclear: 3.2% lower to 29.2% higher" instead of "+6.5% to +40.9%".</li>
       <li><b>What Results looks like (7).</b> Three interactive mock-ups in the PRD's light theme, with the prototype's numbers.</li>
       <li><b>Data runs on RudderStack (12).</b> Event list, identity, warehouse analysis, and data sources with GA4 and CleverTap planned for later.</li>
       <li><b>Ship now needs only the minimum run time (3.4).</b> The planned sample is a warning, never a gate, matching the advisory suggested duration.</li>
@@ -890,7 +896,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   <figure class="shot"><div id="rv-top" class="rv-mount"></div>
     <figcaption><b>1. Decision first.</b> Alerts for a mid-test edit and a failing guardrail (7.2), four summary numbers (7.3), then the call: <i>Ship now</i> with its button, and the amber planned-sample warning because only 17% of the planned visitors are in (3.4, 7.4).</figcaption></figure>
   <figure class="shot"><div id="rv-evidence" class="rv-mount"></div>
-    <figcaption><b>2. The evidence.</b> View controls (7.5), the result table: B is +23.7% (interval +6.5% to +40.9%, 100% chance to beat A), C is +13.0% but its interval crosses zero, so it stays grey (7.6). Below, the cumulative chart (7.7).</figcaption></figure>
+    <figcaption><b>2. The evidence.</b> View controls (7.5), the result table: B is +23.7%, "likely 6.5% to 40.9% higher", with a 100% chance to beat A. C is +13.0% but "unclear: 3.2% lower to 29.2% higher", so it stays grey (7.6). Below, the cumulative chart (7.7).</figcaption></figure>
   <figure class="shot"><div id="rv-guards" class="rv-mount"></div>
     <figcaption><b>3. Guardrails.</b> Each guardrail shows its cutoff and a state per variant (3.4, 7.8). C makes page load 38.1% worse, past its 5% cutoff: <i>Failing</i>. On bounce rate C is slightly better, but its interval reaches +3.9%, past the 3% cutoff, so it is <i>Watch</i>.</figcaption></figure>
   <h3><span class="num">7.1</span>Layout, top to bottom</h3>
@@ -949,7 +955,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
     <tr><td>Variant</td><td>Key, name, and a Better / Worse badge only when the result is clear</td></tr>
     <tr><td>Visitors</td><td>Visitors counted for this metric (after the activation metric, if set)</td></tr>
     <tr><td>Conversions · Conv. rate</td><td>For conversion metrics. For averages: Average and Value</td></tr>
-    <tr><td>Change vs baseline</td><td>The change and its interval, drawn as a bar around zero: green if clearly better, red if clearly worse, grey if unsure. "Lower is better" metrics are labelled</td></tr>
+    <tr><td>Change vs baseline</td><td>Three lines: the <b>best estimate</b> (+23.7%), a bar around zero (green if clearly better, red if clearly worse, grey if unsure), and the <b>interval in words</b>: "Likely 6.5% to 40.9% higher", "Likely 1.5% to 10.0% lower", or "Unclear: 3.2% lower to 29.2% higher" when it crosses zero. When the chance to beat has passed 95% but the range still touches zero (possible between 95% and 97.5%), it reads "Probably higher: 1.5% lower to 31.3% higher", so the Winning badge and the words never disagree. Raw "+6.5% to +40.9%" is not shown, because readers took it for two separate results. "Lower is better" metrics are labelled</td></tr>
     <tr><td>Chance to beat · p-value</td><td>Bayesian: chance the variant beats the baseline. Frequentist: p-value, adjusted when a correction is on</td></tr>
     <tr><td>Risk</td><td>Bayesian only: expected loss if you ship this variant and it is actually worse</td></tr>
   </table></div>
@@ -957,7 +963,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   <h4 style="font-size:14.5px;margin:18px 0 6px">How to read it (shown as a help note)</h4>
   <ul>
     <li><b>Chance to beat 97%</b>: if you ship B, there is a 97% chance it really is better. The panel calls a winner at 95%.</li>
-    <li><b>Interval crosses zero</b>: the data can't yet tell better from worse.</li>
+    <li><b>"Unclear: 3.2% lower to 29.2% higher"</b>: the interval crosses zero, so the data can't yet tell better from worse.</li>
     <li><b>Risk 0.3%</b>: if B is actually worse, you'd expect to lose about 0.3% of conversions by shipping it.</li>
   </ul>
   <h3><span class="num">7.7</span>Charts</h3>
@@ -1317,7 +1323,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>23 Nov 2026</td><td>Interactive React mock-ups of the Results view added (7). Data and integrations rewritten around RudderStack, with GA4 and CleverTap as future data sources. Ship now gated only by the minimum run time, with a planned-sample warning; metric definitions locked while a running test uses them. A metric in use (any experiment, in any state, or a holdout) can never be deleted. Metric form: More options removed; settings are automatic.</td></tr>
+    <tr><td>23 Nov 2026</td><td>Change column states the interval in words. Interactive React mock-ups of the Results view added (7). Data and integrations rewritten around RudderStack, with GA4 and CleverTap as future data sources. Ship now gated only by the minimum run time, with a planned-sample warning; metric definitions locked while a running test uses them. A metric in use (any experiment, in any state, or a holdout) can never be deleted. Metric form: More options removed; settings are automatic.</td></tr>
     <tr><td>22 Nov 2026</td><td>Simpler metric form (name, single event or ratio, events; group, window and direction set automatically), matched in the prototype. Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
@@ -1742,6 +1748,13 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
   };
 
   const fmt = (n) => n.toLocaleString("en-IN");
+  // The interval in words: which way it points, and how far.
+  const words = (r, u) => {
+    const m = (x) => Math.abs(x).toFixed(1) + u;
+    if (r.lo > 0) return `Likely ${m(r.lo)} to ${m(r.hi)} higher`;
+    if (r.hi < 0) return `Likely ${m(r.hi)} to ${m(r.lo)} lower`;
+    return `Unclear: ${m(r.lo)} lower to ${m(r.hi)} higher`;
+  };
   const sgn = (n, dp = 1) => (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n).toFixed(dp);
 
   const Dot = ({ v }) => html`<span class="rv-dot" style=${{ background: v.color }}>${v.k}</span>`;
@@ -1788,7 +1801,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
 
   // Interval bar: grey line, zero tick, CI band, point marker.
   function Bar({ r, dom, lower, abs }) {
-    const [a, b] = dom, W = 120, x = (t) => ((t - a) / (b - a)) * W;
+    const [a, b] = dom, W = 110, x = (t) => ((t - a) / (b - a)) * W;
     const good = lower ? r.hi < 0 : r.lo > 0, bad = lower ? r.lo > 0 : r.hi < 0;
     const fill = good ? "#16A34A" : bad ? "#DC2626" : "#AEB4C2";
     return html`<svg class="rv-bar" viewBox=${`0 0 ${W} 14`} width=${W} height="14">
@@ -1819,7 +1832,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
           <td>${r.d === undefined ? html`<span class="rv-faint">—</span>` : html`<div class="rv-change">
             <b class=${good ? "good" : bad ? "bad" : ""}>${sgn(r.d)}${unitS}</b>
             <${Bar} r=${r} dom=${[-ext, ext]} lower=${lower} />
-            <small>${sgn(r.lo)}${unitS} to ${sgn(r.hi)}${unitS}</small></div>`}</td>
+            <small class=${good ? "good" : bad ? "bad" : ""}>${words(r, abs && m.kind === "rate" ? " pp" : "%")}</small></div>`}</td>
           <td class="r">${r.ctb === undefined ? "—" : r.ctb + "%"}</td>
           <td class=${"r" + (r.risk > 0.5 ? " bad" : "")}>${r.risk === undefined ? "—" : r.risk.toFixed(2) + "%"}</td>
         </tr>`;
@@ -1861,6 +1874,7 @@ figure.shot figcaption { font-size: 13.5px; color: var(--txt); margin-top: 8px; 
         <div class="rv-cardhead"><div><b>Primary metric · Lead form submitted</b><small>Bayesian · 95% credible interval</small></div>
           <div class="rv-controls"><label>Baseline<span class="rv-sel">A · Original</span></label><label>Difference<${Seg} opts=${["Relative", "Absolute"]} val=${diff} set=${setDiff} /></label><label>Dimension<span class="rv-sel">None</span></label></div></div>
         <${MetricTable} m=${PRIMARY} abs=${diff === "Absolute"} />
+        <div class="rv-note"><b>How to read Change:</b> the big number is the best estimate. The line under it is where the real change most likely sits (95% interval). "Unclear" means it could still go either way.</div>
       </div>
       <div class="rv-card">
         <div class="rv-cardhead"><div><b>Lead form submitted over time</b><small>${mode === "Cumulative" ? "Cumulative rate per variant." : "Each variant's change vs A, cumulative."}</small></div><${Seg} opts=${["Cumulative", "Change"]} val=${mode} set=${setMode} /></div>
