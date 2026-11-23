@@ -411,7 +411,7 @@ section h2,section h3{scroll-margin-top:16px}
       <li><b>New: Results view (7)</b>: a result flowchart, layout, alerts and triggers, the call and its button, controls, table columns, how to read it, charts, states, acceptance criteria.</li>
       <li><b>Bayesian vs Frequentist explained (3.4)</b>: a worked example, a side-by-side comparison, and why Bayesian is the default.</li>
       <li><b>Metric creation simulator (8.2)</b>: start from business metrics (V2L, L2P, V2P, CTA click-through), a new Ratio type with numerator and denominator, a live 28-day preview, a definition sentence, the effect on test length, and the save rules.</li>
-      <li><b>Simpler metric form (8.2).</b> Name, single event or ratio, the event(s); one grouped event list; filters on request; smart defaults under More options; a compact preview.</li>
+      <li><b>Simpler metric form (8.2).</b> Name, single event or ratio, the event(s); one grouped event list; filters on request; group, window and direction set automatically; a compact preview.</li>
       <li><b>Two metric types: Single event or Ratio (8.1).</b> "Average" is now a way to count a single event that carries a number.</li>
       <li><b>Insights removed.</b> Conclusions stay on each test's Results and in its reports (7.9, 10).</li>
       <li><b>Ratio metrics (8.1)</b>: e.g. V2L = leads ÷ visits, L2P = payments ÷ leads; added to the built-in metrics (8.4).</li>
@@ -925,7 +925,7 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Baseline</td><td>The usual rate or value, <b>computed from the last 28 days</b> once a source is connected, used by the suggested duration (3.5). Entered by hand until then.</td></tr>
   </table></div>
   <h3><span class="num">8.2</span>Creating a metric</h3>
-  <p>Metrics → <span class="cta">New metric</span> opens one short form on the left and a live preview on the right. Most metrics need only three answers: a name, single event or ratio, and the event(s). Everything else has a smart default and sits under <b>More options</b>. <b>Start from</b> offers ready definitions: V2L, L2P, WhatsApp chat, Payment amount, or Blank.</p>
+  <p>Metrics → <span class="cta">New metric</span> opens one short form on the left and a live preview on the right. Most metrics need only three answers: a name, single event or ratio, and the event(s). Group, window and direction are set automatically from the event, so the form asks nothing else. <b>Start from</b> offers ready definitions: V2L, L2P, WhatsApp chat, Payment amount, or Blank.</p>
   <div class="wdg"><div class="wdg-h"><span class="wid">M1</span><b>The form</b></div>
   <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:15%"><col style="width:12%"><col style="width:51%"></colgroup>
     <tr><th>Field</th><th>Type</th><th>Input</th><th>What it is</th></tr>
@@ -935,17 +935,10 @@ section h2,section h3{scroll-margin-top:16px}
     <tr><td>Count · Divided by</td><td>Two event lists</td><td><span class="rq r">Ratio only</span></td><td>Replace Event for a ratio, e.g. Lead form submitted ÷ Visit started.</td></tr>
     <tr><td>+ Add filter</td><td>Link, then property and value</td><td><span class="rq o">Optional</span></td><td>One condition per event, e.g. channel is whatsapp. Hidden until asked for.</td></tr>
     <tr><td>Count as</td><td>Two-way switch</td><td><span class="rq a">Only if numeric</span></td><td>Shown when the event carries a number: <i>% of visitors who did it</i> (default) or <i>average value per visitor</i>. Page performance is always an average.</td></tr>
+    <tr><td>New event, not live yet</td><td>Checkbox</td><td><span class="rq a">Only if no data</span></td><td>Lets an event with no data in 28 days be saved anyway.</td></tr>
   </table></div></div>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M2</span><b>More options</b><span class="wj">Folded; the summary shows the current values, e.g. "Lead forms · 72 h window".</span></div>
-  <div class="wrap"><table class="fixed wt"><colgroup><col style="width:22%"><col style="width:26%"><col style="width:52%"></colgroup>
-    <tr><th>Setting</th><th>Smart default</th><th>Why</th></tr>
-    <tr><td>Group</td><td>From the event's source</td><td>Groups the metric pickers.</td></tr>
-    <tr><td>Window</td><td>72 h; 168 h for payments</td><td>Payments arrive later than leads (11.3).</td></tr>
-    <tr><td>Direction</td><td>Lower is better for page performance; otherwise higher</td><td>Decides what "better" means in results.</td></tr>
-    <tr><td>Minimum data, flag changes above, default guardrail cutoff</td><td>100, 50%, 2%</td><td>Quality settings (8.1), rarely changed.</td></tr>
-    <tr><td>New event, not live yet</td><td>Off</td><td>Shown only when the event has no data; lets it save anyway.</td></tr>
-  </table></div></div>
-  <div class="wdg"><div class="wdg-h"><span class="wid">M3</span><b>Preview: last 28 days</b><span class="wj">Updates as the form changes.</span></div>
+  <p class="mini">Set automatically, not asked: group (from the event's source), window (72 h; 168 h for payments), direction (lower is better for page performance), minimum data 100, flag changes above 50%, default guardrail cutoff 2%.</p>
+  <div class="wdg"><div class="wdg-h"><span class="wid">M2</span><b>Preview: last 28 days</b><span class="wj">Updates as the form changes.</span></div>
   <div class="wrap"><table class="fixed wt"><colgroup><col style="width:30%"><col style="width:70%"></colgroup>
     <tr><th>Shows</th><th>Why</th></tr>
     <tr><td>Baseline, as one big number</td><td>e.g. "5.70%" or "₹252 per visitor"; becomes the metric's baseline for the suggested duration (3.5).</td></tr>
@@ -1193,7 +1186,7 @@ section h2,section h3{scroll-margin-top:16px}
   <h2><span class="num">B.</span>Appendix: change log</h2>
   <div class="wrap"><table class="fixed"><colgroup><col style="width:18%"><col style="width:82%"></colgroup>
     <tr><th>Date</th><th>Change</th></tr>
-    <tr><td>22 Nov 2026</td><td>Simpler metric form (name, single event or ratio, events; smart defaults under More options), matched in the prototype. Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
+    <tr><td>22 Nov 2026</td><td>Simpler metric form (name, single event or ratio, events; group, window and direction set automatically), matched in the prototype. Metric types simplified to Single event or Ratio. Insights page removed from scope. Ratio metrics (V2L, L2P, V2P) and "Start from" business metrics in the simulator. Bayesian vs Frequentist comparison and default rationale (3.4); metric creation simulator (8.2). Added Results view (7) and Metrics definition and creation (8); later sections renumbered. Suggested duration made advisory (no blocking) with references for the derivation. Guardrail cutoffs set per experiment by the owner and locked at start; full-screen setup with step rail. Create flow and flowchart aligned to the agreed setup flowchart: type and category in step 2, ⓘ guidance, published pages only, bandit starting split, week durations, blocking plan check, visible statistic type, IST scheduling gated by the checklist, owner notifications.</td></tr>
     <tr><td>19 Nov 2026</td><td>Edge cases rewritten with decisions and owners; Early and Maturing calls; assumptions and needed facts listed; metric targets; specific user stories; release plan tied to dependencies. Guardrail cutoffs per metric with three states. Split URL tests. Create flow decluttered: step questions, folded optional settings, metric pickers, compact plan. Duration plan corrected. Any page selectable.</td></tr>
     <tr><td>18 Nov 2026</td><td>Templates, saved groups, namespaces, traffic source field and Ticket field removed. Tags became a multi-select. Review step redesigned. Conditions explained in plain language.</td></tr>
     <tr><td>17 Nov 2026</td><td>GrowthBook flow adopted: launch checklist, phases, Make changes, stop with conclusion, reports, bandits, Holdouts.</td></tr>
@@ -1345,7 +1338,7 @@ section h2,section h3{scroll-margin-top:16px}
   const hash = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
   const daily = (fn, key) => { const r = rng(hash(key)); return Array.from({ length: 28 }, (_, i) => fn(((i % 7 === 5 || i % 7 === 6) ? 0.78 : 1.06) * (1 + (r() - 0.5) * 0.16))); };
 
-  // Smart defaults from the chosen event; "More options" can override.
+  // Group, window and direction are set automatically from the chosen event.
   function auto(){
     const r = st.type === "ratio" ? st.num : st.ev;
     const src = srcOf(r), e = evOf(r);
@@ -1427,14 +1420,7 @@ section h2,section h3{scroll-margin-top:16px}
             field("Name", '<input id="ms-name" value="' + esc(st.name || "") + '" placeholder="e.g. V2L (visit to lead)">', "ms-name") +
             '<div class="ctl"><label>What to measure</label><div class="msim-seg2" role="radiogroup" aria-label="Metric type"><button type="button" data-type="single" class="' + (!ratio ? "on" : "") + '">Single event</button><button type="button" data-type="ratio" class="' + (ratio ? "on" : "") + '">Ratio</button></div></div>' +
             what +
-            '<details class="msim-more"' + (moreOpen ? " open" : "") + '><summary>More options <span>' + esc(setting("group")) + ' · ' + setting("window") + ' h window' + (setting("lower") ? " · lower is better" : "") + '</span></summary>' +
-              '<div class="msim-more-grid">' +
-                field("Group", '<select id="ms-group">' + ["Lead forms", "Payments", "Clicks", "Engagement", "Performance"].map(g => '<option' + (g === setting("group") ? " selected" : "") + '>' + g + '</option>').join("") + '</select>', "ms-group") +
-                field("Window (hours)", '<input id="ms-window" type="number" min="0" max="720" value="' + setting("window") + '">', "ms-window") +
-                field("Direction", '<select id="ms-dir"><option value="0"' + (!setting("lower") ? " selected" : "") + '>Higher is better</option><option value="1"' + (setting("lower") ? " selected" : "") + '>Lower is better</option></select>', "ms-dir") +
-              '</div>' +
-              (!m.has || (ratio && !cpvOf(st.num)) ? '<label class="msim-new"><input type="checkbox" id="ms-new"' + (st.isNew ? " checked" : "") + '> New event, not live yet</label>' : "") +
-            '</details>' +
+            (!m.has || (ratio && !cpvOf(st.num)) ? '<label class="msim-new"><input type="checkbox" id="ms-new"' + (st.isNew ? " checked" : "") + '> New event, not live yet</label>' : "") +
           '</div>' +
           '<div class="msim-card">' +
             '<div class="msim-card-h">Last 28 days</div>' +
